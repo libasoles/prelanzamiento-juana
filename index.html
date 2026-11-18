@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Juana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Patrick+Hand+SC&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="hero">
+  <img class="hero__img" src="assets/hero.jpg" alt="Juana">
+  <p class="hero__note">Palabras<br><small>álbum debut · diciembre</small></p>
+</main>
+
+<!-- Desktop: box inferior derecha. Mobile: debajo de la portada, en el flujo -->
+<aside class="dock" id="dock" aria-live="polite">
+
+  <!-- Estado minimizado (solo desktop) -->
+  <button class="dock__tab" id="tab" aria-label="Abrir pase de escucha" hidden>
+    <svg viewBox="0 0 60 80" class="key" aria-hidden="true"><use href="#key"/></svg>
+  </button>
+
+  <!-- Paso 1: código -->
+  <section class="card" id="gate">
+    <button class="card__close" id="close" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="card__art">
+      <svg viewBox="0 0 60 80" class="key" aria-hidden="true"><use href="#key"/></svg>
+    </div>
+    <h2 class="card__title">Escuchá el adelanto</h2>
+    <p class="card__sub">Ingresá tu código de 5 letras. <a href="#" id="help">¿Dónde lo consigo?</a></p>
+    <form id="form" autocomplete="off" novalidate>
+      <label class="code" id="code" for="codeInput">
+        <input id="codeInput" maxlength="5" inputmode="text" autocapitalize="characters" spellcheck="false" aria-label="Código de 5 letras">
+        <span class="code__cells" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i>
+        </span>
+      </label>
+      <p class="card__error" id="error" role="alert"></p>
+      <button class="btn" type="submit">Escuchar</button>
+    </form>
+  </section>
+
+  <!-- Paso 2: nombre y email -->
+  <section class="card" id="identity" hidden>
+    <div class="card__top">
+      <button class="card__back" id="back" type="button" aria-label="Volver al código">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      </button>
+      <span class="card__step">Paso 2 de 2</span>
+      <button class="card__close card__close--inline" id="closeIdentity" aria-label="Minimizar">
+        <svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg>
+      </button>
+    </div>
+    <h2 class="card__title">¿Quién sos?</h2>
+    <p class="card__sub">Juana va a ver tu nombre junto a los mensajes que le dejes mientras escuchás.</p>
+    <form id="idForm" class="idform" autocomplete="on" novalidate>
+      <label class="field" for="idName"><span>Nombre</span>
+        <input id="idName" name="name" autocomplete="name" placeholder="Tu nombre">
+      </label>
+      <label class="field" for="idEmail"><span>Email</span>
+        <input id="idEmail" name="email" type="email" autocomplete="email" placeholder="nombre@email.com">
+      </label>
+      <p class="card__error" id="idError" role="alert"></p>
+      <button class="btn" type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <!-- Paso 3: reproductor + mensajes -->
+  <section class="card card--player" id="player" hidden>
+    <header class="player__head">
+      <div>
+        <span class="player__kicker">Juana</span>
+        <h2 class="player__album">Palabras</h2>
+      </div>
+      <button class="player__min" id="minimize" aria-label="Minimizar">
+        <svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg>
+      </button>
+    </header>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tabSongs" class="tabs__btn is-on" aria-selected="true">Canciones</button>
+      <button role="tab" id="tabChat" class="tabs__btn" aria-selected="false">Mensajes <span class="tabs__count" id="msgCount" hidden>0</span></button>
+    </div>
+
+    <!-- Vista canciones: botonera abajo -->
+    <div id="viewSongs">
+      <ol class="tracks" id="tracks"></ol>
+
+      <div class="now">
+        <div class="now__meta">
+          <span id="nowTitle">—</span>
+          <span id="nowTime">0:00</span>
+        </div>
+        <input type="range" id="seek" min="0" max="1000" value="0" aria-label="Posición">
+        <div class="now__ctrl">
+          <button class="js-prev" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M6 5v14M19 5L9 12l10 7z"/></svg></button>
+          <button class="js-toggle now__play" aria-label="Reproducir"><svg viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></svg></button>
+          <button class="js-next" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="M18 5v14M5 5l10 7-10 7z"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vista mensajes: reproductor compacto justo encima del input -->
+    <div id="viewChat" class="chat" hidden>
+      <div class="chat__thread" id="thread" tabindex="0" aria-label="Tus mensajes">
+        <p class="chat__intro">Escribile a Juana. Cada mensaje queda guardado con la canción que estás escuchando.</p>
+      </div>
+
+      <div class="mini">
+        <button class="js-toggle mini__play" aria-label="Reproducir"><svg viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></svg></button>
+        <span class="mini__title" id="miniTitle">—</span>
+        <button class="js-prev mini__btn" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M6 5v14M19 5L9 12l10 7z"/></svg></button>
+        <button class="js-next mini__btn" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="M18 5v14M5 5l10 7-10 7z"/></svg></button>
+      </div>
+
+      <form class="chat__form" id="chatForm" autocomplete="off">
+        <label class="sr" for="chatInput">Tu mensaje</label>
+        <input id="chatInput" maxlength="280" placeholder="Escribí tu mensaje…">
+        <button type="submit" id="chatSend" aria-label="Enviar mensaje" disabled>
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+    </div>
+  </section>
+</aside>
+
+<audio id="audio" preload="metadata"></audio>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="key" fill="none" stroke="#f3f0e8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 6c-9-1-16 4-15 12 1 8 9 12 17 9 8-3 10-12 4-17-2-2-4-3-6-4z"/>
+      <path d="M14 15c0-4 6-6 9-3 2 2 0 6-4 6-3 0-5-1-5-3z"/>
+      <path d="M26 28c3 8 5 16 8 30l-8 5c-3 1-6-1-5-4"/>
+      <path d="M30 44l-8-2c-5 0-6 5-2 6l9 2M33 56l-9-1"/>
+    </g>
+  </defs>
+</svg>
+
+<script src="messages.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
