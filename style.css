@@ -33,6 +33,10 @@ button,input{font-family:inherit}
 
 /* ---------- dock (box inferior derecha) ---------- */
 .dock{position:fixed;right:clamp(12px,2vw,28px);bottom:clamp(12px,2vw,28px);z-index:10;width:min(440px,calc(100vw - 24px))}
+/* el paso del código mantiene el ancho original; datos y reproductor son más anchos */
+@media (min-width:721px){
+  .dock:has(#gate:not([hidden])){width:min(320px,calc(100vw - 24px))}
+}
 .card{
   position:relative;background:var(--card);border-radius:22px;padding:14px 14px 16px;
   box-shadow:0 18px 50px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.04) inset;
