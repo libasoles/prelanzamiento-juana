@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Palabras — pedir código · Juana Cabrera</title>
+<link rel="icon" type="image/png" href="assets/brand/icon-dark-ink.png" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="assets/brand/icon-light-ink.png" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&amp;family=Courier+Prime:wght@400;700&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"Juana Mano Suave";src:url("assets/fonts/JuanaManoSuaveLC-Regular.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"Juana Mano Suave LC";src:url("assets/fonts/JuanaManoSuaveLC-Regular.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"Juana Mano Fina Suave";src:url("assets/fonts/JuanaManoFinaSuave-Regular.woff2") format("woff2");font-display:swap}
+body{margin:0}
+input::placeholder{font-family:'Courier Prime',monospace;font-weight:400;color:#5b6f9c;opacity:1;letter-spacing:0;text-transform:none}
+a{color:#ffffff}a:hover{color:#e9edf9}
+.textura{background-image:url(assets/home/textura-azul.jpg);background-size:cover;background-position:center}
+</style>
+</head><body>
+<div class="textura" style="min-height:100vh;font-family:'Instrument Sans',sans-serif;font-size:19px;line-height:1.6;color:#ffffff;overflow:hidden">
+  <div style="min-height:100vh;box-sizing:border-box;background:rgba(33,84,170,.84);padding:0 clamp(24px,5.5vw,80px);display:flex;flex-direction:column">
+    <header style="display:flex;align-items:center;justify-content:space-between;padding:28px 0">
+      <a href="home-desktop.html" aria-label="Volver a la home de Juana Cabrera" style="line-height:0"><img src="assets/home/logo-juana.png" alt="Juana Cabrera" style="height:56px;width:auto"></a>
+    </header>
+    <main style="flex:1;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;align-items:center;padding:12px 0 48px">
+      <div style="grid-column:1 / span 6;position:relative;justify-self:center;width:min(100%,600px)">
+        <img src="assets/palabras/tapa-palabras.jpg" alt="Tapa del disco Palabras" style="display:block;width:100%;aspect-ratio:1;object-fit:cover;border:14px solid #ffffff;box-sizing:border-box;transform:rotate(-3deg);box-shadow:0 28px 50px rgba(0,0,0,.4)">
+        <img src="assets/palabras/cinta.png" alt="" aria-hidden="true" style="position:absolute;right:-24px;top:-20px;width:104px;height:50px;object-fit:cover;opacity:.9;box-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(40deg)">
+      </div>
+      <div style="grid-column:8 / span 5;display:flex;flex-direction:column;gap:22px">
+        <h1 style="margin:0;font-family:'Juana Mano Suave','Covered By Your Grace',cursive;font-weight:400;font-size:clamp(40px,4.4vw,60px);line-height:1.1;text-transform:uppercase;letter-spacing:1px">Cómo se hizo el primer disco</h1>
+        <p style="margin:0;color:#e9edf9;font-size:21px;display:flex;align-items:flex-start;gap:10px"><img src="assets/home/estrella-blanca-a.webp" alt="" aria-hidden="true" style="width:22px;height:22px;object-fit:contain;flex:none;margin-top:6px">Escribí el código que viene en tu postal para entrar.</p>
+        <form onsubmit="event.preventDefault()" style="position:relative;display:flex;flex-direction:column;gap:12px;background:#ffffff;color:#12306a;padding:30px 28px;margin-top:10px;transform:rotate(-1deg)">
+          <img src="assets/palabras/cinta.png" alt="" aria-hidden="true" style="position:absolute;left:44px;top:-24px;width:88px;height:46px;object-fit:cover;opacity:.9;box-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(-7deg)">
+      <img src="assets/palabras/cinta.png" alt="" aria-hidden="true" style="position:absolute;right:44px;top:-24px;width:88px;height:46px;object-fit:cover;opacity:.9;box-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(6deg)">
+          <label for="codigo-d" style="font-family:'Juana Mano Fina Suave','Juana Mano Suave',cursive;font-weight:400;font-size:28px;line-height:1.1">Código</label>
+          <input id="codigo-d" autocomplete="one-time-code" placeholder="Tu código" style="font:700 22px 'Courier Prime',monospace;letter-spacing:4px;text-transform:uppercase;padding:14px 16px;border:2px solid #2154aa;color:#12306a">
+          <label for="email-d" style="font-family:'Juana Mano Fina Suave','Juana Mano Suave',cursive;font-weight:400;font-size:28px;line-height:1.1">Tu email</label>
+          <input id="email-d" type="email" autocomplete="email" placeholder="nombre@email.com" style="font:400 22px 'Courier Prime',monospace;padding:14px 16px;border:2px solid #2154aa;color:#12306a">
+          <label for="novedades-d" style="display:flex;align-items:center;gap:12px;min-height:44px;font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-weight:400;font-size:24px;line-height:1.1;cursor:pointer"><input id="novedades-d" type="checkbox" checked style="flex:none;width:22px;height:22px;margin:0;accent-color:#2154aa">Quiero recibir novedades de Juana</label>
+          <button type="submit" style="min-height:56px;border:0;background:#2154aa;color:#ffffff;font:600 19px 'Instrument Sans',sans-serif;margin-top:4px">Entrar</button>
+        </form>
+      </div>
+    </main>
+  </div>
+</div>
+</body></html>
