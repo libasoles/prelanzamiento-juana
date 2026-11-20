@@ -1,0 +1,13 @@
+# Sitio en prelanzamiento: no indexar por ahora.
+# Para abrirlo a buscadores, reemplazar por "User-agent: *" / "Allow: /" y agregar un Sitemap.
+User-agent: *
+Disallow: /
+
+# Los scrapers de previews sociales pueden leer las páginas (Open Graph) sin que se indexe nada.
+User-agent: facebookexternalhit
+User-agent: Twitterbot
+User-agent: WhatsApp
+User-agent: LinkedInBot
+User-agent: Slackbot
+User-agent: TelegramBot
+Allow: /
