@@ -2,6 +2,8 @@
 
 Web de prelanzamiento del álbum de una artista joven: pase de escucha con código, datos del oyente, reproductor y mensajes asociados a cada canción.
 
+**DEMO:** https://libasoles.github.io/prelanzamiento-juana/
+
 ![Captura de la web](assets/internal/screenshot.png)
 
 - `index.html` – sitio público (código → nombre y email → reproductor + mensajes)
