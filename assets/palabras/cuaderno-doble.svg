@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1300" width="2000" height="1300">
+  <defs>
+    <linearGradient id="izq" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f4eee1"></stop>
+      <stop offset="0.55" stop-color="#f8f3e8"></stop>
+      <stop offset="0.9" stop-color="#f3ecdc"></stop>
+      <stop offset="1" stop-color="#e6dec9"></stop>
+    </linearGradient>
+    <linearGradient id="der" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0" stop-color="#f4eee1"></stop>
+      <stop offset="0.55" stop-color="#f8f3e8"></stop>
+      <stop offset="0.9" stop-color="#f3ecdc"></stop>
+      <stop offset="1" stop-color="#e6dec9"></stop>
+    </linearGradient>
+    <linearGradient id="lomo" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1b1a16" stop-opacity="0"></stop>
+      <stop offset="0.42" stop-color="#1b1a16" stop-opacity="0.04"></stop>
+      <stop offset="0.5" stop-color="#1b1a16" stop-opacity="0.07"></stop>
+      <stop offset="0.58" stop-color="#1b1a16" stop-opacity="0.04"></stop>
+      <stop offset="1" stop-color="#1b1a16" stop-opacity="0"></stop>
+    </linearGradient>
+    <linearGradient id="vert" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8a7d5e" stop-opacity="0.12"></stop>
+      <stop offset="0.12" stop-color="#8a7d5e" stop-opacity="0"></stop>
+      <stop offset="0.88" stop-color="#8a7d5e" stop-opacity="0"></stop>
+      <stop offset="1" stop-color="#8a7d5e" stop-opacity="0.04"></stop>
+    </linearGradient>
+  </defs>
+
+  
+  <path d="M1000 74 L58 74 Q34 74 34 98 L34 1256 Q34 1280 58 1280 L1000 1280 Z" fill="#d9d0bb"></path>
+  <path d="M1000 66 L52 66 Q28 66 28 90 L28 1250 Q28 1274 52 1274 L1000 1274 Z" fill="#e6dfce"></path>
+  <path d="M1000 58 L46 58 Q22 58 22 82 L22 1244 Q22 1268 46 1268 L1000 1268 Z" fill="#d4cab3"></path>
+  <path d="M1000 50 L40 50 Q16 50 16 74 L16 1238 Q16 1262 40 1262 L1000 1262 Z" fill="#ebe5d6"></path>
+  <path d="M1000 74 L1942 74 Q1966 74 1966 98 L1966 1256 Q1966 1280 1942 1280 L1000 1280 Z" fill="#d9d0bb"></path>
+  <path d="M1000 66 L1948 66 Q1972 66 1972 90 L1972 1250 Q1972 1274 1948 1274 L1000 1274 Z" fill="#e6dfce"></path>
+  <path d="M1000 58 L1954 58 Q1978 58 1978 82 L1978 1244 Q1978 1268 1954 1268 L1000 1268 Z" fill="#d4cab3"></path>
+  <path d="M1000 50 L1960 50 Q1984 50 1984 74 L1984 1238 Q1984 1262 1960 1262 L1000 1262 Z" fill="#ebe5d6"></path>
+
+  
+  <path d="M1000 36 L56 36 Q36 36 36 56 L36 1226 Q36 1246 56 1246 L1000 1246 Z" fill="url(#izq)"></path>
+  <path d="M1000 36 L1944 36 Q1964 36 1964 56 L1964 1226 Q1964 1246 1944 1246 L1000 1246 Z" fill="url(#der)"></path>
+  <rect x="36" y="36" width="964" height="1210" fill="url(#vert)"></rect>
+  <rect x="1000" y="36" width="964" height="1210" fill="url(#vert)"></rect>
+
+  
+  <rect x="820" y="36" width="360" height="1210" fill="url(#lomo)"></rect>
+  <rect x="998" y="36" width="4" height="1210" fill="#1b1a16" fill-opacity="0.05"></rect>
+</svg>
