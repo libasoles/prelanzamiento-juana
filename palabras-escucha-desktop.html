@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<script>if(Math.min(screen.width,innerWidth)<768)location.replace('palabras-escucha-mobile.html')</script>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Palabras — el proceso | Juana Cabrera</title>
+<link rel="icon" type="image/png" href="assets/brand/icon-dark-ink.png" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="assets/brand/icon-light-ink.png" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&amp;family=Patrick+Hand&amp;family=Special+Elite&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"Juana Mano Suave";src:url("assets/fonts/JuanaManoSuave-Regular.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"Juana Mano Suave LC";src:url("assets/fonts/JuanaManoSuaveLC-Regular.woff2") format("woff2");font-display:swap}
+body{margin:0;background:#2154aa}
+[hidden]{display:none!important}
+a{color:#ffffff}a:hover{color:#e9edf9}
+.mano{font-family:'Juana Mano Suave','Covered By Your Grace',cursive}
+.textura{background-image:url(assets/home/textura-azul.jpg);background-size:cover;background-position:center}
+.cuaderno{position:relative;isolation:isolate;display:flex;aspect-ratio:1122 / 1402;box-sizing:border-box}
+.cuaderno>.fondo{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;filter:drop-shadow(0 18px 24px rgba(0,10,40,.35))}
+.cuaderno>.hoja{flex:1;min-width:0;box-sizing:border-box;padding:15% 11% 15% 16%;display:flex;flex-direction:column;gap:12px}
+.tinta{font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-feature-settings:'calt' 1;font-variant-ligatures:common-ligatures contextual;font-weight:400;color:#12306a}
+.tinta p{margin:0}
+.hoja-clip{position:relative;isolation:isolate;display:flex;aspect-ratio:600 / 834;box-sizing:border-box}
+.hoja-clip>.fondo{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;filter:drop-shadow(0 18px 24px rgba(0,10,40,.35))}
+.hoja-clip>.contenido{flex:1;min-width:0;box-sizing:border-box;padding:44% 12% 14% 16%;display:flex;flex-direction:column;gap:10px}
+.hoja-clip textarea{flex:1 0 auto;min-height:0;field-sizing:content;max-height:700px;overflow:auto;width:100%;box-sizing:border-box;margin:0;padding:0;border:0;border-radius:0;background:transparent;resize:none;color:#12306a;font:inherit;line-height:inherit;outline:0}
+.hoja-clip textarea::placeholder{color:#12306a;opacity:.55}
+.hoja-clip textarea:focus-visible{outline:2px dashed #2154aa;outline-offset:6px}
+.carton{position:relative;isolation:isolate;box-sizing:border-box;display:flex;align-items:center;justify-content:center;text-align:center}
+.carton>.fondo{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;filter:drop-shadow(0 14px 24px rgba(0,10,40,.35))}
+.carton-btn{background-color:#e4dccb;background-image:url(assets/home/papel-cinta-a.webp);background-size:cover;background-position:50% 70%;color:#12306a;box-shadow:0 8px 16px rgba(0,10,40,.3);transform:rotate(-1deg);transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}
+.carton-btn:hover{transform:translateY(-5px) rotate(2deg) scale(1.07);box-shadow:0 18px 28px rgba(0,10,40,.5);filter:brightness(1.1) saturate(1.2)}
+.carton-btn:active{transform:translateY(1px) rotate(-1deg) scale(.97);box-shadow:0 3px 6px rgba(0,10,40,.4)}
+.carton-btn:focus-visible{outline:2px solid #2154aa;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.carton-btn{transition:none}}
+.js-tracks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.trk{all:unset;box-sizing:border-box;width:100%;min-height:60px;display:grid;grid-template-columns:44px 1fr;align-items:center;gap:8px;padding:0 18px;cursor:pointer}
+.trk:focus-visible{outline:2px solid #ffffff;outline-offset:-4px}
+.js-tracks li{background:rgba(255,255,255,.08);color:#ffffff}
+.js-tracks li.on{background:#ffffff;color:#2154aa}
+.js-tracks li.on .trk:focus-visible{outline-color:#2154aa}
+.trk-ico{display:flex;align-items:center;height:26px}
+.trk .num{font-family:'Juana Mano Suave','Covered By Your Grace',cursive;font-size:26px;letter-spacing:1px;line-height:1}
+.trk-title{font-family:'Special Elite','Courier New',monospace;font-size:22px;line-height:1.2}
+.trk .ico{display:none}
+.trk:hover .num,.trk:focus-visible .num{display:none}
+.trk:hover .ico,.trk:focus-visible .ico{display:inline-block}
+.seek{-webkit-appearance:none;appearance:none;background:transparent;height:22px;width:100%;margin:0;cursor:pointer;accent-color:#ffffff}
+.seek::-webkit-slider-runnable-track{height:2px;border-radius:1px;background:rgba(255,255,255,.4)}
+.seek::-moz-range-track{height:2px;border-radius:1px;background:rgba(255,255,255,.4)}
+.seek::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:#ffffff;border:0;margin-top:-5px}
+.seek::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#ffffff;border:0}
+.seek:focus-visible{outline:2px solid #ffffff;outline-offset:4px}
+.seek:disabled{cursor:default;opacity:.6}
+.ctl{width:48px;height:48px;border-radius:50%;border:0;background:transparent;color:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.ctl:focus-visible,.ctl-play:focus-visible{outline:2px solid #ffffff;outline-offset:2px}
+.ctl-play{width:60px;height:60px;border-radius:50%;border:0;background:#ffffff;color:#2154aa;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.ctl-play:focus-visible{outline-color:#12306a}
+.menu-link{display:flex;align-items:center;min-height:60px;padding:0 32px;text-decoration:none;font-size:28px;text-transform:uppercase;letter-spacing:1px}
+.mono{font-family:'Special Elite','Courier New',monospace}
+.pad{padding-left:clamp(24px,5.5vw,80px);padding-right:clamp(24px,5.5vw,80px)}
+</style>
+</head><body data-layout="desktop">
+<div style="min-height:100vh;background:#2154aa;color:#ffffff;font-family:'Instrument Sans',sans-serif;font-size:19px;line-height:1.6;overflow:hidden;position:relative">
+
+  <section class="textura">
+    <div class="pad" style="background:rgba(33,84,170,.8);padding-bottom:110px">
+      <header style="position:relative;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:28px 0">
+        <a href="home-desktop.html" aria-label="Volver a la home de Juana Cabrera" style="line-height:0"><img src="assets/home/logo-blanco-crop.webp" alt="Juana" style="height:56px;width:auto"></a>
+        <button type="button" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu" style="width:48px;height:48px;border:2px solid #ffffff;background:transparent;color:#ffffff;border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8c5-1 11 1 16 0M4 16c5 1 11-1 16 0"></path></svg></button>
+        <nav id="menu" hidden aria-label="Secciones" style="position:absolute;right:0;top:84px;min-width:340px;background:#12306a;padding:12px 0;display:flex;flex-direction:column;box-shadow:0 24px 40px rgba(0,10,40,.35)">
+          <a class="menu-link mano" href="#escribir">Escribime</a>
+          <a class="menu-link mano" href="#canciones">Las canciones</a>
+          <a class="menu-link mano" href="#proceso">Bocetos de letras</a>
+        </nav>
+      </header>
+      <div style="display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;align-items:center;padding-top:30px">
+        <div style="grid-column:1 / span 7;display:flex;flex-direction:column;gap:28px">
+          <img src="assets/palabras/lettering-palabras.webp" alt="Palabras" style="width:min(100%,560px)">
+          <h1 class="mano" style="margin:0;font-weight:400;font-size:clamp(40px,3.6vw,52px);line-height:1.15;text-transform:uppercase;letter-spacing:1px">Mi primer disco</h1>
+        </div>
+        <div style="grid-column:8 / span 5;position:relative">
+          <div style="position:relative;transform:rotate(-2deg)"><img src="assets/palabras/tapa-palabras.jpg" alt="Tapa del disco Palabras" style="display:block;width:100%;aspect-ratio:1;object-fit:cover;border:8px solid #ffffff;box-sizing:border-box;box-shadow:0 24px 40px rgba(0,0,0,.35)"><img src="assets/palabras/cinta.png" alt="" aria-hidden="true" style="position:absolute;right:-16px;top:-12px;width:70px;height:34px;object-fit:cover;opacity:.9;box-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(40deg)"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="escribir" class="pad" style="padding-top:110px;padding-bottom:40px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;align-items:center">
+    <div style="grid-column:1 / span 6;display:flex;flex-direction:column;align-items:flex-start;gap:36px">
+      <div class="carton" style="width:min(100%,560px);padding:84px 40px 46px;transform:rotate(-2deg)"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><h2 style="margin:0;font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-feature-settings:'calt' 0;font-variant-ligatures:none;font-weight:400;font-size:clamp(40px,3.75vw,54px);line-height:1.05;color:#12306a;white-space:nowrap">¿Te gustaría escribir?</h2></div>
+      <div aria-hidden="true" style="position:relative;width:420px;height:330px"><img src="assets/palabras/garabato.webp" alt="" style="position:absolute;left:50px;top:10px;width:300px;height:300px;transform:rotate(45deg);filter:brightness(0) invert(1)"></div>
+    </div>
+    <div style="grid-column:8 / span 5;display:flex;justify-content:flex-end">
+      <div class="cuaderno" style="width:min(100%,520px);transform:rotate(1deg)"><img class="fondo" src="assets/palabras/cuaderno.webp" alt="" aria-hidden="true"><div class="hoja tinta" style="font-size:clamp(22px,1.95vw,28px);line-height:1.25"><p>Hola, soy Juana.</p><p>Escribí estas canciones porque había cosas que necesitaba poner en palabras. Ahora que las canciones están acá, me dieron ganas de que también nos podamos escribir.</p><p>Si alguna canción te hizo acordar de algo, te dejó pensando o te despertó una palabra, podés escribímelo acá. A veces una sola palabra alcanza.</p></div><img src="assets/palabras/estrellas.webp" alt="" aria-hidden="true" style="position:absolute;right:13%;bottom:11%;width:26%;transform:rotate(-6deg)"></div>
+    </div>
+  </section>
+
+  <section id="canciones" class="pad" style="padding-top:110px;padding-bottom:120px">
+    <div role="group" aria-label="Reproductor de canciones" style="background:#12306a;padding:28px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px;align-items:stretch;box-shadow:0 24px 40px rgba(0,10,40,.3)">
+      <div style="display:flex;flex-direction:column;gap:24px;min-width:0">
+        <header style="padding:0 8px;display:flex;flex-direction:row;align-items:center;gap:20px">
+          <img src="assets/palabras/lettering-palabras.webp" alt="Palabras" style="width:260px;max-width:100%;height:auto;min-width:0;flex:0 1 auto">
+          <img src="assets/home/logo-blanco-crop.webp" alt="Juana" style="height:105px;width:99px;flex:none;margin-left:auto;transform:rotate(90deg)">
+        </header>
+        <ol class="js-tracks"></ol>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div data-has-player hidden style="background:#2154aa;padding:16px 24px">
+            <span id="nowLabel" class="mono" style="font-size:22px;line-height:1.2"></span>
+          </div>
+          <div style="background:#2154aa;padding:18px 24px;display:flex;flex-direction:column;gap:14px">
+            <label for="seek-l" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Posición</label>
+            <input id="seek-l" type="range" class="seek js-seek" min="0" max="1000" value="0" disabled>
+            <div aria-hidden="true" class="mono" style="display:flex;justify-content:space-between;font-size:12px;color:#e9edf9;margin-top:-2px"><span class="js-time-now">0:00</span><span class="js-time-total">0:00</span></div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:14px">
+              <button type="button" class="ctl js-prev" aria-label="Canción anterior" disabled><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z" fill="currentColor"></path></svg></button>
+              <button type="button" class="ctl-play js-play" aria-label="Reproducir"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path class="js-play-path" d="M8 5v14l11-7z" fill="currentColor"></path></svg></button>
+              <button type="button" class="ctl js-next" aria-label="Canción siguiente" disabled><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"></path></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px;min-width:0">
+        <div aria-hidden="true" style="aspect-ratio:16 / 9;background:#0b2150;display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="assets/palabras/estrellas.webp" alt="" style="height:62%;width:auto;filter:brightness(0) invert(1);opacity:.4;transform:rotate(-6deg)"></div>
+        <div data-no-song aria-hidden="true" style="flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center"><img src="assets/palabras/caballo.webp" alt="" style="height:200px;width:auto;filter:brightness(0) invert(1);opacity:.4;transform:rotate(-4deg)"></div>
+      </div>
+    </div>
+    <div class="js-lyrics" aria-live="polite" style="margin-top:48px;max-height:420px;overflow:auto;display:flex;flex-direction:column;gap:6px;font-family:'Patrick Hand',cursive;font-size:30px;line-height:1.3"></div>
+  </section>
+
+  <section id="mensaje" class="pad" style="padding-top:20px;padding-bottom:120px;display:flex;flex-direction:column;align-items:center;gap:28px">
+    <form id="msgForm" style="display:flex;flex-direction:column;align-items:center;gap:28px">
+      <label for="msg" class="carton" style="width:360px;padding:58px 28px 30px;margin-bottom:-6px;transform:rotate(-2deg);z-index:2"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><span class="mano" style="font-family:'Juana Mano Suave','Juana Mano Suave LC',cursive;font-size:46px;line-height:1;color:#12306a;white-space:nowrap">Escribime algo</span></label>
+      <div class="hoja-clip" style="width:min(100%,560px);transform:rotate(-1deg)"><img class="fondo" src="assets/home/clip-papel-a.webp" alt="" aria-hidden="true">
+        <div class="contenido tinta" style="font-size:44px;line-height:54px">
+          <textarea id="msg" rows="1" placeholder="Escribime algo"></textarea>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:16px">
+        <button type="submit" class="carton-btn" style="min-height:60px;padding:0 36px;border:0;font:400 32px/1 'Juana Mano Suave','Juana Mano Suave LC',cursive;cursor:pointer">Dejar mis palabras</button>
+        <svg aria-hidden="true" width="64" height="56" viewBox="0 0 64 56" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transform:rotate(-4deg)"><path d="M54 7C55 18 54 29 51 38C40 41 27 39 12 38"></path><path d="M24 26C20 31 16 35 12 38C16 42 20 46 25 50"></path></svg>
+      </div>
+    </form>
+    <div id="msgThanks" hidden class="hoja-clip" style="width:min(100%,560px);transform:rotate(-1deg)"><img class="fondo" src="assets/home/clip-papel-a.webp" alt="" aria-hidden="true">
+      <div class="contenido tinta"><p role="status" style="margin:0;font-size:42px;line-height:1.15;padding-top:6%">Gracias por dejarme tus palabras.</p></div>
+    </div>
+  </section>
+
+  <section id="letra" class="textura">
+    <div class="pad" style="background:rgba(33,84,170,.86);padding-top:130px;padding-bottom:150px">
+      <div class="mano" style="max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:38px;font-weight:400;letter-spacing:1px;line-height:1.3">
+        <p style="margin:0;font-size:clamp(44px,4.4vw,64px);line-height:1.15">Descubrir el mundo es hacer preguntas.</p>
+        <p style="margin:0;font-size:clamp(30px,2.9vw,42px)">Las mismas preguntas son las que nos unen, nos hacen parte de algo. Nos llevan por un mismo camino.</p>
+        <p style="margin:0;font-size:clamp(30px,2.9vw,42px)">Un camino que descubre que la vida es un gran conjunto de misterios.</p>
+        <p style="margin:0;font-size:clamp(30px,2.9vw,42px)">El rol del artista es develar los misterios encontrando la forma de la pregunta como una canción, un cuadro, una foto, un poema,... como una película de la vida.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="proceso" aria-label="Bocetos de letras">
+    <div style="background:#ffffff;height:1000px;position:relative;overflow:hidden">
+      <div style="position:absolute;left:50%;top:0;width:1440px;height:1000px;margin-left:-720px">
+        <img src="assets/palabras/proceso/deco-1.webp" alt="" aria-hidden="true" style="position:absolute;left:1000px;top:290px;width:270px;transform:rotate(6deg)">
+        <img src="assets/palabras/proceso/deco-2.webp" alt="" aria-hidden="true" style="position:absolute;left:90px;top:600px;width:400px;transform:rotate(-3deg)">
+        <img src="assets/palabras/proceso/deco-3.webp" alt="" aria-hidden="true" style="position:absolute;left:540px;top:520px;width:120px;transform:rotate(-8deg)">
+        <img src="assets/palabras/proceso/deco-4.webp" alt="" aria-hidden="true" style="position:absolute;left:1020px;top:520px;width:330px;transform:rotate(-4deg)">
+        <img src="assets/palabras/proceso/deco-5.webp" alt="" aria-hidden="true" style="position:absolute;left:930px;top:640px;width:380px;transform:rotate(3deg)">
+        <img src="assets/palabras/proceso/deco-6.webp" alt="" aria-hidden="true" style="position:absolute;left:300px;top:720px;width:300px;transform:rotate(-3deg)">
+        <img src="assets/palabras/proceso/cuaderno-luciernagas.webp" alt="Cuaderno anillado con la letra de Luciérnagas escrita a mano" loading="lazy" style="position:absolute;left:150px;top:50px;width:470px;transform:rotate(-4deg);filter:drop-shadow(0 18px 24px rgba(0,10,40,.35))">
+        <img src="assets/palabras/proceso/papel-hojas-guardaditas.webp" alt="Papel con cinta con la letra de Hojas guardaditas" loading="lazy" style="position:absolute;left:520px;top:40px;width:440px;transform:rotate(3deg);filter:drop-shadow(0 18px 24px rgba(0,10,40,.35))">
+        <img src="assets/palabras/proceso/hoja-a-la-deriva.webp" alt="Hoja de cuaderno con la letra de A la deriva" loading="lazy" style="position:absolute;left:870px;top:110px;width:460px;transform:rotate(-5deg);filter:drop-shadow(0 14px 20px rgba(0,10,40,.35))">
+        <img src="assets/palabras/proceso/notas-palabras.webp" alt="Notas con clip con un fragmento de la letra de Palabras" loading="lazy" style="position:absolute;left:620px;top:340px;width:460px;transform:rotate(-3deg);filter:drop-shadow(0 18px 24px rgba(0,10,40,.35))">
+      </div>
+    </div>
+  </section>
+
+  <div data-has-player hidden role="region" aria-label="Reproductor" style="position:fixed;left:0;right:0;bottom:0;z-index:50;background:#12306a;box-shadow:0 -10px 30px rgba(0,0,0,.25)">
+    <div class="pad" style="padding-top:16px;padding-bottom:16px;display:flex;align-items:center;gap:24px">
+      <div style="display:flex;flex-direction:column;min-width:220px">
+        <span class="mono js-now-title" style="font-size:24px;line-height:1.15"></span>
+        <span class="mono js-now-count" style="font-size:13px;color:#e9edf9"></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <button type="button" class="ctl js-prev" aria-label="Canción anterior"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z" fill="currentColor"></path></svg></button>
+        <button type="button" class="ctl-play js-play" aria-label="Reproducir"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path class="js-play-path" d="M8 5v14l11-7z" fill="currentColor"></path></svg></button>
+        <button type="button" class="ctl js-next" aria-label="Canción siguiente"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"></path></svg></button>
+      </div>
+      <label for="seek-d" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Posición</label>
+      <span class="mono js-time-now" style="font-size:12px;color:#e9edf9;flex:none">0:00</span><input id="seek-d" type="range" class="seek js-seek" min="0" max="1000" value="0" style="flex:1;width:auto"><span class="mono js-time-total" style="font-size:12px;color:#e9edf9;flex:none">0:00</span>
+    </div>
+  </div>
+</div>
+<script src="palabras-data.js"></script>
+<script src="palabras.js"></script>
+</body></html>
