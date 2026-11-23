@@ -36,10 +36,15 @@ body{margin:0;background:#2154aa}
 a{color:#ffffff}a:hover{color:#e9edf9}
 .mano{font-family:'Juana Mano Suave','Covered By Your Grace',cursive}
 .textura{--fade:min(180px,16%);background-color:#2154aa;background-image:linear-gradient(to bottom,#2154aa 0,rgba(33,84,170,.85) calc(var(--fade)*.25),rgba(33,84,170,.5) calc(var(--fade)*.55),rgba(33,84,170,.15) calc(var(--fade)*.82),rgba(33,84,170,0) var(--fade)),linear-gradient(to top,#2154aa 0,rgba(33,84,170,.85) calc(var(--fade)*.25),rgba(33,84,170,.5) calc(var(--fade)*.55),rgba(33,84,170,.15) calc(var(--fade)*.82),rgba(33,84,170,0) var(--fade)),url(assets/home/textura-azul.jpg);background-size:100% 100%,100% 100%,cover;background-position:center;background-repeat:no-repeat}
+.hoja-rota{position:relative;isolation:isolate;box-sizing:border-box;display:flex;container-type:inline-size;aspect-ratio:760 / 1144}
+.hoja-rota>.fondo{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;filter:drop-shadow(0 14px 22px rgba(0,10,40,.4))}
+.hoja-rota>.aguada{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;overflow:hidden;pointer-events:none;-webkit-mask-image:url(assets/palabras/hoja-arrancada-lisa.webp);mask-image:url(assets/palabras/hoja-arrancada-lisa.webp);-webkit-mask-size:100% 100%;mask-size:100% 100%}
+.hoja-rota>.aguada>img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 20%;opacity:.13;filter:saturate(.8);transform:scaleX(-1)}
+.hoja-rota .tinta p{margin:0 0 10.74cqw}.hoja-rota .tinta p:last-child{margin-bottom:0}
 .cuaderno{container-type:inline-size;position:relative;isolation:isolate;display:flex;align-items:flex-start;aspect-ratio:2000 / 1300;box-sizing:border-box}
 .cuaderno>.fondo{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;filter:drop-shadow(0 18px 24px rgba(0,10,40,.35))}
 .cuaderno>.hoja{flex:1;min-width:0;box-sizing:border-box;padding:8.2% 7.5% 8% 7.5%;display:grid;grid-template-columns:1fr 1fr;column-gap:10cqw;align-items:start}
-.cuaderno>.hoja p{margin:0 0 4.53cqw;orphans:1;widows:1}
+.cuaderno>.hoja p{margin:0 0 8.17cqw;orphans:1;widows:1}
 .cuaderno>.hoja p:last-child{margin-bottom:0}
 .tinta{font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-feature-settings:'calt' 1;font-variant-ligatures:common-ligatures contextual;font-weight:400;color:#12306a}
 .tinta p{margin:0}
@@ -133,11 +138,16 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 
   <section id="escribir" class="pad" style="background:linear-gradient(rgba(33,84,170,.8),#2154aa);padding-top:110px;padding-bottom:40px;display:flex;justify-content:center">
     <div style="width:min(100%,1280px);display:flex;flex-direction:column;align-items:flex-start;gap:6px">
-      <div style="display:flex;align-items:center;gap:clamp(24px,4.4vw,56px);width:100%;box-sizing:border-box;padding-left:clamp(0px,14%,180px)">
+      <div style="display:flex;align-items:center;gap:clamp(24px,4.4vw,56px);width:100%;box-sizing:border-box;justify-content:flex-end">
         <div aria-hidden="true" style="position:relative;width:min(23.5%,300px);aspect-ratio:300 / 213;flex:none"><img src="assets/palabras/garabato-escribir.png" alt="" style="position:absolute;left:0;top:0;width:100%;height:auto"></div>
         <div class="carton" style="width:min(100%,560px);padding:84px 40px 46px;transform:rotate(-2deg)"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><h2 style="margin:0;font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-feature-settings:'calt' 0;font-variant-ligatures:none;font-weight:400;font-size:clamp(40px,3.75vw,54px);line-height:1.05;color:#12306a;white-space:nowrap">¿Te gustaría escribir?</h2></div>
       </div>
-      <div class="cuaderno" style="width:100%;transform:rotate(.6deg)"><img class="fondo" src="assets/palabras/cuaderno-doble.svg" alt="" aria-hidden="true"><div class="hoja tinta" style="font-size:3.67cqw;line-height:4.53cqw;column-gap:17cqw"><div><p>Hola, soy Juana.</p><p>Escribí estas canciones porque había cosas que necesitaba poner en palabras.</p><p>Ahora que las canciones están acá, me dieron ganas de que también nos podamos escribir.</p></div><div style="padding-left:3cqw"><p>Si alguna canción te hizo acordar de algo, te dejó pensando o te despertó una palabra, podés escribímelo acá.</p><p>A veces una sola palabra alcanza.</p></div></div><div aria-hidden="true" style="position:absolute;left:calc(50% - 3px);top:2.77%;height:95.6%;width:3px;pointer-events:none;background:linear-gradient(90deg,rgba(70,58,35,0),rgba(70,58,35,.6))"></div><div aria-hidden="true" style="position:absolute;left:50%;top:2.77%;height:93%;width:2px;pointer-events:none;background:rgba(255,250,235,.65)"></div><img src="assets/palabras/cuaderno-clip.png" alt="" aria-hidden="true" style="position:absolute;left:50%;top:1.4%;height:97.2%;width:5.08%;clip-path:inset(4.7% 0 0 0);transform:translateX(-50%);pointer-events:none;filter:drop-shadow(1px 2px 2px rgba(0,10,40,.18))"><img src="assets/palabras/estrellas.webp" alt="" aria-hidden="true" style="position:absolute;right:7%;bottom:6%;width:11%;transform:rotate(-6deg)"></div>
+      <div style="width:100%;container-type:inline-size">
+      <div style="display:flex;align-items:center;justify-content:flex-end;gap:.94cqw">
+        <div class="hoja-rota" style="width:42.19cqw;flex:none;margin-right:4.69cqw;transform:rotate(-1.8deg)"><img class="fondo" src="assets/palabras/hoja-arrancada-lisa.webp" alt="" aria-hidden="true"><div aria-hidden="true" class="aguada"><img src="assets/palabras/img-052-foto.jpg" alt=""></div><div class="tinta" style="position:relative;z-index:1;flex:1;min-width:0;box-sizing:border-box;padding:8% 10% 6% 12%;font-size:8.7cqw;line-height:10.74cqw"><p>Hola, soy Juana.</p><p>Escribí estas canciones porque había cosas que necesitaba poner en palabras.</p><p>Ahora que las canciones están acá, me dieron ganas de que también nos podamos escribir.</p></div></div>
+        <div class="cuaderno" style="width:55.47cqw;flex:none;margin-right:-4.69cqw;aspect-ratio:1000 / 1300;transform:rotate(.6deg)"><img class="fondo" src="assets/palabras/cuaderno-derecha.svg" alt="" aria-hidden="true"><div class="hoja tinta" style="display:block;font-size:6.62cqw;line-height:8.17cqw;padding:12% 12% 8% 17%"><p>Si alguna canción te hizo acordar de algo, te dejó pensando o te despertó una palabra, podés escribímelo acá.</p><p>A veces una sola palabra alcanza.</p></div><img src="assets/palabras/cuaderno-clip.png" alt="" aria-hidden="true" style="position:absolute;left:0;top:1.4%;height:97.2%;width:9.15%;clip-path:inset(4.7% 0 0 0);transform:translateX(-50%);pointer-events:none;filter:drop-shadow(1px 2px 2px rgba(0,10,40,.18))"><img src="assets/palabras/estrellas.webp" alt="" aria-hidden="true" style="position:absolute;right:7%;bottom:6%;width:15%;transform:rotate(-6deg)"></div>
+      </div>
+      </div>
     </div>
   </section>
   </div>
