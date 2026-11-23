@@ -41,6 +41,12 @@ h1{font-family:"Juana Mano Suave",sans-serif;font-weight:normal;font-size:clamp(
 .cuaderno::before{content:"";position:absolute;inset:0;z-index:-1;background:url("assets/cuaderno-sin-renglones.png") center/100% 100% no-repeat;pointer-events:none}
 .f .cuaderno .s{position:relative;margin:0;color:#1b2a4a;-webkit-text-fill-color:#1b2a4a}
 @media(max-width:600px){.escena-cuaderno{padding:24px 12px}.cuaderno{min-height:440px;padding:16% 10% 18% 17%}}
+.fondos{display:block}
+@media(min-width:900px){
+  .fondos{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px);align-items:start}
+  .fondos .postal,.fondos .escena-cuaderno{width:100%;margin:28px 0 8px}
+  .fondos .cuaderno{min-height:clamp(580px,48vw,900px)}
+}
 .small{font-size:14px;opacity:.8;max-width:70ch;line-height:1.5;margin-top:28px}
 </style></head><body class="claro">
 <header class="cabecera">
@@ -75,7 +81,7 @@ const ABC="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ\nabcdefghijklmnñopqrstuvwxyz\nÁÉÍÓ�
 const $=id=>document.getElementById(id), lista=$("lista"), txt=$("txt");
 const els=FUENTES.map(([fam,file,dir])=>{
   const s=document.createElement("section");s.className="f";
-  s.innerHTML=`<div class="n"><b></b><span>${file}· ${dir}/</span></div><p class="s glifos"></p><p class="s muestra"></p><div class="postal"><p class="s postal-t"></p></div><div class="escena-cuaderno"><div class="cuaderno"><p class="s cuaderno-t"></p></div></div>`;
+  s.innerHTML=`<div class="n"><b></b><span>${file}· ${dir}/</span></div><p class="s glifos"></p><p class="s muestra"></p><div class="fondos"><div class="postal"><p class="s postal-t"></p></div><div class="escena-cuaderno"><div class="cuaderno"><p class="s cuaderno-t"></p></div></div></div>`;
   s.querySelector("b").textContent=fam;
   const a=s.querySelector(".muestra"), p=s.querySelector(".postal-t"), g=s.querySelector(".glifos"), c=s.querySelector(".cuaderno-t");
   a.style.fontFamily=g.style.fontFamily=p.style.fontFamily=c.style.fontFamily=`"${fam}",sans-serif`;
