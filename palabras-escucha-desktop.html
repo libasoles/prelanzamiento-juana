@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<script>if(Math.min(screen.width,innerWidth)<768)location.replace('palabras-escucha-mobile.html')</script>
+<script>/* Vista previa temporal: sólo con ?preview; sin el parámetro vuelve al acceso. */if(!/[?&]preview\b/.test(location.search))location.replace('palabras-desktop.html');else if(Math.min(screen.width,innerWidth)<768)location.replace('palabras-escucha-mobile.html'+location.search)</script>
 <meta name="robots" content="noindex, nofollow, noarchive">
 <title>Palabras — el proceso | Juana Cabrera</title>
 <link rel="icon" type="image/png" href="assets/brand/icon-dark-ink.png" media="(prefers-color-scheme: light)">

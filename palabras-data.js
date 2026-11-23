@@ -1,7 +1,7 @@
 // ---- Canciones de Palabras (prototipo) ----------------------------------
-// Títulos y letras vienen del diseño. Los audios (audio/01..07.wav) son
-// placeholders: reemplazar por los masters cuando estén. Las canciones 7 y 8
-// todavía no tienen título definitivo; la 8 tampoco tiene audio.
+// Títulos y letras vienen del diseño. Audios: masters de «JUANA audios/MSTER»
+// pasados a MP3 192k (audio/01..05.mp3). Faltan los de las canciones 6 a 8
+// (Alquimista y los dos títulos pendientes): sin audio, el play no hace nada.
 const PALABRAS_TRACKS = [
   {
     "title": "A la deriva",
@@ -9,7 +9,7 @@ const PALABRAS_TRACKS = [
     "img": "assets/palabras/pistas/01.webp",
     "video": "assets/palabras/pistas/01.mp4",
     "poster": "assets/palabras/pistas/01-poster.jpg",
-    "audio": "audio/01.wav"
+    "audio": "audio/01.mp3"
   },
   {
     "title": "Palabras",
@@ -17,7 +17,7 @@ const PALABRAS_TRACKS = [
     "img": "assets/palabras/pistas/02.webp",
     "video": "assets/palabras/pistas/02.mp4",
     "poster": "assets/palabras/pistas/02-poster.jpg",
-    "audio": "audio/02.wav"
+    "audio": "audio/02.mp3"
   },
   {
     "title": "Hojas guardaditas",
@@ -25,7 +25,7 @@ const PALABRAS_TRACKS = [
     "img": "assets/palabras/pistas/03.webp",
     "video": "assets/palabras/pistas/03.mp4",
     "poster": "assets/palabras/pistas/03-poster.jpg",
-    "audio": "audio/03.wav"
+    "audio": "audio/03.mp3"
   },
   {
     "title": "Luciérnagas",
@@ -33,26 +33,24 @@ const PALABRAS_TRACKS = [
     "img": "assets/palabras/pistas/04.webp",
     "video": "assets/palabras/pistas/04.mp4",
     "poster": "assets/palabras/pistas/04-poster.jpg",
-    "audio": "audio/04.wav"
+    "audio": "audio/04.mp3"
   },
   {
     "title": "¿Por qué no volvió el eco?",
     "lyrics": "tu silencio muy ausente\nhay una voz sin dirección\nque me grita en las paredes\nde mi loca habitación\ntus ojos solo hablaban y los míos escuchaban\nmuy tranquila yo estaba\nal recordar tu voz calmada\naún recuerdo ese otoño\nDonde prometiste todo\nEsas cartas no escritas\nQue las quemaste el día en que te desenamoraste\nDi mi alma sin medida\nY la dejaste malherida\nFui un jardín en plena flor\nY me dejaste sin color\n\n¿porque no volvió el eco?\ncuando escribíamos\nesas cartas no escritas por tu ego\nque dejamos rotas en el tiempo\nque optimista tu reacción\nal quitarme el corazón\nvos quisiste ser el centro del mundo de la razón\nyo no guardo aquel rencor, te deseo lo mejor\n\nalguna vez me miraste, de reojo y te atrapé\nque lejana es tu voz que extraña la sensación\ntu risa, mi alegría\nla borraste en plena vida\nesas cartas no escritas\nque las quemaste el día en que te desenamoraste\ndi mi alma sin media\ny la dejaste malherida\nfui un jardín en plena flor\ny me dejaste sin color\n\nporque no volvió el eco\ncuando escribíamos\nesas cartas no escritas por tu ego\nque dejamos rotas en el tiempo\nque optimista tu reacción\nal romper mi corazón\nvos quisiste ser el centro del mundo de la razón\nyo no guardo aquel rencor, te deseo lo mejor\n\nvos quisiste ser el centro del mundo de la razón\nyo no guardo aquel rencor, te deseo lo mejor",
     "video": "assets/palabras/pistas/05.mp4",
     "poster": "assets/palabras/pistas/05-poster.jpg",
-    "audio": "audio/05.wav"
+    "audio": "audio/05.mp3"
   },
   {
     "title": "Alquimista",
     "lyrics": "El tiempo me espía,\ncon vieja ironía,\nsu aguja atrapa\ny mi piel se desmapa.\n\nEl tic tac insiste,\ny el alma resiste,\nel reloj no muere\nel tiempo no quiere\n\nel viento sopló\ny al reloj llevo\ny dejo mi nombre\nclaro y mayor\n\nhoy no escucho al reloj llorar\nni me dejo arrastrar pero\nle preguntaré al tiempo\nsi es un pasatiempo\no si estoy en el carril correcto\n\nseré cambiantes olas\nque van y vuelven solas\no seré la espuma que se absorbe a la hora\n\nle preguntaré al alquimista\ncomo creó la tierra en siete días\ny ahí será la conquista de mi vida\ny el reloj desparezca enseguida\n\nel viento sopló\ny al reloj llevo\ny dejo mi nombre\nclaro y mayor\n\nhoy no escucho al reloj llorar\nni me dejo arrastrar\npero\nle preguntaré al tiempo\nsi es un pasa tiempo\no si estoy en el carril correcto\n\nseré cambiantes olas\nque van y vuelven solas\no seré la espuma que se absorbe a la hora\n\nle preguntaré al alquimista\ncomo creó la tierra en 7 días",
     "video": "assets/palabras/pistas/06.mp4",
-    "poster": "assets/palabras/pistas/06-poster.jpg",
-    "audio": "audio/06.wav"
+    "poster": "assets/palabras/pistas/06-poster.jpg"
   },
   {
     "title": "[Título 7]",
-    "lyrics": "[LETRA PENDIENTE]",
-    "audio": "audio/07.wav"
+    "lyrics": "[LETRA PENDIENTE]"
   },
   {
     "title": "[Título 8]",
