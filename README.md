@@ -12,3 +12,7 @@ Web pública y escucha del prelanzamiento de su álbum, mediante invitación.
 - `messages.js` – capa de almacenamiento. **Prototipo:** usa `localStorage`, así que el admin solo ve mensajes enviados desde el mismo navegador. Para producción hay que reemplazarla por un backend.
 
 - `sampleo/` – herramienta interna para probar las cinco tipografías sobre cartón y cuaderno. Acceso directo, sin enlaces desde la web y con `noindex, nofollow, noarchive`; no requiere autenticación y es accesible a quien conozca la URL. Incluye sus fuentes y reutiliza la imagen de cartón de `assets/home/`.
+
+## Animaciones manuales de Palabras
+
+Excepción autorizada al artifact de diseño: las estrellas y el caballo del reproductor en `palabras-escucha-desktop.html` se animan directamente en HTML/CSS. Al reimportar o reimplementar el diseño, conservar las clases `.deco-stars` y `.deco-horse`, sus keyframes y la regla `prefers-reduced-motion`. Mantener la cadencia artesanal de 6 poses por segundo, con cambios discretos (`steps(1,end)`), y las imágenes originales. Esta animación es una decisión del usuario que debe preservarse aunque el artifact muestre figuras estáticas. Cambiarla sólo por pedido explícito del usuario.
