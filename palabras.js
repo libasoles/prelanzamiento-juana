@@ -195,6 +195,17 @@
     });
   }
 
+  // ---- Animación del reproductor: los cuadros sólo cambian mientras hay scroll ----
+  // (página o caja de letras). Se pausa poco después de que el scroll se detiene.
+  {
+    let t = 0;
+    document.addEventListener('scroll', () => {
+      document.documentElement.classList.add('is-scrolling');
+      clearTimeout(t);
+      t = setTimeout(() => document.documentElement.classList.remove('is-scrolling'), 180);
+    }, { capture: true, passive: true });
+  }
+
   // ---- Menú --------------------------------------------------------------
   const menuBtn = $('menuBtn'), menu = $('menu');
   if (menuBtn && menu) {

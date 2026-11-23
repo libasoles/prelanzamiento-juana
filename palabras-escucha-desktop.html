@@ -30,6 +30,7 @@
 <style>
 @font-face{font-family:"Juana Mano Suave";src:url("assets/fonts/JuanaManoSuave-Regular.woff2") format("woff2");font-display:swap}
 @font-face{font-family:"Juana Mano Suave LC";src:url("assets/fonts/JuanaManoSuaveLC-Regular.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"Juana Notas";src:url("assets/fonts/JuanaNotas-Regular.woff2") format("woff2");font-display:swap}
 body{margin:0;background:#2154aa}
 [hidden]{display:none!important}
 a{color:#ffffff}a:hover{color:#e9edf9}
@@ -38,7 +39,8 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 .cuaderno{container-type:inline-size;position:relative;isolation:isolate;display:flex;align-items:flex-start;aspect-ratio:2000 / 1300;box-sizing:border-box}
 .cuaderno>.fondo{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;filter:drop-shadow(0 18px 24px rgba(0,10,40,.35))}
 .cuaderno>.hoja{flex:1;min-width:0;box-sizing:border-box;padding:8.2% 7.5% 8% 7.5%;display:grid;grid-template-columns:1fr 1fr;column-gap:10cqw;align-items:start}
-.cuaderno>.hoja p{margin:0 0 14px;orphans:1;widows:1}
+.cuaderno>.hoja p{margin:0 0 4.53cqw;orphans:1;widows:1}
+.cuaderno>.hoja p:last-child{margin-bottom:0}
 .tinta{font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-feature-settings:'calt' 1;font-variant-ligatures:common-ligatures contextual;font-weight:400;color:#12306a}
 .tinta p{margin:0}
 .hoja-clip{position:relative;isolation:isolate;display:flex;box-sizing:border-box;--t:calc(340px*var(--s));--r:calc(40px*var(--s));--b:calc(120px*var(--s));--l:calc(330px*var(--s))}
@@ -87,7 +89,8 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 .mono{font-family:'Special Elite','Courier New',monospace}
 .pad{padding-left:clamp(24px,5.5vw,80px);padding-right:clamp(24px,5.5vw,80px)}
 /* Animación cuadro a cuadro: conservar sprites y reglas; ver README.md. */
-.deco-stars,.deco-horse{display:block;flex-shrink:0;aspect-ratio:1;background-size:300% 200%;background-repeat:no-repeat;background-position:0 0;animation:deco-frames 1s steps(1,end) infinite}
+.deco-stars,.deco-horse{display:block;flex-shrink:0;aspect-ratio:1;background-size:300% 200%;background-repeat:no-repeat;background-position:0 0;animation:deco-frames 1s steps(1,end) infinite;animation-play-state:paused}
+.is-scrolling .deco-stars,.is-scrolling .deco-horse{animation-play-state:running}
 .deco-stars{background-image:url(assets/palabras/estrellas-danza-6fps.png)}
 .deco-horse{background-image:url(assets/palabras/caballo-galope-6fps.png)}
 /* Seis dibujos distintos por segundo, en orden de lectura de la plancha 3 × 2. */
@@ -106,7 +109,7 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 
   <div class="textura">
   <section>
-    <div class="pad" style="background:rgba(33,84,170,.8);padding-bottom:110px">
+    <div class="pad" style="background:rgba(33,84,170,.8);box-sizing:border-box;min-height:100vh;display:flex;flex-direction:column;padding-bottom:48px">
       <header style="position:relative;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:28px 0">
         <a href="home-desktop.html" aria-label="Volver a la home de Juana Cabrera" style="line-height:0"><img src="assets/home/logo-juana.png" alt="Juana Cabrera" style="height:52px;width:auto"></a>
         <button type="button" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu" style="width:48px;height:48px;border:2px solid #ffffff;background:transparent;color:#ffffff;border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8c5-1 11 1 16 0M4 16c5 1 11-1 16 0"></path></svg></button>
@@ -116,12 +119,12 @@ a{color:#ffffff}a:hover{color:#e9edf9}
           <a class="menu-link mano" href="#proceso">Bocetos de letras</a>
         </nav>
       </header>
-      <div style="display:flex;align-items:center;justify-content:center;gap:clamp(48px,6.5vw,96px);padding-top:30px">
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:clamp(48px,6.5vw,96px)">
         <div style="flex:0 1 560px;min-width:0;display:flex;flex-direction:column;gap:28px">
           <img src="assets/palabras/lettering-palabras.webp" alt="Palabras" style="width:100%;max-width:560px">
           <h1 class="mano" style="margin:0;font-weight:400;font-size:clamp(40px,3.6vw,52px);line-height:1.15;text-transform:uppercase;letter-spacing:1px">Mi primer disco</h1>
         </div>
-        <div style="flex:0 1 clamp(420px,calc(100vh - 190px),820px);min-width:0;position:relative">
+        <div style="flex:0 1 clamp(380px,calc(100vh - 250px),820px);min-width:0;position:relative">
           <div style="position:relative;transform:rotate(-2deg)"><img src="assets/palabras/tapa-palabras.jpg" alt="Tapa del disco Palabras" style="display:block;width:100%;aspect-ratio:1;object-fit:cover;border:8px solid #ffffff;box-sizing:border-box;box-shadow:0 24px 40px rgba(0,0,0,.35)"><img src="assets/palabras/cinta.png" alt="" aria-hidden="true" style="position:absolute;right:-16px;top:-12px;width:70px;height:34px;object-fit:cover;opacity:.9;box-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(40deg)"></div>
         </div>
       </div>
@@ -130,7 +133,7 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 
   <section id="escribir" class="pad" style="background:linear-gradient(rgba(33,84,170,.8),#2154aa);padding-top:110px;padding-bottom:40px;display:flex;justify-content:center">
     <div style="width:min(100%,1280px);display:flex;flex-direction:column;align-items:flex-start;gap:6px">
-      <div style="display:flex;align-items:center;gap:clamp(24px,4.4vw,56px);width:100%">
+      <div style="display:flex;align-items:center;gap:clamp(24px,4.4vw,56px);width:100%;box-sizing:border-box;padding-left:clamp(0px,14%,180px)">
         <div aria-hidden="true" style="position:relative;width:min(23.5%,300px);aspect-ratio:300 / 213;flex:none"><img src="assets/palabras/garabato-escribir.png" alt="" style="position:absolute;left:0;top:0;width:100%;height:auto"></div>
         <div class="carton" style="width:min(100%,560px);padding:84px 40px 46px;transform:rotate(-2deg)"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><h2 style="margin:0;font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-feature-settings:'calt' 0;font-variant-ligatures:none;font-weight:400;font-size:clamp(40px,3.75vw,54px);line-height:1.05;color:#12306a;white-space:nowrap">¿Te gustaría escribir?</h2></div>
       </div>
@@ -178,7 +181,7 @@ a{color:#ffffff}a:hover{color:#e9edf9}
     <img src="assets/palabras/deco-mensaje-1.png" alt="" aria-hidden="true" style="position:absolute;left:40px;top:120px;width:380px;height:auto;opacity:.4;transform:rotate(-6deg);pointer-events:none;z-index:0">
     <img src="assets/palabras/deco-mensaje-2.png" alt="" aria-hidden="true" style="position:absolute;right:60px;bottom:100px;width:300px;height:auto;opacity:.4;transform:rotate(5deg);pointer-events:none;z-index:0">
     <form id="msgForm" style="position:relative;z-index:1;width:100%;display:flex;flex-direction:column;align-items:center;gap:28px">
-      <label for="msg" class="carton" style="width:360px;padding:58px 28px 30px;margin-bottom:-6px;transform:rotate(-2deg);z-index:2"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><span class="mano" style="font-family:'Juana Mano Suave','Juana Mano Suave LC',cursive;font-size:46px;line-height:1;color:#12306a;white-space:nowrap">Escribime algo</span></label>
+      <label for="msg" class="carton" style="width:360px;padding:58px 28px 30px;margin-bottom:-6px;transform:rotate(-2deg);z-index:2"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><span class="mano" style="font-family:'Juana Notas','Juana Mano Suave',cursive;font-size:46px;line-height:1;color:#12306a;white-space:nowrap">Escribime algo</span></label>
       <div class="hoja-clip" style="--s:.4;width:min(100%,760px);max-width:100%;flex:none;min-height:560px;transform:rotate(-1deg)"><div class="fondo" aria-hidden="true"></div>
         <div class="contenido tinta" style="padding:150px 64px 64px 80px">
           <textarea id="msg" class="maquina" rows="1" placeholder="Escribime algo" style="font-size:26px;line-height:38px"></textarea>
