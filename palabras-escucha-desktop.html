@@ -67,29 +67,13 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 .enviar-ico:active{transform:translateY(1px) scale(.95)}
 .enviar-ico:focus-visible{outline:2px solid #ffffff;outline-offset:3px}
 @media (prefers-reduced-motion:reduce){.carton-btn{transition:none}}
-.js-tracks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .trk{all:unset;box-sizing:border-box;width:100%;min-height:60px;display:grid;grid-template-columns:44px 1fr;align-items:center;gap:8px;padding:0 18px;cursor:pointer}
-.trk:focus-visible{outline:2px solid #ffffff;outline-offset:-4px}
-.js-tracks li{background:rgba(255,255,255,.08);color:#ffffff}
-.js-tracks li.on{background:#ffffff;color:#2154aa}
-.js-tracks li.on .trk:focus-visible{outline-color:#2154aa}
 .trk-ico{display:flex;align-items:center;height:26px}
 .trk .num{font-family:'Juana Mano Suave','Covered By Your Grace',cursive;font-size:26px;letter-spacing:1px;line-height:1}
 .trk-title{font-family:'Special Elite','Courier New',monospace;font-size:22px;line-height:1.2}
 .trk .ico{display:none}
 .trk:hover .num,.trk:focus-visible .num{display:none}
 .trk:hover .ico,.trk:focus-visible .ico{display:inline-block}
-.seek{-webkit-appearance:none;appearance:none;background:transparent;height:22px;width:100%;margin:0;cursor:pointer;accent-color:#ffffff}
-.seek::-webkit-slider-runnable-track{height:2px;border-radius:1px;background:rgba(255,255,255,.4)}
-.seek::-moz-range-track{height:2px;border-radius:1px;background:rgba(255,255,255,.4)}
-.seek::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:#ffffff;border:0;margin-top:-5px}
-.seek::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#ffffff;border:0}
-.seek:focus-visible{outline:2px solid #ffffff;outline-offset:4px}
-.seek:disabled{cursor:default;opacity:.6}
-.ctl{width:48px;height:48px;border-radius:50%;border:0;background:transparent;color:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.ctl:focus-visible,.ctl-play:focus-visible{outline:2px solid #ffffff;outline-offset:2px}
-.ctl-play{width:60px;height:60px;border-radius:50%;border:0;background:#ffffff;color:#2154aa;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.ctl-play:focus-visible{outline-color:#12306a}
 .menu-link{display:flex;align-items:center;min-height:60px;padding:0 32px;text-decoration:none;font-size:28px;text-transform:uppercase;letter-spacing:1px}
 .mono{font-family:'Special Elite','Courier New',monospace}
 .pad{padding-left:clamp(24px,5.5vw,80px);padding-right:clamp(24px,5.5vw,80px)}
@@ -108,6 +92,55 @@ a{color:#ffffff}a:hover{color:#e9edf9}
   83.333333%{background-position:100% 100%}
 }
 @media (prefers-reduced-motion:reduce){.deco-stars,.deco-horse{animation:none}}
+/* Reproductor vintage: cartón rasgado, teclas mecánicas, pantalla Super 8 y letra en papel de cuaderno. */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.ink{font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive}
+.cuaderno{z-index:2}
+.rep{position:relative;filter:drop-shadow(0 24px 26px rgba(0,10,40,.4))}
+.rep-card{position:relative;z-index:1;background-color:#e4dccb;background-image:url(assets/palabras/carton-liso.jpg);background-size:cover}
+.rep-deco{position:absolute;z-index:0;height:auto;pointer-events:none;filter:drop-shadow(0 10px 14px rgba(0,10,40,.45))}
+.rep-cinta{position:absolute;z-index:2;left:50%;pointer-events:none;background:linear-gradient(rgba(243,235,205,.93),rgba(226,214,176,.93));box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.placa{background:#12306a;border-radius:6px;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.18),0 4px 8px rgba(0,10,40,.25)}
+.bezel{position:relative;background-color:#d9cdb0;background-image:url(assets/palabras/carton-liso.jpg);background-size:cover;border-radius:22px;box-shadow:0 12px 22px rgba(0,10,40,.35),inset 0 2px 0 rgba(255,255,255,.5);transform:rotate(.5deg)}
+.screen{position:relative;overflow:hidden;background:#0b1530}
+.pantalla-fx{position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.7) 100%),repeating-linear-gradient(to bottom,rgba(0,0,0,.2) 0,rgba(0,0,0,.2) 1px,transparent 1px,transparent 3px)}
+.grano{position:absolute;left:0;top:0;opacity:.22;mix-blend-mode:screen;pointer-events:none}
+.tc{position:absolute;left:5%;bottom:6%;letter-spacing:.06em;color:#efe6cf;text-shadow:0 0 6px rgba(239,230,207,.6),0 1px 6px rgba(0,0,0,.8)}
+.jcard{position:relative;background:#efe6cf;color:#12306a;border-radius:3px;box-shadow:0 12px 22px rgba(0,10,40,.3)}
+.jcard-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:2px solid #12306a;padding-bottom:6px;margin-bottom:8px}
+.jcard-head .ink{font-size:40px;line-height:1}
+.jcard-head .mono{font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.js-tracks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.js-tracks li{color:#12306a;border-bottom:1px dashed rgba(18,48,106,.45)}
+.js-tracks li.on{background:rgba(33,84,170,.16)}
+.trk:focus-visible{outline:2px solid #12306a;outline-offset:-4px}
+.trk .num{font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-size:28px}
+.tecla{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:center;height:68px;min-width:72px;color:#12306a;background:linear-gradient(#f6efdc,#d3c6a5);border-radius:8px 8px 12px 12px;box-shadow:0 6px 0 #8f8061,0 10px 14px rgba(0,10,40,.35),inset 0 1px 0 rgba(255,255,255,.7);transition:transform .08s ease,box-shadow .08s ease;opacity:1!important}
+.tecla-s{height:48px;min-width:56px;box-shadow:0 4px 0 #8f8061,0 7px 10px rgba(0,10,40,.3),inset 0 1px 0 rgba(255,255,255,.7)}
+.tecla-m{height:60px;min-width:56px}
+.tecla-play{color:#ffffff;background:linear-gradient(#2d62b8,#12306a);box-shadow:0 6px 0 #081a3d,0 10px 14px rgba(0,10,40,.4),inset 0 1px 0 rgba(255,255,255,.35)}
+.tecla:active{transform:translateY(4px);box-shadow:0 1px 0 #8f8061,0 3px 6px rgba(0,10,40,.4),inset 0 1px 0 rgba(255,255,255,.4)}
+.tecla-play:active{box-shadow:0 1px 0 #081a3d,0 3px 6px rgba(0,10,40,.45),inset 0 1px 0 rgba(255,255,255,.25)}
+.tecla:disabled{opacity:.8!important;cursor:default}
+.tecla:focus-visible{outline:3px solid #12306a;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.tecla{transition:none}}
+.fader{-webkit-appearance:none;appearance:none;background:transparent;height:34px;margin:0;width:100%;cursor:pointer}
+.fader::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:#2a2418;box-shadow:inset 0 1px 2px #000,0 1px 0 rgba(255,255,255,.6)}
+.fader::-moz-range-track{height:6px;border-radius:3px;background:#2a2418;box-shadow:inset 0 1px 2px #000,0 1px 0 rgba(255,255,255,.6)}
+.fader::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:34px;border-radius:3px;border:1px solid #6d6247;margin-top:-14px;box-shadow:0 3px 5px rgba(0,0,0,.4);background:linear-gradient(#12306a,#12306a) center/2px 70% no-repeat,linear-gradient(90deg,#d8cdb0,#f6efdc 45%,#d8cdb0)}
+.fader::-moz-range-thumb{width:18px;height:32px;border-radius:3px;border:1px solid #6d6247;box-shadow:0 3px 5px rgba(0,0,0,.4);background:linear-gradient(#12306a,#12306a) center/2px 70% no-repeat,linear-gradient(90deg,#d8cdb0,#f6efdc 45%,#d8cdb0)}
+.fader:focus-visible{outline:3px solid #12306a;outline-offset:3px}
+.fader:disabled{cursor:default;opacity:.8}
+.ticks{height:7px;margin:2px 10px 0;background:repeating-linear-gradient(90deg,#12306a 0,#12306a 1px,transparent 1px,transparent 10%);background-size:calc(100% + 1px) 100%}
+.times{display:flex;justify-content:space-between;font-size:13px;margin-top:4px;color:#12306a}
+.papel{position:relative;box-shadow:0 14px 24px rgba(0,10,40,.35);border-radius:3px;transform:rotate(-.6deg)}
+.papel-agujeros{position:absolute;left:14px;top:0;bottom:0;width:20px;z-index:2;pointer-events:none;background-image:radial-gradient(circle,#1a4590 0,#1a4590 6px,transparent 7px);background-size:20px 110px;background-position:0 40px}
+.renglones{background-color:#f3eddc;background-image:linear-gradient(90deg,transparent 0,transparent 64px,rgba(184,51,43,.55) 64px,rgba(184,51,43,.55) 66px,transparent 66px),repeating-linear-gradient(to bottom,transparent 0,transparent 47px,rgba(33,84,170,.3) 47px,rgba(33,84,170,.3) 48px);background-attachment:local;font-family:'Special Elite','Courier New',monospace;font-size:25px;line-height:48px;color:#12306a;box-sizing:border-box}
+.renglones p{margin:0 0 48px!important;line-height:48px}
+.renglones-m{background-color:#f3eddc;background-image:linear-gradient(90deg,transparent 0,transparent 44px,rgba(184,51,43,.55) 44px,rgba(184,51,43,.55) 46px,transparent 46px),repeating-linear-gradient(to bottom,transparent 0,transparent 39px,rgba(33,84,170,.3) 39px,rgba(33,84,170,.3) 40px);background-attachment:local;font-family:'Special Elite','Courier New',monospace;font-size:19px;line-height:40px;color:#12306a;box-sizing:border-box}
+.renglones-m p{margin:0 0 40px!important;line-height:40px}
+.renglones-m p[style*="opacity: 0.6"]{opacity:.72!important}
+.rep-card{padding:72px 40px;clip-path:polygon(0.0% 1.9px,1.6% 2.5px,3.2% 2.1px,4.8% 1.6px,6.4% 2.8px,8.0% 1.6px,9.6% 2.4px,11.2% 2.6px,12.8% 4.5px,14.4% 3.8px,16.0% 2.6px,17.6% 3.4px,19.2% 3.4px,20.8% 3.6px,22.4% 4.9px,24.0% 4.9px,25.6% 5.0px,27.2% 4.5px,28.8% 6.2px,30.4% 5.6px,32.0% 4.1px,33.6% 3.8px,35.2% 4.7px,36.8% 4.6px,38.4% 5.1px,40.0% 2.7px,41.6% 4.1px,43.2% 3.8px,44.8% 2.5px,46.4% 2.9px,48.0% 1.7px,49.6% 3.3px,51.2% 1.2px,52.8% 0.9px,54.4% 2.0px,56.0% 1.9px,57.6% 1.7px,59.2% 1.6px,60.8% 1.4px,62.4% 1.5px,64.0% 3.5px,65.6% 2.8px,67.2% 2.2px,68.8% 3.8px,70.4% 3.3px,72.0% 2.9px,73.6% 4.1px,75.2% 3.3px,76.8% 3.8px,78.4% 4.3px,80.0% 4.4px,81.6% 5.5px,83.2% 5.4px,84.8% 4.0px,86.4% 5.9px,88.0% 4.0px,89.6% 5.6px,91.2% 4.6px,92.8% 5.0px,94.4% 3.5px,96.0% 3.7px,97.6% 3.5px,99.2% 3.4px,100% 3.1px,100% calc(100% - 8.3px),99.2% calc(100% - 4.6px),97.6% calc(100% - 10.8px),96.0% calc(100% - 7.8px),94.4% calc(100% - 9.4px),92.8% calc(100% - 4.0px),91.2% calc(100% - 6.1px),89.6% calc(100% - 6.6px),88.0% calc(100% - 8.6px),86.4% calc(100% - 12.3px),84.8% calc(100% - 16.1px),83.2% calc(100% - 14.9px),81.6% calc(100% - 9.4px),80.0% calc(100% - 14.6px),78.4% calc(100% - 20.5px),76.8% calc(100% - 15.4px),75.2% calc(100% - 19.9px),73.6% calc(100% - 21.2px),72.0% calc(100% - 17.8px),70.4% calc(100% - 24.7px),68.8% calc(100% - 24.0px),67.2% calc(100% - 25.7px),65.6% calc(100% - 21.4px),64.0% calc(100% - 25.8px),62.4% calc(100% - 21.7px),60.8% calc(100% - 22.8px),59.2% calc(100% - 19.4px),57.6% calc(100% - 19.4px),56.0% calc(100% - 15.2px),54.4% calc(100% - 21.5px),52.8% calc(100% - 15.9px),51.2% calc(100% - 15.8px),49.6% calc(100% - 14.1px),48.0% calc(100% - 10.2px),46.4% calc(100% - 8.1px),44.8% calc(100% - 8.2px),43.2% calc(100% - 10.4px),41.6% calc(100% - 11.7px),40.0% calc(100% - 4.0px),38.4% calc(100% - 7.9px),36.8% calc(100% - 4.6px),35.2% calc(100% - 12.2px),33.6% calc(100% - 11.0px),32.0% calc(100% - 9.7px),30.4% calc(100% - 8.4px),28.8% calc(100% - 16.0px),27.2% calc(100% - 14.7px),25.6% calc(100% - 13.5px),24.0% calc(100% - 12.7px),22.4% calc(100% - 20.4px),20.8% calc(100% - 21.3px),19.2% calc(100% - 15.1px),17.6% calc(100% - 17.8px),16.0% calc(100% - 17.8px),14.4% calc(100% - 21.6px),12.8% calc(100% - 21.8px),11.2% calc(100% - 24.3px),9.6% calc(100% - 16.0px),8.0% calc(100% - 21.2px),6.4% calc(100% - 22.6px),4.8% calc(100% - 20.6px),3.2% calc(100% - 14.4px),1.6% calc(100% - 15.7px),0.0% calc(100% - 18.4px))}
 </style>
 </head><body data-layout="desktop">
 <div style="min-height:100vh;background:#2154aa;color:#ffffff;font-family:'Instrument Sans',sans-serif;font-size:19px;line-height:1.6;overflow:hidden;position:relative">
@@ -145,45 +178,61 @@ a{color:#ffffff}a:hover{color:#e9edf9}
       <div style="width:100%;container-type:inline-size">
       <div style="display:flex;align-items:center;justify-content:flex-end;gap:.94cqw">
         <div class="hoja-rota" style="width:42.19cqw;flex:none;margin-right:4.69cqw;transform:rotate(-1.8deg)"><img class="fondo" src="assets/palabras/hoja-arrancada-lisa.webp" alt="" aria-hidden="true"><div aria-hidden="true" class="aguada"><img src="assets/palabras/img-052-foto.jpg" alt=""></div><div class="tinta" style="position:relative;z-index:1;flex:1;min-width:0;box-sizing:border-box;padding:8% 10% 6% 12%;font-size:8.7cqw;line-height:10.74cqw"><p>Hola, soy Juana.</p><p>Escribí estas canciones porque había cosas que necesitaba poner en palabras.</p><p>Ahora que las canciones están acá, me dieron ganas de que también nos podamos escribir.</p></div></div>
-        <div class="cuaderno" style="width:55.47cqw;flex:none;margin-right:-4.69cqw;aspect-ratio:1000 / 1300;transform:rotate(.6deg)"><img class="fondo" src="assets/palabras/cuaderno-derecha.svg" alt="" aria-hidden="true"><div class="hoja tinta" style="display:block;font-size:6.62cqw;line-height:8.17cqw;padding:12% 12% 8% 17%"><p>Si alguna canción te hizo acordar de algo, te dejó pensando o te despertó una palabra, podés escribímelo acá.</p><p>A veces una sola palabra alcanza.</p></div><img src="assets/palabras/cuaderno-clip.png" alt="" aria-hidden="true" style="position:absolute;left:0;top:1.4%;height:97.2%;width:9.15%;clip-path:inset(4.7% 0 0 0);transform:translateX(-50%);pointer-events:none;filter:drop-shadow(1px 2px 2px rgba(0,10,40,.18))"><img src="assets/palabras/estrellas.webp" alt="" aria-hidden="true" style="position:absolute;right:7%;bottom:6%;width:15%;transform:rotate(-6deg)"></div>
+        <div class="cuaderno" style="width:55.47cqw;flex:none;margin-right:-4.69cqw;aspect-ratio:1000 / 1300;transform:rotate(.6deg)"><img class="fondo" src="assets/palabras/cuaderno-derecha.svg" alt="" aria-hidden="true"><div class="hoja tinta" style="display:block;font-size:6.62cqw;line-height:8.17cqw;padding:12% 12% 8% 17%"><p>Si alguna canción te hizo acordar de algo, te dejó pensando o te despertó una palabra, podés escribímelo acá.</p><p>A veces una sola palabra alcanza.</p></div><img src="assets/palabras/cuaderno-clip.png" alt="" aria-hidden="true" style="position:absolute;left:0;top:1.4%;height:97.2%;width:9.15%;clip-path:inset(4.7% 0 0 0);transform:translateX(-50%);pointer-events:none;filter:drop-shadow(1px 2px 2px rgba(0,10,40,.18))"><img src="assets/palabras/estrellas.webp" alt="" aria-hidden="true" style="position:absolute;right:13%;bottom:14%;width:18%;transform:rotate(-6deg)"></div>
       </div>
       </div>
     </div>
   </section>
   </div>
 
-  <section id="canciones" class="pad" style="padding-top:110px;padding-bottom:120px">
-    <div role="group" aria-label="Reproductor de canciones" style="background:#12306a;padding:28px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px;align-items:stretch;box-shadow:0 24px 40px rgba(0,10,40,.3)">
-      <div style="display:flex;flex-direction:column;gap:24px;min-width:0">
-        <header style="padding:0 8px;display:flex;flex-direction:row;align-items:flex-start;gap:20px">
-          <img src="assets/palabras/lettering-palabras.webp" alt="Palabras" style="width:260px;max-width:100%;height:auto;min-width:0;flex:0 1 auto">
-          <img src="assets/home/logo-juana.png" alt="Juana Cabrera" style="height:56px;width:auto;flex:none;margin-left:auto">
-        </header>
-        <ol class="js-tracks"></ol>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="background:#2154aa;padding:18px 24px;display:flex;flex-direction:column;gap:14px">
-            <label for="seek-l" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Posición</label>
-            <input id="seek-l" type="range" class="seek js-seek" min="0" max="1000" value="0" disabled>
-            <div aria-hidden="true" class="mono" style="display:flex;justify-content:space-between;font-size:12px;color:#e9edf9;margin-top:-2px"><span class="js-time-now">0:00</span><span class="js-time-total">0:00</span></div>
-            <div style="display:flex;align-items:center;justify-content:center;gap:14px">
-              <button type="button" class="ctl js-prev" aria-label="Canción anterior" disabled><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z" fill="currentColor"></path></svg></button>
-              <button type="button" class="ctl-play js-play" aria-label="Reproducir"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path class="js-play-path" d="M8 5v14l11-7z" fill="currentColor"></path></svg></button>
-              <button type="button" class="ctl js-next" aria-label="Canción siguiente" disabled><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"></path></svg></button>
+  <section id="canciones" class="pad" style="padding-top:140px;padding-bottom:150px">
+    <div role="group" aria-label="Reproductor de canciones" class="rep">
+      <div class="rep-card">
+        <div style="display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:44px;align-items:stretch">
+          <div style="display:flex;flex-direction:column;gap:24px;min-width:0">
+            <header class="placa">
+              <img src="assets/palabras/lettering-palabras.webp" alt="Palabras" style="width:260px;max-width:100%;height:auto;min-width:0;flex:0 1 auto">
+              <img src="assets/home/logo-juana.png" alt="Juana Cabrera" style="height:48px;width:auto;flex:none">
+            </header>
+            <div class="jcard" style="padding:20px 20px 14px;transform:rotate(-.4deg)">
+              <img src="assets/palabras/cinta.png" alt="" aria-hidden="true" style="position:absolute;left:-34px;top:-8px;width:84px;height:30px;object-fit:cover;opacity:.92;box-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(-34deg);pointer-events:none">
+              <div class="jcard-head"><span class="ink">Lado A</span><span class="mono">Palabras · 8 canciones</span></div>
+              <ol class="js-tracks"></ol>
+            </div>
+            <div style="background-color:#d9cdb0;background-image:url(assets/palabras/carton-liso.jpg);background-size:cover;border-radius:14px;padding:18px 24px 22px;box-shadow:0 10px 18px rgba(0,10,40,.3),inset 0 2px 0 rgba(255,255,255,.5);display:flex;flex-direction:column;gap:14px">
+              <div>
+                <label for="seek-l" class="sr">Posición</label>
+                <input id="seek-l" type="range" class="fader js-seek" min="0" max="1000" value="0" disabled>
+                <div class="ticks" aria-hidden="true"></div>
+                <div class="mono times" aria-hidden="true"><span class="js-time-now">0:00</span><span class="js-time-total">0:00</span></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:center;gap:24px"><button type="button" class="tecla js-prev" aria-label="Canción anterior" disabled><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z" fill="currentColor"></path></svg></button><button type="button" class="tecla tecla-play js-play" aria-label="Reproducir"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path class="js-play-path" d="M8 5v14l11-7z" fill="currentColor"></path></svg></button><button type="button" class="tecla js-next" aria-label="Canción siguiente" disabled><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"></path></svg></button></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:30px;min-width:0">
+            <div class="bezel" style="padding:20px 20px 14px">
+              <div id="visual" class="screen" aria-hidden="true" style="aspect-ratio:16 / 9;border-radius:36px / 28px;display:flex;align-items:center;justify-content:center">
+                <video id="visualVideo" hidden loop muted playsinline aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;filter:sepia(.35) saturate(.9) contrast(1.05)"></video>
+                <img id="visualPoster" hidden alt="" aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;filter:sepia(.35)">
+                <span class="deco-stars" id="visualStars" style="height:44%;filter:brightness(0) invert(1) sepia(.4);opacity:.4;transform:rotate(-6deg)"></span>
+                <svg class="grano" aria-hidden="true" width="100%" height="100%"><filter id="gr-d"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"></feTurbulence></filter><rect width="100%" height="100%" filter="url(#gr-d)"></rect></svg>
+                <div class="pantalla-fx"></div>
+                <span class="mono tc js-time-now" style="font-size:20px">0:00</span>
+              </div>
+              <div aria-hidden="true" class="mono" style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:13px;letter-spacing:.08em;color:#12306a"><span>SUPER 8 · PALABRAS</span><span style="display:flex;gap:8px"><i style="width:14px;height:14px;border-radius:50%;background:#12306a;display:block"></i><i style="width:14px;height:14px;border-radius:50%;background:#b8332b;display:block"></i></span></div>
+            </div>
+            <div class="papel" style="flex:1;min-height:430px">
+              <div aria-hidden="true" class="papel-agujeros"></div>
+              <div data-no-song aria-hidden="true" style="position:absolute;left:0;top:0;right:0;bottom:0;z-index:1;display:flex;align-items:center;justify-content:center;pointer-events:none"><span class="deco-horse" style="height:200px;filter:brightness(0);opacity:.15;transform:rotate(-4deg)"></span></div>
+              <div class="js-lyrics renglones" aria-live="polite" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:auto;padding:0 28px 0 84px"></div>
             </div>
           </div>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:24px;min-width:0">
-        <div id="visual" aria-hidden="true" style="position:relative;aspect-ratio:16 / 9;background:#0b2150;display:flex;align-items:center;justify-content:center;overflow:hidden">
-          <video id="visualVideo" hidden loop muted playsinline aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover"></video>
-          <img id="visualPoster" hidden alt="" aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover">
-          <span class="deco-stars" id="visualStars" style="height:44%;filter:brightness(0) invert(1);opacity:.4;transform:rotate(-6deg)"></span>
-        </div>
-        <div style="flex:1;min-height:240px;position:relative">
-          <div data-no-song aria-hidden="true" style="position:absolute;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center"><span class="deco-horse" style="height:200px;filter:brightness(0) invert(1);opacity:.4;transform:rotate(-4deg)"></span></div>
-          <div class="js-lyrics" aria-live="polite" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:auto;padding:0 8px 0 4px;font-family:'Architects Daughter','Patrick Hand',cursive;font-size:34px;line-height:1.4"></div>
-        </div>
-      </div>
+      <img src="assets/palabras/pistas/02.webp" alt="" aria-hidden="true" class="rep-deco" style="width:270px;right:210px;top:-250px;transform:rotate(5deg)">
+      <img src="assets/palabras/pistas/03.webp" alt="" aria-hidden="true" class="rep-deco" style="width:200px;left:110px;bottom:-78px;transform:rotate(-4deg)">
+      <div class="rep-cinta" aria-hidden="true" style="margin-left:-75px;top:-18px;width:150px;height:36px;transform:rotate(-2deg)"></div>
+      <div class="rep-cinta" aria-hidden="true" style="margin-left:-75px;bottom:-18px;width:150px;height:36px;transform:rotate(1.5deg)"></div>
     </div>
   </section>
 
@@ -235,19 +284,15 @@ a{color:#ffffff}a:hover{color:#e9edf9}
     </div>
   </section>
 
-  <div data-has-player hidden role="region" aria-label="Reproductor" style="position:fixed;left:0;right:0;bottom:0;z-index:50;background:#12306a;box-shadow:0 -10px 30px rgba(0,0,0,.25)">
-    <div class="pad" style="padding-top:16px;padding-bottom:16px;display:flex;align-items:center;gap:24px">
-      <div style="display:flex;align-items:center;gap:14px;min-width:220px">
-        <span class="mono js-now-title" style="font-size:24px;line-height:1.15"></span>
-        <span class="mono js-now-count" style="font-size:13px;color:#e9edf9;white-space:nowrap"></span>
+  <div data-has-player hidden role="region" aria-label="Reproductor" style="position:fixed;left:0;right:0;bottom:0;z-index:50;background-color:#e4dccb;background-image:url(assets/palabras/carton-liso.jpg);background-size:cover;border-top:3px solid #12306a;box-shadow:0 -10px 30px rgba(0,10,40,.3);color:#12306a">
+    <div class="pad" style="padding-top:12px;padding-bottom:16px;display:flex;align-items:center;gap:24px">
+      <div style="display:flex;flex-direction:column;min-width:260px">
+        <span class="ink js-now-title" style="font-size:30px;line-height:1"></span>
+        <span class="mono js-now-count" style="font-size:13px;white-space:nowrap"></span>
       </div>
-      <div style="display:flex;align-items:center;gap:14px">
-        <button type="button" class="ctl js-prev" aria-label="Canción anterior"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z" fill="currentColor"></path></svg></button>
-        <button type="button" class="ctl-play js-play" aria-label="Reproducir"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path class="js-play-path" d="M8 5v14l11-7z" fill="currentColor"></path></svg></button>
-        <button type="button" class="ctl js-next" aria-label="Canción siguiente"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"></path></svg></button>
-      </div>
-      <label for="seek-d" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Posición</label>
-      <span class="mono js-time-now" style="font-size:12px;color:#e9edf9;flex:none">0:00</span><input id="seek-d" type="range" class="seek js-seek" min="0" max="1000" value="0" style="flex:1;width:auto"><span class="mono js-time-total" style="font-size:12px;color:#e9edf9;flex:none">0:00</span>
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex:none"><button type="button" class="tecla tecla-s js-prev" aria-label="Canción anterior" disabled><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z" fill="currentColor"></path></svg></button><button type="button" class="tecla tecla-play tecla-s js-play" aria-label="Reproducir"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path class="js-play-path" d="M8 5v14l11-7z" fill="currentColor"></path></svg></button><button type="button" class="tecla tecla-s js-next" aria-label="Canción siguiente" disabled><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"></path></svg></button></div>
+      <label for="seek-d" class="sr">Posición</label>
+      <span class="mono js-time-now" style="font-size:13px;flex:none">0:00</span><input id="seek-d" type="range" class="fader js-seek" min="0" max="1000" value="0" style="flex:1;width:auto"><span class="mono js-time-total" style="font-size:13px;flex:none">0:00</span>
     </div>
   </div>
 </div>
