@@ -4,6 +4,7 @@
 <meta name="color-scheme" content="only light">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <style>
+@font-face{font-family:"Juana Notas";src:url("v4/JuanaNotas-Regular.woff2") format("woff2"),url("v4/JuanaNotas-Regular.woff") format("woff"),url("v4/JuanaNotas-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"Juana Mano Suave LC";src:url("v3/JuanaManoSuaveLC-Regular.woff2") format("woff2"),url("v3/JuanaManoSuaveLC-Regular.ttf") format("truetype");font-display:swap}
 @font-face{font-family:"Juana Mano Suave";src:url("v2/JuanaManoSuave-Regular.woff2") format("woff2"),url("v2/JuanaManoSuave-Regular.woff") format("woff"),url("v2/JuanaManoSuave-Regular.ttf") format("truetype");font-display:swap}
 @font-face{font-family:"Juana Mano Fina Suave";src:url("v2/JuanaManoFinaSuave-Regular.woff2") format("woff2"),url("v2/JuanaManoFinaSuave-Regular.woff") format("woff"),url("v2/JuanaManoFinaSuave-Regular.ttf") format("truetype");font-display:swap}
@@ -28,6 +29,7 @@ h1{font-family:"Juana Mano Suave",sans-serif;font-weight:normal;font-size:clamp(
 .f{padding:22px 0;border-bottom:1px solid var(--line)}
 .f .n{font-size:13px;opacity:.75;display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px}
 .f .n b{font-weight:600;opacity:1}
+.f .n a{color:inherit;text-underline-offset:3px}
 .f .s{font-size:var(--size);line-height:1.3;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
 .f .s.glifos{font-size:calc(var(--size)*.7);margin-top:.3em;opacity:.9}
 .f .s.glifos{margin:.3em 0 .6em}
@@ -59,10 +61,11 @@ h1{font-family:"Juana Mano Suave",sans-serif;font-weight:normal;font-size:clamp(
 
 <main id="lista"></main>
 
-<p class="small">Cada letra tiene variantes que se alternan solas con <code>font-feature-settings:"calt"</code> (desactívalo con el botón para comparar). Juana Mano Suave LC trae minúsculas a–z (k x y z w q sintetizadas, resto de la muestra manuscrita). Cobertura de las series v2 (solo mayúsculas): A–Z (K, W y Z sintetizadas), Á É Í Ó Ú Ñ, . , : ; … ! ¡ - — /. Si falta algún carácter (números, ? ¿ ( ) ") el navegador usa una fuente de respaldo.</p>
+<p class="small">Juana Notas (v4) se trazó de las notas en birome: tiene minúsculas reales (k, w, x, z completadas), cinco mayúsculas de la foto y el resto adaptadas de Juana Mano; incluye números y signos dibujados, tildes, ñ y ü. Las letras tienen variantes que se alternan solas con <code>font-feature-settings:"calt"</code> (desactívalo con el botón para comparar). Juana Mano Suave LC trae minúsculas a–z (k x y z w q sintetizadas, resto de la muestra manuscrita). Cobertura de las series v2 (solo mayúsculas): A–Z (K, W y Z sintetizadas), Á É Í Ó Ú Ñ, . , : ; … ! ¡ - — /. Si falta algún carácter (números, ? ¿ ( ) ") el navegador usa una fuente de respaldo.</p>
 
 <script>
 const FUENTES=[
+  ["Juana Notas","JuanaNotas-Regular","v4"],
   ["Juana Mano Suave LC","JuanaManoSuaveLC-Regular","v3"],
   ["Juana Mano Suave","JuanaManoSuave-Regular","v2"],
   ["Juana Mano Fina Suave","JuanaManoFinaSuave-Regular","v2"],
@@ -76,7 +79,13 @@ const els=FUENTES.map(([fam,file,dir])=>{
   s.querySelector("b").textContent=fam;
   const a=s.querySelector(".muestra"), p=s.querySelector(".postal-t"), g=s.querySelector(".glifos"), c=s.querySelector(".cuaderno-t");
   a.style.fontFamily=g.style.fontFamily=p.style.fontFamily=c.style.fontFamily=`"${fam}",sans-serif`;
-  g.textContent=ABC;
+  g.textContent=dir==="v4"?`${ABC}\nÜ ü ¿ ? ( ) 0123456789`:ABC;
+  if(dir==="v4"){
+    const n=s.querySelector(".n");
+    ["ttf","woff","woff2"].forEach(ext=>{
+      const link=document.createElement("a");link.href=`${dir}/${file}.${ext}`;link.download=`${file}.${ext}`;link.textContent=ext.toUpperCase();n.appendChild(link);
+    });
+  }
   lista.appendChild(s);return {a,g,p,c};
 });
 const pintar=()=>els.forEach(e=>e.a.textContent=e.p.textContent=e.c.textContent=txt.value);
