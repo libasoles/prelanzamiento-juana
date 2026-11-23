@@ -1,7 +1,7 @@
 // ---- Canciones de Palabras (prototipo) ----------------------------------
 // Títulos y letras vienen del diseño. Audios: masters de «JUANA audios/MIX 1»
 // pasados a MP3 192k (audio/01..05.mp3). Faltan los de las canciones 6 a 8
-// (Alquimista y los dos títulos pendientes): sin audio, el play no hace nada.
+// (Alquimista, Todavía y Las estrellas no se van): sin audio, el play no hace nada.
 const PALABRAS_TRACKS = [
   {
     "title": "A la deriva",
@@ -49,11 +49,11 @@ const PALABRAS_TRACKS = [
     "poster": "assets/palabras/pistas/06-poster.jpg"
   },
   {
-    "title": "[Título 7]",
+    "title": "Todavía",
     "lyrics": "[LETRA PENDIENTE]"
   },
   {
-    "title": "[Título 8]",
+    "title": "Las estrellas no se van",
     "lyrics": "[LETRA PENDIENTE]"
   }
 ];
