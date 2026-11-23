@@ -29,13 +29,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&amp;family=Architects+Daughter&amp;family=Patrick+Hand&amp;family=Special+Elite&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
 @font-face{font-family:"Juana Mano Suave";src:url("assets/fonts/JuanaManoSuave-Regular.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"Juana Notas";src:url("assets/fonts/JuanaNotas-Regular.woff2") format("woff2");font-display:swap}
 @font-face{font-family:"Juana Mano Suave LC";src:url("assets/fonts/JuanaManoSuaveLC-Regular.woff2") format("woff2");font-display:swap}
 body{margin:0;background:#2154aa}
 [hidden]{display:none!important}
 a{color:#ffffff}a:hover{color:#e9edf9}
 .mano{font-family:'Juana Mano Suave','Covered By Your Grace',cursive}
 .mono{font-family:'Special Elite','Courier New',monospace}
-.textura{background-image:url(assets/home/textura-azul.jpg);background-size:cover;background-position:center}
+.textura{--fade:min(180px,16%);background-color:#2154aa;background-image:linear-gradient(to bottom,#2154aa 0,rgba(33,84,170,.85) calc(var(--fade)*.25),rgba(33,84,170,.5) calc(var(--fade)*.55),rgba(33,84,170,.15) calc(var(--fade)*.82),rgba(33,84,170,0) var(--fade)),linear-gradient(to top,#2154aa 0,rgba(33,84,170,.85) calc(var(--fade)*.25),rgba(33,84,170,.5) calc(var(--fade)*.55),rgba(33,84,170,.15) calc(var(--fade)*.82),rgba(33,84,170,0) var(--fade)),url(assets/home/textura-azul.jpg);background-size:100% 100%,100% 100%,cover;background-position:center;background-repeat:no-repeat}
 .cuaderno{position:relative;isolation:isolate;display:flex;aspect-ratio:1122 / 1402;box-sizing:border-box}
 .cuaderno>.fondo{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;filter:drop-shadow(0 18px 24px rgba(0,10,40,.35))}
 .cuaderno>.hoja{flex:1;min-width:0;box-sizing:border-box;padding:15% 11% 15% 16%;display:flex;flex-direction:column;gap:12px}
@@ -97,15 +98,15 @@ a{color:#ffffff}a:hover{color:#e9edf9}
       </header>
       <img src="assets/palabras/lettering-palabras.webp" alt="Palabras" style="width:300px;max-width:100%;margin:18px 0 8px">
       <h1 class="mano" style="margin:0;font-weight:400;font-size:34px;line-height:1.15;text-transform:uppercase;letter-spacing:1px">Mi primer disco</h1>
-      <div style="position:relative;margin:34px 30px 0 40px">
-        <div style="position:relative;transform:rotate(-2deg)"><img src="assets/palabras/tapa-palabras.jpg" alt="Tapa del disco Palabras" style="display:block;width:100%;aspect-ratio:1;object-fit:cover;border:8px solid #ffffff;box-sizing:border-box;box-shadow:0 18px 30px rgba(0,0,0,.35)"><img src="assets/palabras/cinta.png" alt="" aria-hidden="true" style="position:absolute;right:-16px;top:-12px;width:70px;height:34px;object-fit:cover;opacity:.9;box-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(40deg)"></div>
+      <div style="position:relative;margin:34px -10px 0">
+        <div style="position:relative;transform:rotate(-2deg)"><img src="assets/palabras/tapa-palabras.jpg" alt="Tapa del disco Palabras" style="display:block;width:100%;aspect-ratio:1;object-fit:cover;border:8px solid #ffffff;box-sizing:border-box;box-shadow:0 18px 30px rgba(0,0,0,.35)"><img src="assets/palabras/cinta.png" alt="" aria-hidden="true" style="position:absolute;right:-2px;top:-12px;width:70px;height:34px;object-fit:cover;opacity:.9;box-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(40deg)"></div>
       </div>
     </div>
   </section>
 
   <section id="escribir" style="padding:40px 8px 8px;display:flex;flex-direction:column;align-items:center;gap:6px">
     <div class="carton" style="width:310px;max-width:100%;padding:62px 22px 30px;align-self:flex-start;margin-left:12px;transform:rotate(-2deg)"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><h2 style="margin:0;font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-feature-settings:'calt' 0;font-variant-ligatures:none;font-weight:400;font-size:33px;line-height:1.05;color:#12306a;white-space:nowrap">¿Te gustaría escribir?</h2></div>
-    <div class="cuaderno" style="width:100%;max-width:374px;transform:rotate(1deg)"><img class="fondo" src="assets/palabras/cuaderno.webp" alt="" aria-hidden="true"><div class="hoja tinta" style="gap:8px;font-size:21px;line-height:27px"><p>Hola, soy Juana.</p><p>Escribí estas canciones porque había cosas que necesitaba poner en palabras. Ahora que las canciones están acá, me dieron ganas de que también nos podamos escribir.</p><p>Si alguna canción te hizo acordar de algo, te dejó pensando o te despertó una palabra, podés escribímelo acá. A veces una sola palabra alcanza.</p></div><img src="assets/palabras/estrellas.webp" alt="" aria-hidden="true" style="position:absolute;right:12%;bottom:9%;width:25%;transform:rotate(-6deg)"></div>
+    <div class="cuaderno" style="width:100%;max-width:374px;aspect-ratio:1122 / 1580;transform:rotate(1deg)"><img class="fondo" src="assets/palabras/cuaderno.webp" alt="" aria-hidden="true"><div class="hoja tinta" style="gap:8px;font-size:23px;line-height:29px"><p>Hola, soy Juana.</p><p>Escribí estas canciones porque había cosas que necesitaba poner en palabras. Ahora que las canciones están acá, me dieron ganas de que también nos podamos escribir.</p><p>Si alguna canción te hizo acordar de algo, te dejó pensando o te despertó una palabra, podés escribímelo acá. A veces una sola palabra alcanza.</p></div><img src="assets/palabras/estrellas.webp" alt="" aria-hidden="true" style="position:absolute;right:12%;bottom:9%;width:25%;transform:rotate(-6deg)"></div>
   </section>
 
   <section id="canciones" style="padding:56px 20px 48px">
@@ -140,10 +141,10 @@ a{color:#ffffff}a:hover{color:#e9edf9}
       </div>
     </div>
 
-    <section data-has-player hidden aria-label="Letras" style="margin-top:16px;border-radius:20px;background:linear-gradient(160deg,#1c4c9e 0%,#12306a 75%);padding:18px 20px 6px">
+    <section data-has-player hidden aria-label="Letras" class="js-open-lyrics" style="cursor:pointer;margin-top:16px;border-radius:20px;background:linear-gradient(160deg,#1c4c9e 0%,#12306a 75%);padding:18px 20px 6px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
         <h3 style="margin:0;font:600 18px 'Instrument Sans',sans-serif">Letras</h3>
-        <button type="button" class="js-open-full" aria-label="Ver letra en pantalla completa" style="width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.25);color:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button>
+        <button type="button" aria-label="Ver letra en pantalla completa" style="width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.25);color:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button>
       </div>
       <div class="js-lyrics" aria-live="polite" style="max-height:420px;overflow:auto;font-family:'Architects Daughter','Patrick Hand',cursive;font-size:23px;line-height:1.4;color:#ffffff"></div>
     </section>
@@ -151,10 +152,10 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 
   <section id="mensaje" style="padding:40px 20px 64px;display:flex;flex-direction:column;align-items:center">
     <form id="msgForm" style="display:flex;flex-direction:column;align-items:center;gap:22px;width:100%">
-      <label for="msg" class="carton" style="width:310px;max-width:100%;padding:50px 20px 26px;margin-bottom:-12px;transform:rotate(-2deg);z-index:2"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><span class="mano" style="font-family:'Juana Mano Suave','Juana Mano Suave LC',cursive;font-size:36px;line-height:1;color:#12306a;white-space:nowrap">Escribime algo</span></label>
-      <div class="hoja-clip" style="--s:.567;width:min(340px,100%);min-height:472px;transform:rotate(-1deg)"><div class="fondo" aria-hidden="true"></div>
-        <div class="contenido tinta" style="padding:152px 12% 66px 16%">
-          <textarea id="msg" class="maquina" rows="1" placeholder="Escribime algo" style="font-size:21px;line-height:30px"></textarea>
+      <label for="msg" class="carton" style="width:310px;max-width:100%;padding:50px 20px 26px;margin-bottom:-12px;transform:rotate(-2deg);z-index:2"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><span class="mano" style="font-family:'Juana Notas','Juana Mano Suave',cursive;font-size:36px;line-height:1;color:#12306a;white-space:nowrap">Escribime algo</span></label>
+      <div class="hoja-clip" style="--s:.4;width:min(340px,100%);min-height:330px;transform:rotate(-1deg)"><div class="fondo" aria-hidden="true"></div>
+        <div class="contenido tinta" style="padding:150px 12% 56px 16%">
+          <textarea id="msg" class="maquina" rows="4" placeholder="Escribime algo" style="font-size:21px;line-height:30px;min-height:120px"></textarea>
         </div>
       </div>
       <div style="display:flex;align-items:center;justify-content:center;gap:10px">
@@ -162,8 +163,8 @@ a{color:#ffffff}a:hover{color:#e9edf9}
         <svg aria-hidden="true" width="40" height="35" viewBox="0 0 64 56" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transform:rotate(-4deg)"><path d="M54 7C55 18 54 29 51 38C40 41 27 39 12 38"></path><path d="M24 26C20 31 16 35 12 38C16 42 20 46 25 50"></path></svg>
       </div>
     </form>
-    <div id="msgThanks" hidden class="hoja-clip" style="--s:.567;width:min(340px,100%);min-height:472px;transform:rotate(-1deg)"><div class="fondo" aria-hidden="true"></div>
-      <div class="contenido tinta" style="padding:152px 12% 66px 16%"><p role="status" style="margin:0;font-size:34px;line-height:1.15;padding-top:6%">Gracias por dejarme tus palabras.</p></div>
+    <div id="msgThanks" hidden class="hoja-clip" style="--s:.4;width:min(340px,100%);min-height:330px;transform:rotate(-1deg)"><div class="fondo" aria-hidden="true"></div>
+      <div class="contenido tinta" style="padding:150px 12% 56px 16%"><p role="status" style="margin:0;font-size:34px;line-height:1.15;padding-top:6%">Gracias por dejarme tus palabras.</p></div>
     </div>
   </section>
 
@@ -191,6 +192,19 @@ a{color:#ffffff}a:hover{color:#e9edf9}
       </div>
     </div>
   </section>
+
+  <div id="lyricsFull" hidden role="dialog" aria-modal="true" aria-label="Letra en pantalla completa" style="position:fixed;top:0;left:0;right:0;height:100vh;height:100dvh;z-index:110;background:#12306a;color:#ffffff;overflow:hidden">
+    <video id="lyricsVideo" hidden loop muted playsinline aria-hidden="true" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover"></video>
+    <img id="lyricsPoster" hidden alt="" aria-hidden="true" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;filter:brightness(.7)">
+    <div aria-hidden="true" style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(18,48,106,.7) 0%,rgba(18,48,106,.55) 50%,rgba(18,48,106,.8) 100%)"></div>
+    <div style="position:relative;height:100%;box-sizing:border-box;display:flex;flex-direction:column">
+      <div style="flex:none;display:flex;align-items:center;gap:12px;padding:10px 16px 6px 20px">
+        <span style="flex:1;min-width:0;display:flex;flex-direction:column"><span class="mono js-now-title" style="font-size:19px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></span><span class="mono" style="font-size:12px;color:#e9edf9">Letra · Juana · Palabras</span></span>
+        <button type="button" id="closeLyrics" aria-label="Minimizar letra" style="flex:none;width:48px;height:48px;border-radius:50%;border:0;background:rgba(0,0,0,.3);color:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"></path></svg></button>
+      </div>
+      <div id="lyricsScroll" class="js-lyrics" aria-live="polite" style="flex:1;min-height:0;overflow:auto;padding:20px 24px calc(40px + env(safe-area-inset-bottom));font-family:'Architects Daughter','Patrick Hand',cursive;font-size:28px;line-height:1.4;text-shadow:0 1px 10px rgba(0,0,0,.5)"></div>
+    </div>
+  </div>
 
   <div id="fullscreen" hidden role="dialog" aria-modal="true" aria-label="Reproductor en pantalla completa" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:100;overflow:auto;background:#12306a;color:#ffffff">
     <video id="fullVideo" hidden loop muted playsinline aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover"></video>

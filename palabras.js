@@ -18,7 +18,7 @@
 
   const audio = new Audio();
   audio.preload = 'metadata';
-  const S = { current: -1, playing: false, listView: false, fullscreen: false };
+  const S = { current: -1, playing: false, listView: false, fullscreen: false, lyricsFull: false };
   const stanzas = (i) => (i >= 0 ? PALABRAS_TRACKS[i].lyrics.split('\n\n') : []);
 
   // ---- Lista de canciones ------------------------------------------------
@@ -65,12 +65,19 @@
     });
     renderNowLine();
   }
+  let lastIdx = -1;
   function renderNowLine() {
     const { st, idx } = activeStanza();
     const el = $('nowLine');
     if (el) el.textContent = st[idx] ? st[idx].split('\n')[0] : '';
     if (mobile && S.current >= 0) {
       $$('.js-lyrics').forEach((box) => [...box.children].forEach((p, i) => { p.style.opacity = i === idx ? 1 : 0.6; }));
+      // En la letra a pantalla completa la estrofa activa acompaña a la canción (sólo cuando cambia).
+      const big = $('lyricsScroll');
+      if (S.lyricsFull && big && big.children[idx] && idx !== lastIdx) {
+        big.children[idx].scrollIntoView({ block: 'center', behavior: lastIdx === -1 ? 'auto' : 'smooth' });
+      }
+      lastIdx = idx;
     }
   }
 
@@ -98,7 +105,8 @@
       $('viewIcon').setAttribute('d', S.listView ? VIDEO_ICON : LIST_ICON);
       const full = $('fullscreen');
       full.hidden = !(has && S.fullscreen);
-      document.body.style.overflow = has && S.fullscreen ? 'hidden' : '';
+      $('lyricsFull').hidden = !(has && S.lyricsFull);
+      document.body.style.overflow = has && (S.fullscreen || S.lyricsFull) ? 'hidden' : '';
     }
     renderMedia();
     renderLyrics();
@@ -109,7 +117,7 @@
     const t = S.current >= 0 ? PALABRAS_TRACKS[S.current] : null;
     const stars = $('visualStars');
     if (stars) stars.hidden = !!(t && (t.video || t.poster));
-    ['visual', 'full'].forEach((p) => {
+    ['visual', 'full', 'lyrics'].forEach((p) => {
       const video = $(p + 'Video'), poster = $(p + 'Poster');
       if (!video) return;
       const hasVideo = !!(t && t.video);
@@ -173,7 +181,18 @@
     }));
     const closeFull = () => { S.fullscreen = false; renderStatic(); if (opener) opener.focus(); };
     $('closeFull').addEventListener('click', closeFull);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.fullscreen) closeFull(); });
+    // Letra a pantalla completa: se abre tocando la tarjeta «Letras» y se minimiza con el ícono.
+    let lyricsOpener = null;
+    $$('.js-open-lyrics').forEach((el) => el.addEventListener('click', () => {
+      lyricsOpener = el.querySelector('button') || el;
+      lastIdx = -1; S.lyricsFull = true; renderStatic(); $('closeLyrics').focus();
+    }));
+    const closeLyrics = () => { S.lyricsFull = false; lastIdx = -1; renderStatic(); if (lyricsOpener) lyricsOpener.focus(); };
+    $('closeLyrics').addEventListener('click', closeLyrics);
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      if (S.lyricsFull) closeLyrics(); else if (S.fullscreen) closeFull();
+    });
   }
 
   // ---- Menú --------------------------------------------------------------
