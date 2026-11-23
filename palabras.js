@@ -99,14 +99,16 @@
       const full = $('fullscreen');
       full.hidden = !(has && S.fullscreen);
       document.body.style.overflow = has && S.fullscreen ? 'hidden' : '';
-      renderMedia();
     }
+    renderMedia();
     renderLyrics();
     renderTracks();
     renderPlayState();
   }
   function renderMedia() {
     const t = S.current >= 0 ? PALABRAS_TRACKS[S.current] : null;
+    const stars = $('visualStars');
+    if (stars) stars.hidden = !!(t && (t.video || t.poster));
     ['visual', 'full'].forEach((p) => {
       const video = $(p + 'Video'), poster = $(p + 'Poster');
       if (!video) return;
