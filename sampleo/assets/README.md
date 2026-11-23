@@ -1,7 +1,5 @@
 # Recursos del sampleo
 
-`est-animal.png`, `est-bailarin.png` y `est-cometa.png` son los dibujos originales del diseño, copiados de los assets locales existentes.
-
 `cuaderno-sin-renglones.png` fue generado con la herramienta integrada `image_gen`, usando el cuaderno adjunto como referencia. Prompt final:
 
 > Use case: product-mockup. Asset type: transparent website background for a live editable typography specimen. Use the supplied notebook image as a composition/material reference. Create one top-down portrait notebook page with rounded ivory textured paper, layered page edges, metal double-loop spiral binding along the LEFT edge. Portrait ratio close to 4:5. Fill the canvas with the notebook, only small transparent margins outside. Keep the entire paper face EMPTY: no horizontal ruling, no vertical margin lines, no grid, no handwriting, no words, no icons, no hearts, no cat, no stickers or doodles. Small subtle cobalt-blue paper tab on the right and small piece of blue washi tape at the top if fitting; all decorative accents restrained. Cream paper with realistic subtle grain, soft natural shadows, tactile collage aesthetic. Central 75% of page must be entirely blank for actual HTML text overlay. Background outside notebook fully transparent, no lavender backdrop. Keep the binding and blank-paper tactile look of reference, adapt pink accents to muted cobalt blue.

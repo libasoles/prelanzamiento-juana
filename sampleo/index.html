@@ -34,11 +34,7 @@ h1{font-family:"Juana Mano Suave",sans-serif;font-weight:normal;font-size:clamp(
 .f .postal{position:relative;isolation:isolate;width:min(100%,760px);margin:28px 0 8px;padding:clamp(70px,11vw,130px) clamp(28px,6vw,72px) clamp(40px,7vw,80px);transform:rotate(-1deg);color:#000}
 .f .postal::before{content:"";position:absolute;inset:0;z-index:0;background:url("../assets/home/papel-cinta-a.webp") 100% 100%/100% 100% no-repeat;filter:drop-shadow(0 14px 24px rgba(0,0,0,.35));pointer-events:none}
 .f .postal .s{margin:0;position:relative;z-index:2;color:#000;-webkit-text-fill-color:#000;opacity:1}
-.escena-cuaderno{position:relative;isolation:isolate;width:min(100%,1000px);margin:36px 0 12px;padding:36px clamp(24px,7vw,100px);background:#efeff5;border-radius:8px;overflow:hidden}
-.escena-cuaderno .dibujo{position:absolute;z-index:-1;pointer-events:none;width:clamp(110px,22%,220px);height:auto}
-.escena-cuaderno .bailarin{left:-36px;top:8px;transform:rotate(-18deg)}
-.escena-cuaderno .animal{right:-50px;top:32%;transform:rotate(14deg)}
-.escena-cuaderno .cometa{left:-50px;bottom:18px;width:clamp(150px,30%,300px);transform:rotate(-12deg)}
+.escena-cuaderno{position:relative;isolation:isolate;width:min(100%,1000px);margin:36px 0 12px;padding:36px clamp(24px,7vw,100px);overflow:hidden}
 .cuaderno{position:relative;isolation:isolate;width:100%;min-height:clamp(580px,80vw,1000px);padding:15% 11% 15% 16%;color:#1b2a4a;transform:rotate(1deg)}
 .cuaderno::before{content:"";position:absolute;inset:0;z-index:-1;background:url("assets/cuaderno-sin-renglones.png") center/100% 100% no-repeat;pointer-events:none}
 .f .cuaderno .s{position:relative;margin:0;color:#1b2a4a;-webkit-text-fill-color:#1b2a4a}
@@ -76,7 +72,7 @@ const ABC="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ\nabcdefghijklmnñopqrstuvwxyz\nÁÉÍÓ�
 const $=id=>document.getElementById(id), lista=$("lista"), txt=$("txt");
 const els=FUENTES.map(([fam,file,dir])=>{
   const s=document.createElement("section");s.className="f";
-  s.innerHTML=`<div class="n"><b></b><span>${file}· ${dir}/</span></div><p class="s glifos"></p><p class="s muestra"></p><div class="postal"><p class="s postal-t"></p></div><div class="escena-cuaderno"><img class="dibujo bailarin" src="assets/est-bailarin.png" alt="" aria-hidden="true"><img class="dibujo animal" src="assets/est-animal.png" alt="" aria-hidden="true"><img class="dibujo cometa" src="assets/est-cometa.png" alt="" aria-hidden="true"><div class="cuaderno"><p class="s cuaderno-t"></p></div></div>`;
+  s.innerHTML=`<div class="n"><b></b><span>${file}· ${dir}/</span></div><p class="s glifos"></p><p class="s muestra"></p><div class="postal"><p class="s postal-t"></p></div><div class="escena-cuaderno"><div class="cuaderno"><p class="s cuaderno-t"></p></div></div>`;
   s.querySelector("b").textContent=fam;
   const a=s.querySelector(".muestra"), p=s.querySelector(".postal-t"), g=s.querySelector(".glifos"), c=s.querySelector(".cuaderno-t");
   a.style.fontFamily=g.style.fontFamily=p.style.fontFamily=c.style.fontFamily=`"${fam}",sans-serif`;
