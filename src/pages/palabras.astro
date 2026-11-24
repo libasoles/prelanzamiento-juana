@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import Lock from '../components/palabras/Lock.astro';
+import Hero from '../components/palabras/Hero.astro';
+import Escribir from '../components/palabras/Escribir.astro';
+import Player from '../components/palabras/Player.astro';
+import Mensaje from '../components/palabras/Mensaje.astro';
+import Letra from '../components/palabras/Letra.astro';
+import Proceso from '../components/palabras/Proceso.astro';
+import '../styles/palabras.css';
+
+const title = 'Palabras — el primer disco de Juana Cabrera';
+const description =
+  'Palabras, el primer disco de Juana Cabrera: cómo se hizo, quiénes participaron y las canciones con sus letras. Pedí tu código para escucharlo.';
+---
+
+<Base
+  title={title}
+  description={description}
+  path="/palabras"
+  ogImage="/brand/og-palabras.jpg"
+  ogImageAlt="Retrato de Juana en azul y blanco con su nombre y el título Palabras"
+  ogType="music.album"
+  noindex
+  background="#2154aa"
+>
+  <!-- Antes del primer paint: lee la sesión y marca si se muestra la lock o la pantalla desbloqueada. -->
+  <script is:inline slot="head">
+    (function () {
+      var d = document.documentElement;
+      d.dataset.auth = 'out';
+      try {
+        if (/[?&]token=/.test(location.search)) return;
+        var t = localStorage.getItem('juana.session');
+        var p = t && JSON.parse(atob(t.split('.')[0].replace(/-/g, '+').replace(/_/g, '/')));
+        if (p && typeof p.exp === 'number' && p.exp > Date.now()) d.dataset.auth = 'in';
+      } catch (e) {}
+    })();
+  </script>
+
+  <div class="pl-page">
+    <Lock />
+    <div class="pl-unlocked">
+      <div class="pl-top pl-textura">
+        <Hero />
+        <Escribir />
+      </div>
+      <Player />
+      <Mensaje />
+      <Letra />
+      <Proceso />
+    </div>
+  </div>
+
+  <script>
+    import '../scripts/palabras-page';
+  </script>
+</Base>
+
+<style is:global>
+  .pl-unlocked {
+    background: #2154aa;
+    color: #ffffff;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    overflow: hidden;
+    position: relative;
+  }
+  /* En mobile la textura sólo cubre el hero; en desktop cubre hero + «escribir». */
+  @media (max-width: 767.98px) {
+    .pl-top.pl-textura { background: none; }
+  }
+
+  @media (min-width: 768px) {
+    .pl-unlocked { min-height: 100vh; font-size: 19px; }
+  }
+</style>

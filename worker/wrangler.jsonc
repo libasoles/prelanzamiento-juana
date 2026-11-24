@@ -1,0 +1,17 @@
+{
+  "name": "juana-auth",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-01",
+  "kv_namespaces": [
+    { "binding": "MAGIC_LINKS", "id": "13cb9bb8b9e84c4d995b84d703db7e40" }
+  ],
+  "vars": {
+    // Origen del sitio: se usa para CORS y para armar el link del mail.
+    "SITE_URL": "https://darling-frangollo-d47318.netlify.app",
+    // Remitente: tiene que ser un dominio verificado en Resend.
+    "MAIL_FROM": "Juana Cabrera <palabras@send.juanacabrera.com.ar>",
+    // Códigos de postal válidos (placeholder, igual que VALID_CODES en app.js).
+    "CODES": "JUANA,PALAB"
+  }
+  // Secrets (wrangler secret put): RESEND_API_KEY, SESSION_SECRET
+}

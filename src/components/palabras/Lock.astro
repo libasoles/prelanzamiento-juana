@@ -1,0 +1,240 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../../assets/home/logo-juana.png';
+import tapa from '../../assets/palabras/tapa-palabras.jpg';
+import cinta from '../../assets/palabras/cinta.png';
+import estrella from '../../assets/home/estrella-blanca-a.webp';
+---
+
+<div class="pl-lock pl-textura">
+  <div class="lock-in">
+    <header class="lock-head">
+      <a href="/" aria-label="Volver a la home de Juana Cabrera" class="lock-logo">
+        <Image src={logo} alt="Juana Cabrera" width={168} height={56} loading="eager" />
+      </a>
+    </header>
+    <main class="lock-main">
+    <div class="lock-cover">
+      <Image
+        class="lock-tapa"
+        src={tapa}
+        alt="Tapa del disco Palabras"
+        width={1200}
+        height={1200}
+        widths={[360, 600, 1200]}
+        sizes="(min-width: 768px) 600px, 100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <Image class="lock-cinta lock-cinta-cover" src={cinta} alt="" aria-hidden="true" width={208} height={100} loading="eager" />
+    </div>
+    <div class="lock-side">
+    <h1 class="lock-title">
+      <span class="lock-title-1">Cómo viene</span>
+      <span class="lock-title-2">mi primer disco</span>
+    </h1>
+    <p class="lock-lead">
+      <Image class="lock-star" src={estrella} alt="" aria-hidden="true" width={44} height={44} loading="eager" />
+      <span>Escribí el código que viene en tu postal para entrar.</span>
+    </p>
+    <form id="lockForm" class="lock-form" novalidate>
+      <Image class="lock-cinta lock-cinta-form" src={cinta} alt="" aria-hidden="true" width={176} height={92} loading="eager" />
+      <svg class="lock-cinta-svg" aria-hidden="true" viewBox="0 0 300 64" preserveAspectRatio="none">
+        <defs>
+          <clipPath id="cinta-r"><polygon points="3,10 0,22 5,34 0,46 4,58 297,52 300,40 295,28 300,16 296,4"></polygon></clipPath>
+        </defs>
+        <g clip-path="url(#cinta-r)">
+          <rect width="300" height="64" fill="#d3bc8e"></rect>
+          <polygon points="0,26 300,18 300,34 0,42" fill="#cbb084"></polygon>
+          <polygon points="0,42 300,34 300,64 0,64" fill="#bea070"></polygon>
+        </g>
+      </svg>
+      <label for="codigo" class="lock-label">Código</label>
+      <input id="codigo" name="codigo" class="lock-input lock-input-code" autocomplete="one-time-code" placeholder="Tu código" />
+      <label for="email" class="lock-label">Tu email</label>
+      <input id="email" name="email" class="lock-input" type="email" autocomplete="email" placeholder="nombre@email.com" />
+      <label for="novedades" class="lock-check">
+        <input id="novedades" name="novedades" type="checkbox" checked />
+        <span>Quiero recibir novedades de Juana</span>
+      </label>
+      <button type="submit" class="lock-submit">Entrar</button>
+      <p id="lockStatus" class="lock-status" role="status" aria-live="polite"></p>
+    </form>
+    </div>
+    </main>
+  </div>
+</div>
+
+<style is:global>
+  /* Mobile primero. */
+  .pl-lock {
+    min-height: 100vh;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.5;
+    color: #ffffff;
+    overflow: hidden;
+  }
+  .lock-in {
+    min-height: 100vh;
+    box-sizing: border-box;
+    background: rgba(33, 84, 170, 0.84);
+    padding: 14px 20px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .lock-head { display: flex; align-items: center; justify-content: space-between; }
+  .lock-logo { line-height: 0; }
+  .lock-logo img { height: 44px; width: auto; }
+
+  .lock-cover { position: relative; margin: 10px -10px 8px; transform: rotate(-2deg); }
+  .lock-tapa {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 8px solid #ffffff;
+    box-sizing: border-box;
+    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.35);
+  }
+  .lock-cinta {
+    position: absolute;
+    object-fit: cover;
+    opacity: 0.9;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  .lock-cinta-cover { right: -2px; top: -12px; width: 70px; height: 34px; transform: rotate(40deg); }
+
+  .lock-title {
+    margin: 22px 0 0;
+    font-family: 'Juana Mano Suave', 'Covered By Your Grace', cursive;
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .lock-title span { display: block; }
+  .lock-title-1 {
+    text-transform: none;
+    font-family: 'Juana Mano Suave LC', 'Juana Mano Suave', cursive;
+    font-feature-settings: 'calt' 0;
+    font-variant-ligatures: none;
+  }
+  .lock-lead { margin: 0; color: #e9edf9; display: flex; align-items: flex-start; gap: 10px; }
+  .lock-star { width: 22px; height: 22px; object-fit: contain; flex: none; margin-top: 2px; }
+
+  .lock-form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #ffffff;
+    color: #12306a;
+    padding: 22px 18px;
+    margin-top: 6px;
+    transform: rotate(-1deg);
+  }
+  .lock-cinta-form { left: 26px; top: -16px; width: 54px; height: 30px; transform: rotate(-7deg); }
+  .lock-cinta-svg {
+    position: absolute;
+    right: 26px;
+    top: -12px;
+    width: 88px;
+    height: 23px;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+    transform: rotate(5deg);
+  }
+  .lock-label {
+    font-family: 'Special Elite', 'Courier Prime', monospace;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.2;
+    margin-bottom: -6px;
+  }
+  .lock-input {
+    font: 400 20px 'Courier Prime', monospace;
+    padding: 12px 14px;
+    border: 2px solid #2154aa;
+    color: #12306a;
+  }
+  .lock-input-code { font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+  .lock-input::placeholder {
+    font-family: 'Courier Prime', monospace;
+    font-weight: 400;
+    color: #5b6f9c;
+    opacity: 1;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .lock-check {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    font-family: 'Special Elite', 'Courier Prime', monospace;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+  .lock-check input { flex: none; width: 22px; height: 22px; margin: 0; accent-color: #2154aa; }
+  .lock-submit {
+    min-height: 54px;
+    border: 0;
+    background: #2154aa;
+    color: #ffffff;
+    font: 600 18px 'Instrument Sans', sans-serif;
+    margin-top: 2px;
+    cursor: pointer;
+  }
+  .lock-submit:disabled { opacity: 0.6; cursor: default; }
+  /* Estados nuevos (no están en el artifact de diseño): texto mínimo con la tipografía del formulario. */
+  .lock-status {
+    margin: 0;
+    min-height: 0;
+    font-family: 'Special Elite', 'Courier Prime', monospace;
+    font-size: 15px;
+    line-height: 1.3;
+    color: #12306a;
+  }
+  .lock-status:empty { display: none; }
+  .lock-status[data-state='error'] { color: #b8332b; }
+
+  /* En mobile main y side no generan caja: todo se apila en .lock-in. */
+  .lock-main,
+  .lock-side { display: contents; }
+
+  @media (min-width: 768px) {
+    .pl-lock { font-size: 19px; line-height: 1.6; }
+    .lock-in { padding: 0 clamp(24px, 5.5vw, 80px); gap: 0; }
+    .lock-head { padding: 28px 0; }
+    .lock-logo img { height: 56px; }
+    .lock-main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 24px;
+      align-items: center;
+      padding: 12px 0 48px;
+    }
+    .lock-cover { grid-column: 1 / span 6; margin: 0; justify-self: center; width: min(100%, 600px); transform: none; }
+    .lock-tapa { border-width: 14px; transform: rotate(-3deg); box-shadow: 0 28px 50px rgba(0, 0, 0, 0.4); }
+    .lock-cinta-cover { right: -24px; top: -20px; width: 104px; height: 50px; }
+    .lock-side { grid-column: 8 / span 5; display: flex; flex-direction: column; gap: 22px; }
+    .lock-title { margin: 0; font-size: clamp(40px, 4.4vw, 60px); }
+    .lock-lead { font-size: 21px; }
+    .lock-star { margin-top: 6px; }
+    .lock-form { padding: 30px 28px; margin-top: 10px; }
+    .lock-cinta-form { left: 44px; top: -24px; width: 88px; height: 46px; }
+    .lock-cinta-svg { right: 44px; top: -16px; width: 120px; height: 31px; }
+    .lock-label { font-size: 22px; }
+    .lock-input { font-size: 22px; padding: 14px 16px; }
+    .lock-input-code { letter-spacing: 4px; }
+    .lock-check { font-size: 20px; }
+    .lock-submit { min-height: 56px; font-size: 19px; margin-top: 4px; }
+    .lock-status { font-size: 17px; }
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import instagram from '../../assets/home/icon-instagram.png';
+import youtube from '../../assets/home/icon-youtube.png';
+import mail from '../../assets/home/icon-mail.png';
+
+interface Props {
+  /** "hero" (bajo el título) o "footer" (contacto). Cambia solo las medidas. */
+  variant: 'hero' | 'footer';
+  mailHref: string;
+}
+const { variant, mailHref } = Astro.props;
+---
+
+<div class={`social social--${variant}`}>
+  <a class="icon-link social__a social__a--ig" href="https://www.instagram.com/juanacabrera__/" target="_blank" rel="noopener" aria-label="Instagram de Juana">
+    <Image src={instagram} alt="" widths={[64, 128]} sizes="64px" format="webp" loading="lazy" />
+  </a>
+  <a class="icon-link social__a social__a--yt" href="https://www.youtube.com/@JuanaBalegno" target="_blank" rel="noopener" aria-label="YouTube de Juana">
+    <Image src={youtube} alt="" widths={[64, 128]} sizes="64px" format="webp" loading="lazy" />
+  </a>
+  <a class="icon-link social__a social__a--mail" href={mailHref} aria-label="Escribir a prensa y contrataciones">
+    <Image src={mail} alt="" widths={[64, 128]} sizes="64px" format="webp" loading="lazy" />
+  </a>
+</div>
+
+<style is:global>
+  .social { display: flex; align-items: center; }
+  .social--hero { justify-content: center; gap: 0; }
+  .social--hero .social__a { height: 52px; width: 60px; }
+  .social--hero .social__a--ig { width: 52px; }
+  .social--hero .social__a--ig img { height: 38px; }
+  .social--hero .social__a--yt img { height: 36px; }
+  .social--hero .social__a--mail img { height: 32px; }
+
+  .social--footer { gap: 0; margin-left: -6px; }
+  .social--footer .social__a { height: 44px; width: 42px; }
+  .social--footer .social__a--ig { width: 40px; }
+  .social--footer .social__a--ig img { height: 28px; }
+  .social--footer .social__a--yt img { height: 26px; }
+  .social--footer .social__a--mail img { height: 24px; }
+
+  @media (min-width: 768px) {
+    .social--hero { gap: 8px; }
+    .social--hero .social__a { height: 56px; width: 68px; }
+    .social--hero .social__a--ig { width: 60px; }
+    .social--hero .social__a--ig img { height: 42px; }
+    .social--hero .social__a--yt img { height: 40px; }
+    .social--hero .social__a--mail img { height: 36px; }
+
+    .social--footer { gap: 16px; }
+    .social--footer .social__a, .social--footer .social__a--ig { height: 48px; width: 48px; }
+    .social--footer .social__a--ig img { height: 32px; }
+    .social--footer .social__a--yt img { height: 30px; }
+    .social--footer .social__a--mail img { height: 28px; }
+  }
+</style>

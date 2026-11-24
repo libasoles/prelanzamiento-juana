@@ -4,3 +4,10 @@ web-pngs/
 AGENTS.md
 docs/
 .claude/
+node_modules/
+dist/
+.astro/
+test-results/
+playwright-report/
+lighthouse-report/
+worker/.wrangler/
