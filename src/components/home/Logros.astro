@@ -1,0 +1,92 @@
+---
+import { Picture } from 'astro:assets';
+import collage from '../../assets/home/collage-escena.jpg';
+import polaroid from '../../assets/home/origamix-polaroid-a.webp';
+
+const items = [
+  ['Musical', 'School of Rock:', ' más de 20 funciones en una temporada.'],
+  ['Colaboración musical', 'Magdalena Fleitas:', ' voz y coros en el álbum “Risas del Rock”.'],
+  ['Proyecto musical', 'Origamix:', ' voz principal femenina.'],
+];
+---
+
+<section class="logros">
+  <div class="logros__grid">
+    <div class="logros__collage">
+      <div class="logros__marco">
+        <Picture
+          src={collage}
+          alt="Collage de escenas de School of Rock en el Teatro Gran Rex"
+          formats={['avif', 'webp']}
+          fallbackFormat="jpg"
+          widths={[300, 500, 700, 1000]}
+          sizes="(min-width: 768px) 700px, 250px"
+          loading="lazy"
+        />
+      </div>
+    </div>
+    <div class="logros__polaroid">
+      <Picture
+        src={polaroid}
+        alt="Origamix en el escenario, en una polaroid"
+        formats={['avif', 'webp']}
+        fallbackFormat="webp"
+        widths={[300, 500, 700, 1000]}
+        sizes="(min-width: 768px) 520px, 275px"
+        loading="lazy"
+      />
+    </div>
+    <div class="papel logros__card">
+      {items.map(([titulo, fuerte, resto], i) => (
+        <div>
+          <h3 class="maq-t logros__titulo">{titulo}</h3>
+          <p class="maq logros__texto">
+            <span><strong>{fuerte}</strong>{resto}</span>
+            {i === 2 && (
+              <svg class="logros__icono" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h16V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z" fill="#2154aa"></path><path d="M3.3 4.7l17.2-1.7.5 3.6L3.8 8.3z" fill="#2154aa"></path><path d="M7.2 4.2l2.4 3.4M12.2 3.7l2.4 3.4M17.2 3.2l2.2 3.2" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"></path></svg>
+            )}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .logros { position: relative; padding: 44px var(--gutter) 56px; }
+  .logros__grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 560px auto; }
+  .logros__collage { grid-area: 1 / 1; position: relative; width: 76%; align-self: start; }
+  .logros__marco { background: #fff; padding: 10px; transform: rotate(3deg); box-shadow: 0 16px 30px rgba(0,0,0,.6); }
+  .logros__marco img { width: 100%; display: block; }
+  .logros__collage::before {
+    content: ''; position: absolute; z-index: 2; left: 39.5%; top: -16px; width: 110px; height: 34px;
+    transform: rotate(-6deg); background: var(--cinta-bg); clip-path: var(--cinta-clip);
+  }
+  .logros__polaroid {
+    grid-area: 1 / 1; position: relative; justify-self: end; align-self: start;
+    width: 78%; margin: 330px -10px 0 0; transform: rotate(-4deg);
+  }
+  .logros__polaroid img { width: 100%; display: block; filter: drop-shadow(0 16px 24px rgba(0,0,0,.6)); }
+  .logros__card {
+    grid-area: 2 / 1; margin-top: 36px; padding: 150px 38px 56px; transform: rotate(-1.5deg);
+    display: flex; flex-direction: column; gap: 22px;
+  }
+  .logros__titulo { font-size: 26px; line-height: 1.1; color: #2154aa; text-decoration: underline; text-underline-offset: 5px; }
+  .logros__texto { margin-top: 6px; font-size: 16px; line-height: 1.45; }
+  .logros__icono { width: 30px; height: 30px; vertical-align: -8px; margin-left: 4px; }
+
+  @media (min-width: 768px) {
+    .logros { padding: 80px var(--gutter) 0; }
+    .logros__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: none; gap: 24px; align-items: center; }
+    .logros__collage { grid-area: auto; grid-column: 1 / span 7; grid-row: 1 / span 2; width: auto; align-self: center; }
+    .logros__marco { padding: 12px; transform: rotate(-2deg); }
+    .logros__collage::before { left: 42%; top: -18px; width: 130px; height: 38px; transform: rotate(-5deg); }
+    .logros__polaroid { grid-area: auto; grid-column: 8 / span 5; grid-row: 2; width: auto; margin: 0; justify-self: stretch; transform: rotate(3deg); }
+    .logros__polaroid::after {
+      content: ''; position: absolute; right: 40px; top: -24px; width: 64px; aspect-ratio: 600 / 834;
+      background: url('../../assets/home/clip-papel-c.webp') center / contain no-repeat; transform: rotate(-12deg);
+    }
+    .logros__card { grid-area: auto; grid-column: 8 / span 5; grid-row: 1; margin-top: 0; padding: 140px 44px 56px; gap: 24px; }
+    .logros__icono { width: 28px; height: 28px; vertical-align: -7px; }
+  }
+</style>

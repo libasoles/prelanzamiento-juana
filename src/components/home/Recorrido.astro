@@ -1,0 +1,82 @@
+---
+import { Image } from 'astro:assets';
+import trazos from '../../assets/home/trazos-a.webp';
+import hoja from '../../assets/home/hoja-cuaderno.webp';
+
+const hojas = [
+  {
+    espejada: false,
+    hitos: [
+      ['Primeros pasos', '2014 · 8 años (a confirmar)', 'Canté, bailé y actué en distintas academias.'],
+      ['Risas del rock', '2015 · x años', 'Participé con mi voz y coros en el álbum de Magdalena Fleitas.'],
+      ['Formación en Otro Mundo', '2020 · x años', 'Me formé en la escuela de música Otro Mundo.'],
+    ],
+  },
+  {
+    espejada: true,
+    hitos: [
+      ['School of Rock', '2023 · x años', 'Actué en el musical en el Teatro Gran Rex.'],
+      ['Origamix', '2025 · x años', 'Canté en el streaming de Gelatina y colaboré con Feli Colina y Eruca Sativa. El programa recibió una nominación a los Martín Fierro de Streaming.'],
+      ['Artista invitada', '2026 · x años', 'ANA PRADA'],
+    ],
+  },
+];
+---
+
+<div class="recorrido" id="recorrido">
+  <h2 class="recorrido__titulo">Mi recorrido</h2>
+  <Image class="recorrido__trazos" src={trazos} alt="" widths={[240, 320, 480, 640]} sizes="(min-width: 768px) 320px, 240px" format="webp" loading="lazy" />
+  {hojas.map((h) => (
+    <div class:list={['hoja', h.espejada ? 'hoja--der' : 'hoja--izq']}>
+      <Image class="hoja__fondo" src={hoja} alt="" widths={[350, 520, 760]} sizes="(min-width: 768px) 460px, 350px" format="webp" loading="lazy" style={h.espejada ? 'transform:scaleX(-1)' : undefined} />
+      <ol class="hoja__lista">
+        {h.hitos.map(([titulo, fecha, texto]) => (
+          <li class="hito">
+            <h3 class="hito__titulo maq-t">{titulo}</h3>
+            <p class="hito__fecha maq">{fecha}</p>
+            <p class="hito__texto maq">{texto}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  ))}
+</div>
+
+<style is:global>
+  .recorrido { display: flex; flex-direction: column; padding-top: 88px; }
+  .recorrido__titulo { font-family: var(--mano-lc); font-weight: 400; font-size: 52px; line-height: 1; }
+  .recorrido__trazos { width: 240px; height: 26px; object-fit: cover; object-position: top; margin: 6px 0 0; display: block; }
+
+  .hoja {
+    position: relative; isolation: isolate; box-sizing: border-box; display: flex;
+    width: 100%; max-width: 350px;
+  }
+  .hoja--izq { align-self: flex-start; margin-top: 2px; transform: rotate(-1deg); }
+  .hoja--der { align-self: flex-end; margin-top: -6px; transform: rotate(1deg); }
+  .hoja__fondo {
+    position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: -1;
+    filter: drop-shadow(0 14px 22px rgba(0,0,0,.7));
+  }
+  .hoja__lista {
+    position: relative; z-index: 1; flex: 1; min-width: 0; margin: 0; list-style: none;
+    display: flex; flex-direction: column; box-sizing: border-box; gap: 22px; padding: 13% 8% 11% 20%;
+  }
+  .hoja--der .hoja__lista { padding: 13% 20% 11% 8%; }
+  .hito { display: flex; flex-direction: column; gap: 4px; }
+  .hito__titulo { font-size: 23px; line-height: 1.15; color: #2154aa; }
+  .hito__fecha { font-size: 14px; line-height: 1.4; color: #3a3a3a; }
+  .hito__texto { margin-top: 2px; font-size: 15px; line-height: 1.5; color: #1a1a1a; }
+
+  @media (min-width: 768px) {
+    .recorrido { grid-column: 7 / span 6; padding-top: 24px; }
+    .recorrido__titulo { font-size: 60px; }
+    .recorrido__trazos { width: 320px; height: 32px; }
+    .hoja { width: 460px; max-width: 100%; }
+    .hoja--izq { margin-top: -16px; transform: rotate(-1.2deg); }
+    .hoja--der { margin-top: -10px; transform: rotate(1.2deg); }
+    .hoja__lista { gap: 26px; }
+    .hito__titulo { font-size: 29px; }
+    .hito__fecha { font-size: 17px; }
+    .hito__texto { font-size: 18px; }
+  }
+</style>

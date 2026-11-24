@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/home.css';
+import Hero from '../components/home/Hero.astro';
+import Intro from '../components/home/Intro.astro';
+import Bio from '../components/home/Bio.astro';
+import Logros from '../components/home/Logros.astro';
+import Canciones from '../components/home/Canciones.astro';
+import Videos from '../components/home/Videos.astro';
+import PalabrasBanner from '../components/home/PalabrasBanner.astro';
+import Contacto from '../components/home/Contacto.astro';
+import { origamix, anaPrada } from '../components/home/videos-data';
+
+const title = 'Juana Cabrera — Intérprete y compositora';
+const description =
+  'Sitio oficial de Juana Cabrera, intérprete y compositora. Mirá videos de sus shows y conocé Palabras, su primer disco.';
+const site = 'https://juanacabrera.com.ar';
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${site}/#juana`,
+    name: 'Juana Cabrera',
+    url: `${site}/`,
+    image: `${site}/brand/og-image.png`,
+    description,
+    jobTitle: 'Intérprete, compositora y actriz',
+    sameAs: ['https://www.instagram.com/juanacabrera__/', 'https://www.youtube.com/@JuanaBalegno'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: origamix.title,
+    description: origamix.description,
+    thumbnailUrl: origamix.thumbnail,
+    embedUrl: origamix.embedUrl,
+    url: origamix.watchUrl,
+    author: { '@id': `${site}/#juana` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: anaPrada.title,
+    description: anaPrada.description,
+    thumbnailUrl: `${site}/brand/og-image.png`,
+    url: anaPrada.url,
+    author: { '@id': `${site}/#juana` },
+  },
+];
+---
+
+<Base
+  title={title}
+  description={description}
+  path="/"
+  ogImage="/brand/og-image.png"
+  ogImageAlt="Juana Cabrera frente a un marco azul sobre fondo negro"
+  jsonLd={jsonLd}
+>
+  <main class="home">
+    <Hero />
+    <Intro />
+    <Bio />
+    <Logros />
+    <Canciones />
+    <Videos />
+    <PalabrasBanner />
+    <Contacto />
+  </main>
+</Base>

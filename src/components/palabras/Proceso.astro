@@ -1,0 +1,60 @@
+---
+import { Image } from 'astro:assets';
+import deco1 from '../../assets/palabras/proceso/deco-1.webp';
+import deco2 from '../../assets/palabras/proceso/deco-2.webp';
+import deco3 from '../../assets/palabras/proceso/deco-3.webp';
+import deco4 from '../../assets/palabras/proceso/deco-4.webp';
+import deco5 from '../../assets/palabras/proceso/deco-5.webp';
+import deco6 from '../../assets/palabras/proceso/deco-6.webp';
+import cuadernoluciernagas from '../../assets/palabras/proceso/cuaderno-luciernagas.webp';
+import papelhojasguardaditas from '../../assets/palabras/proceso/papel-hojas-guardaditas.webp';
+import hojaaladeriva from '../../assets/palabras/proceso/hoja-a-la-deriva.webp';
+import notaspalabras from '../../assets/palabras/proceso/notas-palabras.webp';
+---
+
+<section id="proceso" aria-label="Bocetos de letras" class="proceso">
+  <div class="proceso-stage">
+    <Image class="proceso-img proceso-deco-1" src={deco1} alt="" aria-hidden="true" width={350} height={380} loading="lazy" />
+    <Image class="proceso-img proceso-deco-2" src={deco2} alt="" aria-hidden="true" width={490} height={470} loading="lazy" />
+    <Image class="proceso-img proceso-deco-3" src={deco3} alt="" aria-hidden="true" width={200} height={270} loading="lazy" />
+    <Image class="proceso-img proceso-deco-4" src={deco4} alt="" aria-hidden="true" width={430} height={330} loading="lazy" />
+    <Image class="proceso-img proceso-deco-5" src={deco5} alt="" aria-hidden="true" width={700} height={430} loading="lazy" />
+    <Image class="proceso-img proceso-deco-6" src={deco6} alt="" aria-hidden="true" width={450} height={310} loading="lazy" />
+    <Image class="proceso-img proceso-cuaderno-luciernagas" src={cuadernoluciernagas} alt="Cuaderno anillado con la letra de Luciérnagas escrita a mano" width={726} height={1000} loading="lazy" />
+    <Image class="proceso-img proceso-papel-hojas-guardaditas" src={papelhojasguardaditas} alt="Papel con cinta con la letra de Hojas guardaditas" width={951} height={1000} loading="lazy" />
+    <Image class="proceso-img proceso-hoja-a-la-deriva" src={hojaaladeriva} alt="Hoja de cuaderno con la letra de A la deriva" width={1000} height={563} loading="lazy" />
+    <Image class="proceso-img proceso-notas-palabras" src={notaspalabras} alt="Notas con clip con un fragmento de la letra de Palabras" width={744} height={1000} loading="lazy" />
+  </div>
+</section>
+
+<style is:global>
+  /* Collage: cada pieza se ubica con coordenadas sobre un escenario de 390px (mobile) o 1440px (desktop), centrado. */
+  .proceso { background: #ffffff; height: 920px; position: relative; overflow: hidden; }
+  .proceso-stage { position: absolute; left: 50%; top: 0; width: 390px; height: 920px; margin-left: -195px; }
+  .proceso-img { position: absolute; height: auto; }
+  .proceso-deco-1 { left: 280px; top: 300px; width: 100px; transform: rotate(6deg); }
+  .proceso-deco-2 { left: -10px; top: 520px; width: 120px; transform: rotate(-3deg); }
+  .proceso-deco-3 { left: 24px; top: 690px; width: 60px; transform: rotate(-8deg); }
+  .proceso-deco-4 { left: 236px; top: 790px; width: 130px; transform: rotate(-4deg); }
+  .proceso-deco-5 { display: none; }
+  .proceso-deco-6 { left: 0px; top: 760px; width: 120px; transform: rotate(-3deg); }
+  .proceso-cuaderno-luciernagas { left: 12px; top: 36px; width: 232px; transform: rotate(-4deg); filter: drop-shadow(0 12px 16px rgba(0, 10, 40, 0.35)); }
+  .proceso-papel-hojas-guardaditas { left: 170px; top: 80px; width: 204px; transform: rotate(4deg); filter: drop-shadow(0 12px 16px rgba(0, 10, 40, 0.35)); }
+  .proceso-hoja-a-la-deriva { left: 24px; top: 330px; width: 342px; transform: rotate(-4deg); filter: drop-shadow(0 10px 14px rgba(0, 10, 40, 0.35)); }
+  .proceso-notas-palabras { left: 110px; top: 470px; width: 262px; transform: rotate(3deg); filter: drop-shadow(0 12px 16px rgba(0, 10, 40, 0.35)); }
+
+  @media (min-width: 768px) {
+    .proceso { height: 1000px; }
+    .proceso-stage { width: 1440px; height: 1000px; margin-left: -720px; }
+    .proceso-deco-1 { display: block; left: 1090px; top: 330px; width: 230px; transform: rotate(6deg); }
+    .proceso-deco-2 { display: block; left: 40px; top: 600px; width: 400px; transform: rotate(-3deg); }
+    .proceso-deco-3 { display: block; left: 540px; top: 520px; width: 120px; transform: rotate(-8deg); }
+    .proceso-deco-4 { display: block; left: 1080px; top: 600px; width: 290px; transform: rotate(-4deg); }
+    .proceso-deco-5 { display: block; left: 960px; top: 790px; width: 300px; transform: rotate(3deg); }
+    .proceso-deco-6 { display: block; left: 470px; top: 790px; width: 250px; transform: rotate(-3deg); }
+    .proceso-cuaderno-luciernagas { left: 150px; top: 50px; width: 470px; transform: rotate(-4deg); filter: drop-shadow(0 18px 24px rgba(0, 10, 40, 0.35)); }
+    .proceso-papel-hojas-guardaditas { left: 520px; top: 40px; width: 440px; transform: rotate(3deg); filter: drop-shadow(0 18px 24px rgba(0, 10, 40, 0.35)); }
+    .proceso-hoja-a-la-deriva { left: 870px; top: 110px; width: 460px; transform: rotate(-5deg); filter: drop-shadow(0 14px 20px rgba(0, 10, 40, 0.35)); }
+    .proceso-notas-palabras { left: 620px; top: 340px; width: 460px; transform: rotate(-3deg); filter: drop-shadow(0 18px 24px rgba(0, 10, 40, 0.35)); }
+  }
+</style>

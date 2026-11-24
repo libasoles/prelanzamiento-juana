@@ -1,0 +1,130 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../../assets/home/logo-juana.png';
+import tapa from '../../assets/palabras/tapa-palabras.jpg';
+import cinta from '../../assets/palabras/cinta.png';
+---
+
+<section class="hero pl-textura">
+  <div class="hero-in">
+    <header class="hero-head">
+      <a href="/" aria-label="Volver a la home de Juana Cabrera" class="hero-logo">
+        <Image src={logo} alt="Juana Cabrera" width={312} height={104} loading="lazy" />
+      </a>
+      <button type="button" id="menuBtn" class="hero-menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8c5-1 11 1 16 0M4 16c5 1 11-1 16 0"></path></svg>
+      </button>
+      <nav id="menu" class="hero-menu" hidden aria-label="Secciones">
+        <a class="menu-link mano" href="#escribir">Escribime</a>
+        <a class="menu-link mano" href="#canciones">Las canciones</a>
+        <a class="menu-link mano" href="#proceso">Bocetos de letras</a>
+      </nav>
+    </header>
+    <div class="hero-body">
+      <h1 class="sr">Palabras, mi primer disco</h1>
+      <div class="hero-cover">
+        <div class="hero-tilt">
+          <Image class="hero-tapa" src={tapa} alt="Tapa del disco Palabras" width={820} height={820} loading="lazy" />
+          <Image class="hero-cinta" src={cinta} alt="" aria-hidden="true" width={140} height={68} loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .hero-in {
+    background: rgba(33, 84, 170, 0.8);
+    box-sizing: border-box;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px 40px;
+  }
+  .hero-head { position: relative; z-index: 40; display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+  .hero-logo { line-height: 0; }
+  .hero-logo img { height: 40px; width: auto; }
+  .hero-menu-btn {
+    width: 48px;
+    height: 48px;
+    border: 2px solid #ffffff;
+    background: transparent;
+    color: #ffffff;
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .hero-menu {
+    position: absolute;
+    right: 0;
+    top: 66px;
+    min-width: 260px;
+    background: #12306a;
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 18px 30px rgba(0, 10, 40, 0.35);
+  }
+  .menu-link {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    padding: 0 24px;
+    text-decoration: none;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .hero-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: calc(20vh - 36px);
+    padding-top: calc(20svh - 36px);
+  }
+  .hero-cover { position: relative; width: 100%; max-width: 360px; }
+  .hero-tilt { position: relative; transform: rotate(-2deg); }
+  .hero-tapa {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 8px solid #ffffff;
+    box-sizing: border-box;
+    box-shadow: 0 18px 30px rgba(0, 0, 0, 0.35);
+  }
+  .hero-cinta {
+    position: absolute;
+    right: -2px;
+    top: -12px;
+    width: 70px;
+    height: 34px;
+    object-fit: cover;
+    opacity: 0.9;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    transform: rotate(40deg);
+  }
+
+  @media (min-width: 768px) {
+    /* En desktop la textura cubre hero + «escribir» (la pone .top-wrap). */
+    .hero.pl-textura { background: none; }
+    .hero-in {
+      background: rgba(33, 84, 170, 0.8);
+      min-height: 100vh;
+      padding: 0 clamp(24px, 5.5vw, 80px) 48px;
+    }
+    .hero-head { padding: 28px 0; }
+    .hero-logo img { height: 52px; }
+    .hero-menu { top: 84px; min-width: 340px; padding: 12px 0; box-shadow: 0 24px 40px rgba(0, 10, 40, 0.35); }
+    .menu-link { min-height: 60px; padding: 0 32px; font-size: 28px; }
+    .hero-body { padding-top: 0; }
+    .hero-cover { flex: 0 1 clamp(380px, calc(100vh - 250px), 820px); width: auto; max-width: none; min-width: 0; }
+    .hero-tapa { box-shadow: 0 24px 40px rgba(0, 0, 0, 0.35); }
+    .hero-cinta { right: -16px; }
+  }
+</style>

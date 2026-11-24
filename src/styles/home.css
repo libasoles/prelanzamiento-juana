@@ -1,0 +1,70 @@
+/* Home: base compartida (mobile-first; escritorio desde 768px). */
+@font-face {
+  font-family: 'Patrick Hand SC';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/font-b72359ae.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122;
+}
+
+.home {
+  --azul: #2154aa;
+  --mano: 'Juana Mano Suave', 'Covered By Your Grace', cursive;
+  --mano-fina: 'Juana Mano Fina Suave', 'Covered By Your Grace', cursive;
+  --mano-lc: 'Juana Mano Suave LC', 'Juana Mano Suave', cursive;
+  --cinta-bg: linear-gradient(180deg, rgba(228,203,150,.93), rgba(207,178,122,.93));
+  --cinta-clip: polygon(0 0,100% 0,98.5% 12%,100% 24%,98.5% 36%,100% 48%,98.5% 60%,100% 72%,98.5% 84%,100% 100%,0 100%,1.5% 84%,0 72%,1.5% 60%,0 48%,1.5% 36%,0 24%,1.5% 12%);
+  --gutter: 20px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  background: #000;
+  color: #fff;
+  font-family: 'Instrument Sans Variable', 'Instrument Sans', sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  overflow: hidden;
+}
+:where(.home) a { color: #9db6ee; }
+:where(.home) a:hover { color: #fff; }
+:where(.home) img { height: auto; }
+:where(.home) :is(h1, h2, h3, p) { margin: 0; }
+
+/* Papel rasgado con cinta (fondo de varias tarjetas). */
+.papel {
+  background-image: url('../assets/home/papel-cinta-a.webp');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  color: #1a1a1a;
+}
+.maq { font-family: 'Courier Prime', monospace; }
+.maq-t { font-family: 'Special Elite', monospace; font-weight: 400; }
+
+/* Textura azul con degradé hacia el borde. */
+.textura {
+  --fade: min(180px, 16%);
+  background-color: #2154aa;
+  background-image:
+    linear-gradient(to bottom, #2154aa 0, rgba(33,84,170,.85) calc(var(--fade)*.25), rgba(33,84,170,.5) calc(var(--fade)*.55), rgba(33,84,170,.15) calc(var(--fade)*.82), rgba(33,84,170,0) var(--fade)),
+    linear-gradient(to top, #2154aa 0, rgba(33,84,170,.85) calc(var(--fade)*.25), rgba(33,84,170,.5) calc(var(--fade)*.55), rgba(33,84,170,.15) calc(var(--fade)*.82), rgba(33,84,170,0) var(--fade)),
+    url('../assets/home/textura-azul.jpg');
+  background-size: 100% 100%, 100% 100%, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Borde irregular a mano (menú, pastilla de Palabras). */
+.borde-mano { border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; }
+
+.icon-link { display: inline-flex; align-items: center; justify-content: center; }
+.icon-link img { width: auto; display: block; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+@media (min-width: 768px) {
+  .home { --gutter: clamp(24px, 6.667vw, 96px); font-size: 16px; }
+}

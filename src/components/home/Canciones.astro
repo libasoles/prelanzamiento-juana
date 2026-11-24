@@ -1,0 +1,93 @@
+---
+import { Image, Picture } from 'astro:assets';
+import garabato from '../../assets/home/garabato-a.webp';
+import afiche from '../../assets/home/juana-afiche.webp';
+---
+
+<section class="canciones" id="canciones">
+  <div class="canciones__texto">
+    <div class="papel canciones__card">
+      <h2 class="canciones__titulo"><span>Compongo</span> <span>mis canciones</span></h2>
+      <p class="maq canciones__parrafo">Estoy viviendo mi proyecto musical y artístico alrededor de las palabras: escribo y compongo mis canciones para transformar eso mío en algo compartido.</p>
+    </div>
+    <div class="canciones__quote">
+      <p>Descubrir el mundo<br />es hacer preguntas.</p>
+    </div>
+  </div>
+  <div class="canciones__afiche">
+    <Image class="canciones__garabato" src={garabato} alt="" widths={[180, 300, 600]} sizes="(min-width: 768px) 300px, 180px" format="webp" loading="lazy" />
+    <Picture
+      src={afiche}
+      alt="Juana cantando con la cabeza hacia atrás, con camisa blanca y jean, frente a una cortina, en un afiche de papel gastado"
+      formats={['avif', 'webp']}
+      fallbackFormat="webp"
+      widths={[340, 540, 800]}
+      sizes="(min-width: 768px) 540px, 86vw"
+      loading="lazy"
+    />
+  </div>
+</section>
+
+<style is:global>
+  /* Mobile: título, afiche, texto y cita en una columna (el orden visual se define con `order`). */
+  .canciones { position: relative; isolation: isolate; padding: 24px var(--gutter) 56px; display: flex; flex-direction: column; gap: 20px; }
+  .canciones__texto, .canciones__card { display: contents; }
+  .canciones__titulo {
+    order: 1; font-family: var(--mano-fina); font-feature-settings: 'calt' 0; font-variant-ligatures: none;
+    font-weight: 400; font-size: 44px; line-height: 1.05; text-transform: uppercase; color: #fff;
+  }
+  .canciones__titulo span { display: block; }
+  .canciones__afiche { order: 2; position: relative; }
+  .canciones__afiche > picture { display: contents; }
+  .canciones__afiche img:not(.canciones__garabato) {
+    position: relative; display: block; width: 86%; margin: 0 auto; transform: rotate(-1.5deg);
+    filter: drop-shadow(0 16px 24px rgba(0,0,0,.6));
+  }
+  .canciones__garabato { position: absolute; left: -30px; top: -30px; width: 180px; opacity: .85; }
+  .canciones__parrafo { order: 3; color: #d7def3; }
+  .canciones__quote {
+    order: 4; position: relative; margin-top: 10px; padding: 28px 22px; min-height: 96px;
+    display: flex; align-items: center; transform: rotate(-2deg); color: #12294f;
+    background: #c9a574 url('../../assets/palabras/carton-liso.jpg') center / cover no-repeat;
+    box-shadow: 0 16px 30px rgba(0,0,0,.6);
+  }
+  .canciones__quote::before {
+    content: ''; position: absolute; right: 18px; top: -29px; width: 66px; aspect-ratio: 600 / 834;
+    background: url('../../assets/home/clip-papel-a.webp') center / contain no-repeat; transform: rotate(10deg);
+  }
+  .canciones__quote p { font-family: var(--mano); font-size: 26px; line-height: 1.25; text-transform: uppercase; }
+
+  @media (min-width: 768px) {
+    .canciones {
+      margin-top: 80px; padding: 40px var(--gutter) 70px; display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; align-items: center;
+    }
+    .canciones__texto { grid-column: 1 / span 6; grid-row: 1; display: flex; flex-direction: column; position: relative; }
+    .canciones__card { display: flex; flex-direction: column; gap: 20px; padding: 112px 56px 72px; transform: rotate(1.5deg); }
+    .canciones__titulo {
+      font-family: 'Special Elite', monospace; font-feature-settings: normal; font-variant-ligatures: normal;
+      font-size: 40px; line-height: 1.1; color: #2154aa; text-transform: none;
+      text-decoration: underline; text-underline-offset: 6px;
+    }
+    .canciones__titulo span { display: inline; }
+    .canciones__parrafo { font-size: 19px; line-height: 1.5; color: #1a1a1a; }
+    .canciones__afiche { grid-column: 7 / span 6; grid-row: 1; order: 0; }
+    .canciones__afiche img:not(.canciones__garabato) { width: 540px; max-width: 100%; transform: rotate(2deg); }
+    .canciones__garabato { left: calc(-100% - 80px); top: 100px; width: 300px; opacity: .9; z-index: -1; }
+    .canciones__afiche::after {
+      content: ''; position: absolute; z-index: -1; left: 221px; bottom: -167px; width: 340px; aspect-ratio: 1;
+      background: url('../../assets/home/flor-1.webp') center / contain no-repeat;
+      transform: rotate(14deg); pointer-events: none;
+    }
+    .canciones__quote {
+      order: 0; min-height: 0; margin: -4px 0 0 28px; padding: 50px 44px; color: #2154aa;
+      background: url('../../assets/home/papel-cinta-a.webp') 0 0 / 100% 100% no-repeat;
+      box-shadow: none; filter: drop-shadow(0 12px 20px rgba(0,0,0,.6));
+    }
+    .canciones__quote::before {
+      right: 48px; top: -12px; width: 112px; height: 34px; aspect-ratio: auto; transform: rotate(7deg);
+      background: var(--cinta-bg); clip-path: var(--cinta-clip);
+    }
+    .canciones__quote p { font-size: 32px; }
+  }
+</style>

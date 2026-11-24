@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import logoBlanco from '../../assets/home/logo-blanco-crop.webp';
+import SocialLinks from './SocialLinks.astro';
+---
+
+<footer class="contacto" id="contacto">
+  <div class="contacto__datos">
+    <h2 class="contacto__titulo">Contacto</h2>
+    <SocialLinks variant="footer" mailHref="#" />
+  </div>
+  <Image class="contacto__logo" src={logoBlanco} alt="" widths={[136, 272, 440]} sizes="(min-width: 768px) 220px, 136px" format="webp" loading="lazy" />
+</footer>
+
+<style is:global>
+  .contacto {
+    padding: 44px var(--gutter) 64px; display: flex; flex-direction: row; align-items: flex-start;
+    justify-content: space-between; gap: 14px;
+  }
+  .contacto__datos { display: flex; flex-direction: column; gap: 4px; }
+  .contacto__titulo {
+    font-family: var(--mano-fina); font-feature-settings: 'calt' 0; font-variant-ligatures: none;
+    font-weight: 400; font-size: 32px; line-height: 1; text-transform: uppercase;
+  }
+  .contacto__logo { width: 136px; flex: none; display: block; }
+
+  @media (min-width: 768px) {
+    .contacto { padding: 56px var(--gutter) 48px; align-items: start; }
+    .contacto__datos { gap: 6px; margin-top: 12px; }
+    .contacto__titulo { font-family: var(--mano); font-feature-settings: normal; font-variant-ligatures: normal; font-size: 36px; }
+    .contacto__logo { width: 220px; margin-top: -22px; }
+  }
+</style>

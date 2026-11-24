@@ -1,0 +1,127 @@
+---
+import { Image, Picture } from 'astro:assets';
+import logo from '../../assets/home/logo-juana.png';
+import estrella from '../../assets/home/estrella-blanca-a.webp';
+import trazos from '../../assets/home/trazos-a.webp';
+import cuerpo from '../../assets/home/juana-cuerpo-a.webp';
+import logoBlanco from '../../assets/home/logo-blanco-crop.webp';
+
+const menu = [
+  ['#bio', 'Quién soy'],
+  ['#recorrido', 'Mi Recorrido'],
+  ['#videos', 'Videos'],
+  ['#contacto', 'Contacto'],
+];
+---
+
+<section class="hero">
+  <div class="hero__haz" aria-hidden="true"></div>
+  <header class="hero__header">
+    <a href="/" aria-label="Juana Cabrera, inicio" class="hero__logo">
+      <Image src={logo} alt="Juana Cabrera" widths={[120, 160, 240]} sizes="(min-width: 768px) 156px, 120px" format="webp" loading="eager" />
+    </a>
+    <button class="hero__menu-btn borde-mano" id="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-nav" type="button">
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8c5-1 11 1 16 0M4 16c5 1 11-1 16 0"></path></svg>
+    </button>
+    <nav class="hero__nav" id="menu-nav" hidden aria-label="Secciones">
+      {menu.map(([href, label]) => <a href={href}>{label}</a>)}
+    </nav>
+  </header>
+  <Image class="hero__estrella" src={estrella} alt="" widths={[90, 180, 300]} sizes="(min-width: 768px) 100px, 90px" format="webp" loading="lazy" />
+  <Image class="hero__trazos" src={trazos} alt="" widths={[450, 900]} sizes="(min-width: 768px) 560px, 450px" format="webp" loading="lazy" />
+  <Picture
+    class="hero__cuerpo"
+    src={cuerpo}
+    alt="Juana de pie, con chaleco y pantalón oscuros"
+    formats={['avif', 'webp']}
+    fallbackFormat="webp"
+    widths={[225, 337, 450, 674]}
+    sizes="(min-width: 768px) 210px, 225px"
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
+  />
+  <Image class="hero__logo-blanco" src={logoBlanco} alt="" widths={[210, 420, 630]} sizes="(min-width: 768px) 250px, 210px" format="webp" loading="lazy" />
+</section>
+
+<script>
+  // Menú desplegable: aria-expanded, cierra con Escape o al elegir un enlace.
+  const btn = document.getElementById('menu-btn') as HTMLButtonElement | null;
+  const nav = document.getElementById('menu-nav');
+  if (btn && nav) {
+    const set = (open: boolean) => {
+      nav.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+    };
+    btn.addEventListener('click', () => set(!!nav.hidden));
+    nav.addEventListener('click', (e) => {
+      if ((e.target as Element).closest('a')) set(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !nav.hidden) {
+        set(false);
+        btn.focus();
+      }
+    });
+  }
+</script>
+
+<style is:global>
+  /* Mobile (base) */
+  .hero { position: relative; height: 720px; overflow: hidden; }
+  .hero__haz {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 42% at 50% 36%, rgba(255,255,255,.22), rgba(255,255,255,0) 70%);
+  }
+  .hero__header {
+    position: relative; z-index: 6; display: flex; align-items: center;
+    justify-content: space-between; padding: 14px 20px;
+  }
+  .hero__logo { line-height: 0; }
+  .hero__logo img { height: 40px; width: auto; }
+  .hero__menu-btn {
+    width: 48px; height: 48px; border: 2px solid #fff; background: transparent; color: #fff;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0;
+  }
+  .hero__nav {
+    position: absolute; right: 20px; top: 70px; background: #000; border: 2px solid #fff;
+    border-radius: 30px 6px 26px 8px / 8px 26px 6px 30px; padding: 14px 8px;
+    display: flex; flex-direction: column; min-width: 220px; box-shadow: 0 16px 30px rgba(0,0,0,.7);
+  }
+  .hero__nav[hidden] { display: none; }
+  .hero__nav a {
+    display: flex; align-items: center; min-height: 48px; padding: 0 20px; color: #fff;
+    text-decoration: none; font-family: var(--mano); font-size: 22px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .hero__estrella { position: absolute; left: 14px; top: 110px; width: 90px; z-index: 1; }
+  .hero__trazos { position: absolute; left: -30px; top: 420px; width: 450px; z-index: 1; opacity: .9; }
+  .hero__cuerpo { position: absolute; left: 50%; top: 76px; height: 600px; width: auto; transform: translateX(-50%); z-index: 2; }
+  .hero__logo-blanco { position: absolute; right: 10px; bottom: 40px; width: 210px; z-index: 3; }
+
+  /* Mejora progresiva: el haz de luz «sigue» a Juana al cargar. */
+  @keyframes seguidor-m { 0% { transform: translateX(-45%); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateX(0); opacity: 1; } }
+  @keyframes seguidor-d { 0% { transform: translateX(40%); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateX(0); opacity: 1; } }
+  .hero__haz { animation: seguidor-m 1.6s cubic-bezier(.3,.7,.2,1) both; }
+
+  @media (min-width: 768px) {
+    .hero {
+      --ih: clamp(420px, calc(100vh - 340px), 800px);
+      height: calc(var(--ih) + 80px);
+    }
+    .hero__haz {
+      background: radial-gradient(ellipse 26% 66% at 50% 46%, rgba(255,255,255,.2), rgba(255,255,255,0) 70%);
+      animation-name: seguidor-d;
+    }
+    .hero__header { padding: 22px var(--gutter); }
+    .hero__logo img { height: 52px; }
+    .hero__nav { right: var(--gutter); top: 80px; }
+    .hero__estrella { left: 50%; margin-left: calc(var(--ih) * -.625); top: calc(70px + var(--ih) * .094); width: calc(var(--ih) * .172); }
+    .hero__trazos { left: 50%; margin-left: calc(var(--ih) * -.531); top: calc(70px + var(--ih) * .516); width: calc(var(--ih) * .969); }
+    .hero__cuerpo { top: 70px; height: var(--ih); }
+    .hero__logo-blanco { right: auto; left: 50%; margin-left: calc(var(--ih) * .234); bottom: 30px; width: calc(var(--ih) * .4375); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__haz { animation: none; }
+  }
+</style>

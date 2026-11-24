@@ -1,0 +1,153 @@
+---
+import { Picture } from 'astro:assets';
+import escenario from '../../assets/home/escenario.jpg';
+import anaPradaImg from '../../assets/home/ana-prada.jpg';
+import { origamix, anaPrada, libreria } from './videos-data';
+
+const play = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"></path></svg>';
+const pic = { formats: ['avif', 'webp'] as ('avif' | 'webp')[], fallbackFormat: 'jpg' as const, widths: [330, 660, 1000], sizes: '(min-width: 768px) 365px, 330px', loading: 'lazy' as const };
+---
+
+<section class="videos" id="videos">
+  <h2 class="videos__titulo">Videos</h2>
+  <div class="videos__lista">
+    <!-- 1. Origamix: facade (imagen + botón); el iframe se inserta al hacer click. -->
+    <article class="video video--1">
+      <div class="video__media" data-video-media>
+        <Picture src={escenario} alt="Origamix tocando en un teatro" {...pic} />
+        <button
+          type="button"
+          class="video__play"
+          data-video-id={origamix.id}
+          data-video-list={origamix.list}
+          data-video-title="Origamix, video de YouTube"
+          aria-label="Reproducir video de Origamix"
+        ><Fragment set:html={play} /></button>
+      </div>
+      <h3 class="video__nombre">{origamix.title}</h3>
+      <p class="video__desc maq">{origamix.description}</p>
+      <noscript><a class="video__nojs" href={origamix.watchUrl} target="_blank" rel="noopener">Ver en YouTube</a></noscript>
+    </article>
+
+    <!-- 2. Ana Prada: reel de Instagram (enlace externo). -->
+    <article class="video video--2">
+      <a class="video__media video__media--link" href={anaPrada.url} target="_blank" rel="noopener" aria-label="Ver en Instagram el reel de Juana con Ana Prada">
+        <Picture src={anaPradaImg} alt="Juana y Ana Prada en el escenario, bajo luces azules" {...pic} />
+        <span class="video__play" aria-hidden="true"><Fragment set:html={play} /></span>
+      </a>
+      <h3 class="video__nombre">{anaPrada.title}</h3>
+      <p class="video__desc maq">{anaPrada.description}</p>
+    </article>
+
+    <!-- 3. Librería Atlántica: portada de audio. -->
+    <article class="video video--3">
+      <div class="video__media textura">
+        <div class="video__onda" aria-hidden="true">
+          <svg viewBox="0 0 392 90" width="78%" aria-hidden="true" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round"><path d="M8.0 40.5v9M18.5 34.5v21M29.0 28.5v33M39.5 36.5v17M50.0 23.5v43M60.5 17.5v55M71.0 30.5v29M81.5 12.5v65M92.0 21.5v47M102.5 33.5v23M113.0 15.5v59M123.5 9.5v71M134.0 25.5v39M144.5 32.5v25M155.0 18.5v53M165.5 11.5v67M176.0 27.5v35M186.5 35.5v19M197.0 22.5v45M207.5 14.5v61M218.0 29.5v31M228.5 37.5v15M239.0 19.5v51M249.5 10.5v69M260.0 24.5v41M270.5 31.5v27M281.0 16.5v57M291.5 26.5v37M302.0 34.5v21M312.5 20.5v49M323.0 13.5v63M333.5 28.5v33M344.0 36.5v17M354.5 23.5v43M365.0 32.5v25M375.5 39.5v11"></path></svg>
+        </div>
+        <button type="button" class="video__audio" aria-label="Reproducir episodio de Librería Atlántica"><Fragment set:html={play.replaceAll('22', '20')} /></button>
+      </div>
+      <h3 class="video__nombre">{libreria.title}</h3>
+      <p class="video__desc maq">{libreria.description}</p>
+    </article>
+  </div>
+</section>
+
+<script>
+  // Facade de YouTube: el iframe (youtube-nocookie) se crea recién al hacer click.
+  let preconnected = false;
+  const preconnect = () => {
+    if (preconnected) return;
+    preconnected = true;
+    const link = document.createElement('link');
+    link.rel = 'preconnect';
+    link.href = 'https://www.youtube-nocookie.com';
+    document.head.append(link);
+  };
+  // Tras la carga y con el hilo libre (o al acercarse al botón), no antes.
+  const whenIdle = () => ('requestIdleCallback' in window ? requestIdleCallback(preconnect, { timeout: 4000 }) : setTimeout(preconnect, 2500));
+  if (document.readyState === 'complete') whenIdle();
+  else window.addEventListener('load', whenIdle, { once: true });
+
+  document.querySelectorAll<HTMLButtonElement>('button[data-video-id]').forEach((btn) => {
+    btn.addEventListener('pointerenter', preconnect, { once: true });
+    btn.addEventListener('focus', preconnect, { once: true });
+    btn.addEventListener('click', () => {
+      const media = btn.closest<HTMLElement>('[data-video-media]');
+      if (!media) return;
+      const params = new URLSearchParams({ autoplay: '1', rel: '0' });
+      if (btn.dataset.videoList) params.set('list', btn.dataset.videoList);
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.videoId}?${params}`;
+      iframe.title = btn.dataset.videoTitle ?? 'Video de YouTube';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen';
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.className = 'video__iframe';
+      media.replaceChildren(iframe);
+      iframe.focus();
+    });
+  });
+</script>
+
+<style is:global>
+  .videos { padding: 24px var(--gutter) 64px; display: flex; flex-direction: column; gap: 40px; }
+  .videos__titulo { font-family: var(--mano-lc); font-weight: 400; font-size: 52px; line-height: 1; }
+  .videos__lista { display: flex; flex-direction: column; gap: 40px; }
+
+  .video {
+    position: relative; background: #fff; color: #111; padding: 10px 10px 18px;
+    display: flex; flex-direction: column; gap: 10px; box-shadow: 0 16px 30px rgba(0,0,0,.6);
+  }
+  .video--1 { transform: rotate(-1.5deg); }
+  .video--2 { transform: rotate(1.2deg); }
+  .video--3 { transform: rotate(-1deg); }
+  .video--1::before {
+    content: ''; position: absolute; z-index: 2; left: 50%; top: -16px; width: 104px; height: 32px;
+    transform: translateX(-50%) rotate(-4deg); background: var(--cinta-bg); clip-path: var(--cinta-clip);
+  }
+
+  .video__media { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background-color: #1a1a1a; }
+  .video__media > picture { display: contents; }
+  .video__media img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); }
+  .video__media.textura { background-color: #2154aa; }
+  .video__iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video__play {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 60px; height: 60px; border-radius: 50%; border: 0; padding: 0; background: #2154aa; color: #fff;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+  button.video__play:focus-visible, .video__audio:focus-visible { outline: 3px solid #fff; outline-offset: 3px; box-shadow: 0 0 0 6px #2154aa; }
+  .video__onda { position: absolute; inset: 0; background: rgba(33,84,170,.88); display: flex; align-items: center; justify-content: center; }
+  .video__onda svg { display: block; opacity: .92; }
+  .video__audio {
+    position: absolute; right: 12px; bottom: 12px; width: 52px; height: 52px; border-radius: 50%; border: 0; padding: 0;
+    background: #fff; color: #2154aa; display: flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+  .video__nombre { font-family: 'Patrick Hand SC', cursive; font-weight: 400; font-size: 30px; letter-spacing: .05em; line-height: 1.1; color: #2154aa; }
+  .video__desc { font-size: 15px; line-height: 1.5; }
+  .video__nojs { font-size: 14px; color: #2154aa; }
+
+  @media (min-width: 768px) {
+    .videos { padding: 60px var(--gutter) 100px; display: block; }
+    .videos__titulo { margin-bottom: 44px; font-size: 60px; text-transform: uppercase; font-family: var(--mano); }
+    .videos__lista { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; align-items: start; }
+    .video { padding: 12px 12px 18px; box-shadow: 0 16px 32px rgba(0,0,0,.6); }
+    .video--1 { transform: rotate(-2deg); }
+    .video--2 { transform: rotate(1.5deg); margin-top: 40px; }
+    .video--3 { transform: rotate(-1deg); }
+    .video--1::before { top: -16px; width: 110px; height: 34px; }
+    .video--3::before {
+      content: ''; position: absolute; z-index: 2; left: 26px; top: -14px; width: 100px; height: 32px;
+      transform: rotate(-12deg); background: var(--cinta-bg); clip-path: var(--cinta-clip);
+    }
+    .video--2::after {
+      content: ''; position: absolute; right: 26px; top: -26px; width: 48px; aspect-ratio: 600 / 834;
+      background: url('../../assets/home/clip-papel-a.webp') center / contain no-repeat; transform: rotate(8deg);
+    }
+    .video__play { width: 56px; height: 56px; }
+    .video__audio { width: 48px; height: 48px; }
+    .video__nombre { font-size: 28px; }
+    .video__desc { font-size: 14px; }
+  }
+</style>

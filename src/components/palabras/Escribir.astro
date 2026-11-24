@@ -1,0 +1,236 @@
+---
+import { Image } from 'astro:assets';
+import foto from '../../assets/palabras/img-052-foto.jpg';
+import estrellas from '../../assets/palabras/estrellas.webp';
+---
+
+<section id="escribir" class="escribir">
+  <div class="escribir-in">
+    <div class="escribir-head">
+      <span class="escribir-garabato" aria-hidden="true"></span>
+      <div class="pl-carton escribir-titulo"><h2>¿Te gustaría escribir?</h2></div>
+    </div>
+    <div class="escribir-notas">
+      <div class="escribir-fila">
+        <div class="hoja-rota">
+          <div aria-hidden="true" class="hoja-rota-aguada">
+            <Image src={foto} alt="" width={640} height={884} loading="lazy" />
+          </div>
+          <div class="hoja-rota-texto tinta">
+            <p>Hola, soy Juana.</p>
+            <p>Escribí estas canciones porque había cosas que necesitaba poner en palabras.</p>
+            <p>Ahora que las canciones están acá, me dieron ganas de que también nos podamos escribir.</p>
+          </div>
+        </div>
+        <div class="cuaderno-notas">
+          <div class="cuaderno-notas-texto tinta">
+            <p>Si alguna canción te hizo acordar de algo, te dejó pensando o te despertó una palabra, podés escribímelo acá.</p>
+            <p>A veces una sola palabra alcanza.</p>
+          </div>
+          <Image class="cuaderno-notas-estrellas" src={estrellas} alt="" aria-hidden="true" width={240} height={170} loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .escribir { padding: 40px 8px 8px; display: flex; flex-direction: column; align-items: center; }
+  .escribir-in { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .escribir-head { width: 100%; }
+  .escribir-garabato { display: none; }
+  .escribir-titulo {
+    width: 310px;
+    max-width: 100%;
+    padding: 50px 22px 24px;
+    margin-left: 12px;
+    transform: rotate(-2deg);
+  }
+  .escribir-titulo h2 {
+    margin: 0;
+    font-family: 'Juana Mano Suave LC', 'Juana Mano Suave', cursive;
+    font-feature-settings: 'calt' 0;
+    font-variant-ligatures: none;
+    font-weight: 400;
+    font-size: 33px;
+    line-height: 1.05;
+    color: #12306a;
+    white-space: nowrap;
+  }
+  .escribir-notas { width: 100%; }
+  .escribir-fila { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+  /* Hoja arrancada con la foto de fondo (aguada). */
+  .hoja-rota {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    box-sizing: border-box;
+    aspect-ratio: 760 / 1144;
+    width: 100%;
+    max-width: 374px;
+    transform: rotate(-1deg);
+  }
+  .hoja-rota::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: url('../../assets/palabras/hoja-arrancada-lisa.webp') 0 0 / 100% 100% no-repeat;
+    filter: drop-shadow(0 14px 22px rgba(0, 10, 40, 0.4));
+  }
+  .hoja-rota-aguada {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    -webkit-mask-image: url('../../assets/palabras/hoja-arrancada-lisa.webp');
+    mask-image: url('../../assets/palabras/hoja-arrancada-lisa.webp');
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+  .hoja-rota-aguada img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 20%;
+    opacity: 0.13;
+    filter: saturate(0.8);
+    transform: scaleX(-1);
+  }
+  .hoja-rota-texto {
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 37px;
+    font-size: 29px;
+    line-height: 37px;
+    padding: 12% 9% 10% 13%;
+  }
+
+  /* Cuaderno (página derecha en desktop, hoja suelta en mobile). */
+  .cuaderno-notas {
+    position: relative;
+    isolation: isolate;
+    z-index: 2;
+    display: flex;
+    box-sizing: border-box;
+    aspect-ratio: 1122 / 1500;
+    width: 100%;
+    max-width: 374px;
+    transform: rotate(-1deg);
+  }
+  .cuaderno-notas::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: url('../../assets/palabras/cuaderno-sin-cinta.webp') 0 0 / 100% 100% no-repeat;
+    filter: drop-shadow(0 18px 24px rgba(0, 10, 40, 0.35));
+  }
+  .cuaderno-notas-texto {
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 15% 11% 15% 16%;
+    display: flex;
+    flex-direction: column;
+    gap: 37px;
+    font-size: 29px;
+    line-height: 37px;
+  }
+  .cuaderno-notas-estrellas {
+    position: absolute;
+    right: 20%;
+    bottom: 10%;
+    width: 29%;
+    height: auto;
+    transform: rotate(-6deg);
+  }
+
+  @media (min-width: 768px) {
+    .escribir {
+      background: linear-gradient(rgba(33, 84, 170, 0.8), #2154aa);
+      padding: 110px clamp(24px, 5.5vw, 80px) 40px;
+      justify-content: center;
+    }
+    .escribir-in { width: min(100%, 1280px); align-items: flex-start; }
+    .escribir-head {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: clamp(24px, 4.4vw, 56px);
+      box-sizing: border-box;
+    }
+    .escribir-garabato {
+      display: block;
+      position: relative;
+      flex: none;
+      width: min(23.5%, 300px);
+      aspect-ratio: 300 / 213;
+      background: url('../../assets/palabras/garabato-escribir.png') 0 0 / 100% auto no-repeat;
+    }
+    .escribir-titulo { width: min(100%, 560px); padding: 64px 40px 34px; margin-left: 0; }
+    .escribir-titulo h2 { font-size: clamp(40px, 3.75vw, 54px); }
+    .escribir-notas { container-type: inline-size; }
+    .escribir-fila { flex-direction: row; justify-content: flex-end; gap: 0.94cqw; }
+
+    .hoja-rota { container-type: inline-size; width: 42.19cqw; max-width: none; flex: none; margin-right: 4.69cqw; transform: rotate(-1.8deg); }
+    .hoja-rota-texto {
+      display: block;
+      padding: 8% 10% 6% 12%;
+      font-size: 8.7cqw;
+      line-height: 10.74cqw;
+    }
+    .hoja-rota-texto.tinta p { margin: 0 0 10.74cqw; }
+    .hoja-rota-texto.tinta p:last-child { margin-bottom: 0; }
+
+    .cuaderno-notas {
+      container-type: inline-size;
+      align-items: flex-start;
+      width: 55.47cqw;
+      max-width: none;
+      flex: none;
+      margin-right: -4.69cqw;
+      aspect-ratio: 1000 / 1300;
+      transform: rotate(0.6deg);
+    }
+    .cuaderno-notas::before { background-image: url('../../assets/palabras/cuaderno-derecha.svg'); }
+    /* Clip metálico sobre el borde izquierdo (sólo desktop). */
+    .cuaderno-notas::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1.4%;
+      height: 97.2%;
+      width: 9.15%;
+      clip-path: inset(4.7% 0 0 0);
+      transform: translateX(-50%);
+      pointer-events: none;
+      background: url('../../assets/palabras/cuaderno-clip.png') 0 0 / 100% 100% no-repeat;
+      filter: drop-shadow(1px 2px 2px rgba(0, 10, 40, 0.18));
+    }
+    .cuaderno-notas-texto {
+      display: block;
+      font-size: 6.62cqw;
+      line-height: 8.17cqw;
+      padding: 12% 12% 8% 17%;
+    }
+    .cuaderno-notas-texto.tinta p { margin: 0 0 8.17cqw; orphans: 1; widows: 1; }
+    .cuaderno-notas-texto.tinta p:last-child { margin-bottom: 0; }
+    .cuaderno-notas-estrellas { right: 13%; bottom: 14%; width: 18%; }
+  }
+</style>

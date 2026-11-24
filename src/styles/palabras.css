@@ -1,0 +1,114 @@
+/*
+ * /palabras: base compartida (lock screen + pantalla desbloqueada).
+ * Mobile-first: lo de abajo es mobile; `@media (min-width: 768px)` es desktop.
+ * Los estilos de cada bloque viven en src/components/palabras/*.astro.
+ */
+/* Manuscrita completa de Juana (la «LC» de fonts.css sólo tiene minúsculas). */
+@font-face {
+  font-family: 'Juana Mano Suave Completa';
+  src: url('../assets/fonts/JuanaManoSuave-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* Lock o desbloqueada: `data-auth` lo pone un script inline en <head> antes del primer paint. */
+html[data-auth='in'] .pl-lock { display: none; }
+html:not([data-auth='in']) .pl-unlocked { display: none; }
+
+body { margin: 0; background: #2154aa; }
+.pl-page a { color: #ffffff; }
+.pl-page a:hover { color: #e9edf9; }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.mano { font-family: 'Juana Mano Suave Completa', 'Covered By Your Grace', cursive; }
+.mono { font-family: 'Special Elite', 'Courier New', monospace; }
+.ink { font-family: 'Juana Mano Suave LC', 'Juana Mano Suave', cursive; }
+.tinta {
+  font-family: 'Juana Mano Suave LC', 'Juana Mano Suave', cursive;
+  font-feature-settings: 'calt' 1;
+  font-variant-ligatures: common-ligatures contextual;
+  font-weight: 400;
+  color: #12306a;
+}
+.tinta p { margin: 0; }
+
+/* Textura azul con los bordes desvanecidos. */
+.pl-textura {
+  --fade: min(180px, 16%);
+  background-color: #2154aa;
+  background-image:
+    linear-gradient(to bottom, #2154aa 0, rgba(33, 84, 170, 0.85) calc(var(--fade) * 0.25), rgba(33, 84, 170, 0.5) calc(var(--fade) * 0.55), rgba(33, 84, 170, 0.15) calc(var(--fade) * 0.82), rgba(33, 84, 170, 0) var(--fade)),
+    linear-gradient(to top, #2154aa 0, rgba(33, 84, 170, 0.85) calc(var(--fade) * 0.25), rgba(33, 84, 170, 0.5) calc(var(--fade) * 0.55), rgba(33, 84, 170, 0.15) calc(var(--fade) * 0.82), rgba(33, 84, 170, 0) var(--fade)),
+    url('../assets/home/textura-azul.jpg');
+  background-size: 100% 100%, 100% 100%, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Cartón con cinta (título «¿Te gustaría escribir?», «Escribime algo»). */
+.pl-carton {
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.pl-carton::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: url('../assets/home/papel-cinta-a.webp') 0 0 / 100% 100% no-repeat;
+  filter: drop-shadow(0 14px 24px rgba(0, 10, 40, 0.35));
+}
+
+/* Botón de cartón. */
+.pl-carton-btn {
+  background-color: #e4dccb;
+  background-image: url('../assets/home/papel-cinta-a.webp');
+  background-size: cover;
+  background-position: 50% 70%;
+  color: #12306a;
+  box-shadow: 0 8px 16px rgba(0, 10, 40, 0.3);
+  transform: rotate(-1deg);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+.pl-carton-btn:disabled { cursor: default; pointer-events: none; filter: none; transform: rotate(-1deg); opacity: 0.9; }
+.pl-carton-btn:hover { transform: translateY(-2px) rotate(-0.5deg); box-shadow: 0 11px 20px rgba(0, 10, 40, 0.4); filter: brightness(1.04); }
+.pl-carton-btn:active { transform: translateY(1px) rotate(-1deg) scale(0.97); box-shadow: 0 3px 6px rgba(0, 10, 40, 0.4); }
+.pl-carton-btn:focus-visible { outline: 2px solid #2154aa; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .pl-carton-btn { transition: none; } }
+
+/* Animación cuadro a cuadro: conservar sprites y reglas; ver README.md. */
+.deco-stars,
+.deco-horse {
+  display: block;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+  background-size: 300% 200%;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  animation: deco-frames 1s steps(1, end) infinite;
+  animation-play-state: paused;
+}
+.is-scrolling .deco-stars,
+.is-scrolling .deco-horse { animation-play-state: running; }
+.deco-stars { background-image: url('../assets/palabras/estrellas-danza-6fps.png'); }
+.deco-horse { background-image: url('../assets/palabras/caballo-galope-6fps.png'); }
+/* Seis dibujos distintos por segundo, en orden de lectura de la plancha 3 × 2. */
+@keyframes deco-frames {
+  0% { background-position: 0 0; }
+  16.666667% { background-position: 50% 0; }
+  33.333333% { background-position: 100% 0; }
+  50% { background-position: 0 100%; }
+  66.666667% { background-position: 50% 100%; }
+  83.333333% { background-position: 100% 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .deco-stars,
+  .deco-horse { animation: none; }
+}

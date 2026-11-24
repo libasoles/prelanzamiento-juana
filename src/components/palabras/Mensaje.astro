@@ -1,0 +1,144 @@
+---
+import { Image } from 'astro:assets';
+import abrazo from '../../assets/palabras/abrazo-2.webp';
+---
+
+<section id="mensaje" class="mensaje">
+  <form id="msgForm" class="mensaje-form">
+    <label for="msg" class="pl-carton mensaje-label">
+      <span class="mensaje-label-text">Escribime algo</span>
+    </label>
+    <div id="msgPaper" class="hoja-clip">
+      <div class="hoja-clip-fondo" aria-hidden="true"></div>
+      <Image id="msgAbrazo" class="hoja-clip-abrazo" hidden src={abrazo} alt="" aria-hidden="true" width={640} height={800} loading="lazy" />
+      <div class="hoja-clip-contenido tinta">
+        <p id="msgThanks" hidden role="status" tabindex="-1" class="mensaje-gracias">Gracias por dejarme tus palabras.</p>
+        <textarea id="msg" class="maquina" rows="1" placeholder="Click acá para escribir"></textarea>
+      </div>
+    </div>
+    <div class="mensaje-enviar">
+      <button type="submit" class="pl-carton-btn mensaje-btn"><span class="js-send-label">Dejar mis palabras</span></button>
+      <button type="submit" class="enviar-ico" aria-label="Dejar mis palabras">
+        <svg aria-hidden="true" class="js-send-ico" width="64" height="56" viewBox="0 0 64 56" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path d="M54 7C55 18 54 29 51 38C40 41 27 39 12 38"></path><path d="M24 26C20 31 16 35 12 38C16 42 20 46 25 50"></path></svg>
+      </button>
+    </div>
+  </form>
+</section>
+
+<style is:global>
+  .mensaje { padding: 30px 20px 64px; display: flex; flex-direction: column; align-items: center; position: relative; overflow: hidden; }
+  .mensaje-form { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 22px; width: 100%; }
+  .mensaje-label { width: 310px; max-width: 100%; padding: 50px 20px 26px; margin-bottom: -12px; transform: rotate(-2deg); z-index: 2; }
+  .mensaje-label-text { font-family: 'Juana Notas', 'Juana Mano Suave', cursive; font-size: 36px; line-height: 1; color: #12306a; white-space: nowrap; }
+
+  /* Hoja con clip: el borde es una border-image escalada por --s. */
+  .hoja-clip {
+    --s: 0.4;
+    --t: calc(340px * var(--s));
+    --r: calc(40px * var(--s));
+    --b: calc(120px * var(--s));
+    --l: calc(330px * var(--s));
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    box-sizing: border-box;
+    width: min(340px, 100%);
+    min-height: 460px;
+    transform: rotate(-1deg);
+  }
+  .hoja-clip-fondo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    box-sizing: border-box;
+    border: solid transparent;
+    border-width: var(--t) var(--r) var(--b) var(--l);
+    border-image: url('../../assets/home/clip-papel-a.webp') 340 40 120 330 fill / var(--t) var(--r) var(--b) var(--l) stretch;
+    filter: drop-shadow(0 18px 24px rgba(0, 10, 40, 0.35));
+  }
+  .hoja-clip-abrazo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    object-position: 50% 50%;
+    opacity: 0.3;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 0;
+    -webkit-mask-box-image: url('../../assets/home/clip-papel-a.webp') 340 40 120 330 fill / var(--t) var(--r) var(--b) var(--l) stretch;
+    mask-border: url('../../assets/home/clip-papel-a.webp') 340 40 120 330 fill / var(--t) var(--r) var(--b) var(--l) stretch;
+  }
+  .hoja-clip-contenido {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-wrap: anywhere;
+    padding: 150px 12% 56px 16%;
+  }
+  .hoja-clip textarea {
+    flex: 1 0 auto;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 120px;
+    field-sizing: content;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    resize: none;
+    color: #12306a;
+    font: inherit;
+    font-size: 21px;
+    line-height: 30px;
+    outline: 0;
+  }
+  .hoja-clip textarea.maquina,
+  .hoja-clip textarea.maquina::placeholder { font-family: 'Special Elite', 'Courier New', monospace; font-weight: 400; letter-spacing: 0; }
+  .hoja-clip textarea::placeholder { color: #12306a; opacity: 0.55; }
+  .hoja-clip textarea:focus-visible { outline: 2px dashed #2154aa; outline-offset: 6px; }
+  .mensaje-gracias { margin: -28px 0 0; font-size: 42px; line-height: 1.12; padding-top: 0; outline: 0; }
+
+  .mensaje-enviar { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .mensaje-btn { min-height: 56px; padding: 0 18px; border: 0; white-space: nowrap; font: 400 17px/1 'Special Elite', 'Courier New', monospace; cursor: pointer; }
+  .enviar-ico { all: unset; box-sizing: border-box; display: flex; padding: 6px; cursor: pointer; color: #ffffff; transition: transform 0.18s ease, filter 0.18s ease; }
+  .enviar-ico svg { flex: none; transform: rotate(-4deg); width: 40px; height: 35px; }
+  .enviar-ico:hover { transform: translateY(-4px) rotate(4deg) scale(1.12); filter: drop-shadow(0 6px 8px rgba(0, 10, 40, 0.45)); }
+  .enviar-ico:active { transform: translateY(1px) scale(0.95); }
+  .enviar-ico:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { .enviar-ico { transition: none; } }
+
+  @media (min-width: 768px) {
+    .mensaje { padding: 20px clamp(24px, 5.5vw, 80px) 120px; gap: 28px; }
+    /* Dibujos de fondo (sólo desktop). */
+    .mensaje::before,
+    .mensaje::after { content: ''; position: absolute; opacity: 0.4; pointer-events: none; z-index: 0; background-repeat: no-repeat; background-size: 100% 100%; }
+    .mensaje::before { left: 40px; top: 120px; width: 380px; aspect-ratio: 464 / 442; background-image: url('../../assets/palabras/deco-mensaje-1.png'); transform: rotate(-6deg); }
+    .mensaje::after { right: 60px; bottom: 100px; width: 300px; aspect-ratio: 286 / 296; background-image: url('../../assets/palabras/deco-mensaje-2.png'); transform: rotate(5deg); }
+    .mensaje-form { gap: 28px; }
+    .mensaje-label { width: 360px; padding: 58px 28px 30px; margin-bottom: -6px; }
+    .mensaje-label-text { font-size: 46px; }
+    .hoja-clip { width: min(100%, 760px); max-width: 100%; flex: none; min-height: 560px; }
+    .hoja-clip-contenido { padding: 150px 64px 64px 80px; }
+    .hoja-clip textarea { font-size: 26px; line-height: 38px; min-height: 0; }
+    .mensaje-gracias { margin: 0; font-size: 38px; line-height: 1.15; padding-top: 6%; }
+    .mensaje-enviar { gap: 16px; }
+    .mensaje-btn { min-height: 60px; padding: 0 36px; font-size: 23px; }
+    .enviar-ico svg { width: 64px; height: 56px; }
+  }
+</style>

@@ -1,18 +1,42 @@
-# Prelanzamiento
+# Juana Cabrera — sitio web
 
-Web pública y escucha del prelanzamiento de su álbum, mediante invitación.
+Sitio estático con [Astro](https://astro.build). Una URL por página, responsive con CSS (mobile-first, corte en 768px).
 
-**DEMO:** https://libasoles.github.io/prelanzamiento-juana/
+| URL | Archivo | Qué es |
+|---|---|---|
+| `/` | `src/pages/index.astro` | Home pública, indexable (JSON-LD `Person` + `VideoObject`) |
+| `/palabras` | `src/pages/palabras.astro` | `noindex`. Sin sesión muestra la lock screen; con sesión (magic link) la pantalla de escucha |
 
-![Captura de la web](assets/internal/screenshot.png)
+## Arranque
 
-- `index.html` – sitio público (código → nombre y email → reproductor + mensajes)
-- `palabras-escucha-desktop.html` / `palabras-escucha-mobile.html` – Palabras con acceso (pantalla desbloqueada, diseño «Palabras (con acceso)»). Lógica en `palabras.js`, canciones y letras en `palabras-data.js`. Se ven sólo con `palabras-desktop.html?preview` (o `palabras-mobile.html?preview`); sin el parámetro redirigen al acceso. Es temporal: no es una protección real. Audios: masters de `JUANA audios/MIX 1` en MP3 (`audio/01..05.mp3`); faltan las canciones 6 a 8.
-  - Reproductor analógico/vintage (diseño «Palabras · reproductor vintage»): cuerpo de cartón rasgado (`assets/palabras/carton-liso.jpg`, recorte liso de `assets/home/papel-cinta-a.webp` sin la cinta), pantalla Super 8 para el video, lista como carátula de casete, teclas mecánicas y letra mecanografiada en papel de cuaderno. Las fotos (`pistas/02.webp`, `pistas/03.webp`) y las cintas rectas van detrás del contenido y sólo asoman por los bordes. Todo se adapta con HTML/CSS de las páginas: `palabras.js` no sabe nada del estilo; depende de las clases `js-*` y de los ids `visual`, `trackList`, `toggleView`, etc. Para que el reproductor se vea parejo con las teclas deshabilitadas, el CSS usa `!important` sobre la opacidad y el margen/opacidad de las estrofas que escribe el JS en línea.
-- `admin.html` – vista de solo lectura de los mensajes (sin respuestas)
-- `messages.js` – capa de almacenamiento. **Prototipo:** usa `localStorage`, así que el admin solo ve mensajes enviados desde el mismo navegador. Para producción hay que reemplazarla por un backend.
+```sh
+npm install
+npx playwright install chromium   # una vez
+npm run dev          # http://localhost:4321
+npm run build        # HTML estático en dist/
+npm run check        # typecheck de Astro/TypeScript
+npm test             # Playwright (mobile 390 y desktop 1440) sobre el sitio compilado
+npm run lighthouse   # Lighthouse mobile sobre la home (requiere build); falla bajo umbral
+```
 
-- `sampleo/` – herramienta interna para probar las cinco tipografías sobre cartón y cuaderno. Acceso directo, sin enlaces desde la web y con `noindex, nofollow, noarchive`; no requiere autenticación y es accesible a quien conozca la URL. Incluye sus fuentes y reutiliza la imagen de cartón de `assets/home/`.
+Nota: `astro preview` es un único proceso por proyecto; los tests y Lighthouse reutilizan el que esté corriendo en el puerto 4321 (`astro preview stop` para detenerlo).
+
+## Acceso a `/palabras` (magic link)
+
+1. Lock screen: código + email → `POST /auth/request` al Worker (`worker/`), que manda el mail con Resend.
+2. El mail trae `/palabras?token=…` → `POST /auth/verify`; la sesión firmada queda en `localStorage` (`juana.session`) y se limpia el token de la URL.
+3. Con sesión vigente `/palabras` abre directo la pantalla desbloqueada (un script inline en `<head>` evita el destello de la lock).
+
+`src/scripts/auth.ts` lee la URL del Worker de `PUBLIC_AUTH_API` (variable de entorno al compilar). Es una barrera de acceso, no protección de los audios (decisión pendiente: issue #3).
+
+## Estructura
+
+- `src/layouts/Base.astro`: SEO, Open Graph, canonical, `noindex`, JSON-LD.
+- `src/components/home`, `src/components/palabras`: secciones; `src/styles`: CSS compartido y fuentes autoalojadas.
+- `src/scripts`: auth, página de Palabras y reproductor.
+- `src/assets`: imágenes optimizadas en build (avif/webp, `srcset`); `public/`: audio, `robots.txt`, imágenes OG.
+- `worker/`: Worker de Cloudflare del magic link (`wrangler`).
+- `legacy/`: prototipo HTML anterior (dos HTML por página), sólo de referencia; también en el tag `prototipo-demo`.
 
 ## Animaciones manuales de Palabras
 
