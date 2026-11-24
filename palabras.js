@@ -157,13 +157,13 @@
     scrollToVisual();
   }
   // Mobile: al arrancar la reproducción con video, la pantalla del video queda pegada al borde
-  // superior del viewport (la placa del reproductor queda por encima, fuera de vista).
+  // superior del viewport (6px más arriba) (la placa del reproductor queda por encima, fuera de vista).
   let scrollFix = 0;
   function scrollToVisual() {
     if (!mobile || !S.playing || S.fullscreen || S.lyricsFull) return;
     const v = $('visual');
     if (!v || v.hidden || !PALABRAS_TRACKS[S.current].video) return;
-    const top = () => (v.querySelector('.screen') || v).getBoundingClientRect().top + window.scrollY;
+    const top = () => (v.querySelector('.screen') || v).getBoundingClientRect().top + window.scrollY - 6;
     requestAnimationFrame(() => window.scrollTo({ top: top(), behavior: 'smooth' }));
     // Si el scroll suave se interrumpe (layout que cambia, navegador móvil), se corrige al final.
     clearTimeout(scrollFix);
