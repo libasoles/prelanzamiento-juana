@@ -20,16 +20,12 @@ test.describe('home', () => {
     await expect(page.locator('a[href="/palabras"]')).toBeVisible();
   });
 
-  test('click en play reemplaza la imagen por un iframe youtube-nocookie', async ({ page }) => {
+  test('el play de Origamix es un link a YouTube, sin iframe', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('iframe')).toHaveCount(0);
-    const play = page.getByRole('button', { name: 'Reproducir video de Origamix' });
-    await play.scrollIntoViewIfNeeded();
-    await play.click();
-    const iframe = page.locator('[data-video-media] iframe');
-    await expect(iframe).toHaveCount(1);
-    expect(await iframe.getAttribute('src')).toContain('https://www.youtube-nocookie.com/embed/ELkYVo988S4');
-    await expect(play).toHaveCount(0);
+    const play = page.getByRole('link', { name: 'Reproducir video de Origamix' });
+    await expect(play).toHaveAttribute('href', /youtube\.com\/watch\?v=ELkYVo988S4/);
+    await expect(play).toHaveAttribute('target', '_blank');
   });
 
   test('JSON-LD y Open Graph', async ({ page }) => {

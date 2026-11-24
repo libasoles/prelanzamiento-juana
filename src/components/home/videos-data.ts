@@ -1,7 +1,6 @@
 /** Datos de los videos de la home (los usan el componente y el JSON-LD). */
 export const origamix = {
   id: 'ELkYVo988S4',
-  list: 'PLeVTNeAby3LuEPwFO8aIbHM9iSUsW5HJQ',
   title: 'Origamix',
   description: 'Cuatro especiales de Gelatina, conmigo como voz principal.',
   watchUrl: 'https://www.youtube.com/watch?v=ELkYVo988S4&list=PLeVTNeAby3LuEPwFO8aIbHM9iSUsW5HJQ',
