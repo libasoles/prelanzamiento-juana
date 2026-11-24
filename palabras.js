@@ -153,6 +153,13 @@
     if (S.playing) audio.play().catch(() => { S.playing = false; renderStatic(); });
     renderStatic();
     renderTime();
+    scrollToVisual();
+  }
+  // Mobile: al arrancar la reproducción con video, el video queda arriba del viewport.
+  function scrollToVisual() {
+    if (!mobile || !S.playing || S.fullscreen || S.lyricsFull) return;
+    const v = $('visual');
+    if (v && !v.hidden && PALABRAS_TRACKS[S.current].video) v.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
   function toggle() {
     if (S.current < 0) { select(0, true); return; }
@@ -160,6 +167,7 @@
     S.playing = !S.playing;
     if (S.playing) audio.play().catch(() => { S.playing = false; renderStatic(); }); else audio.pause();
     renderStatic();
+    if (S.playing) scrollToVisual();
   }
   audio.addEventListener('timeupdate', renderTime);
   audio.addEventListener('loadedmetadata', renderTime);
