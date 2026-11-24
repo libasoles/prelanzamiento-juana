@@ -92,6 +92,17 @@ a{color:#ffffff}a:hover{color:#e9edf9}
   83.333333%{background-position:100% 100%}
 }
 @media (prefers-reduced-motion:reduce){.deco-stars,.deco-horse{animation:none}}
+.seek{-webkit-appearance:none;appearance:none;background:transparent;height:22px;width:100%;margin:0;cursor:pointer;accent-color:#ffffff}
+.seek::-webkit-slider-runnable-track{height:2px;border-radius:1px;background:rgba(255,255,255,.4)}
+.seek::-moz-range-track{height:2px;border-radius:1px;background:rgba(255,255,255,.4)}
+.seek::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:#ffffff;border:0;margin-top:-5px}
+.seek::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#ffffff;border:0}
+.seek:focus-visible{outline:2px solid #ffffff;outline-offset:4px}
+.seek:disabled{cursor:default;opacity:.6}
+.ctl{width:48px;height:48px;border-radius:50%;border:0;background:transparent;color:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.ctl:focus-visible,.ctl-play:focus-visible{outline:2px solid #ffffff;outline-offset:2px}
+.ctl-play{width:60px;height:60px;border-radius:50%;border:0;background:#ffffff;color:#2154aa;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.ctl-play:focus-visible{outline-color:#12306a}
 /* Reproductor vintage: cartón rasgado, teclas mecánicas, pantalla Super 8 y letra en papel de cuaderno. */
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .ink{font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive}
@@ -284,15 +295,19 @@ a{color:#ffffff}a:hover{color:#e9edf9}
     </div>
   </section>
 
-  <div data-has-player hidden role="region" aria-label="Reproductor" style="position:fixed;left:0;right:0;bottom:0;z-index:50;background-color:#e4dccb;background-image:url(assets/palabras/carton-liso.jpg);background-size:cover;border-top:3px solid #12306a;box-shadow:0 -10px 30px rgba(0,10,40,.3);color:#12306a">
-    <div class="pad" style="padding-top:12px;padding-bottom:16px;display:flex;align-items:center;gap:24px">
-      <div style="display:flex;flex-direction:column;min-width:260px">
-        <span class="ink js-now-title" style="font-size:30px;line-height:1"></span>
-        <span class="mono js-now-count" style="font-size:13px;white-space:nowrap"></span>
+  <div data-has-player hidden role="region" aria-label="Reproductor" style="position:fixed;left:0;right:0;bottom:0;z-index:50;background:#12306a;box-shadow:0 -10px 30px rgba(0,0,0,.25)">
+    <div class="pad" style="padding-top:16px;padding-bottom:16px;display:flex;align-items:center;gap:24px">
+      <div style="display:flex;align-items:center;gap:14px;min-width:220px">
+        <span class="mono js-now-title" style="font-size:24px;line-height:1.15"></span>
+        <span class="mono js-now-count" style="font-size:13px;color:#e9edf9;white-space:nowrap"></span>
       </div>
-      <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex:none"><button type="button" class="tecla tecla-s js-prev" aria-label="Canción anterior" disabled><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z" fill="currentColor"></path></svg></button><button type="button" class="tecla tecla-play tecla-s js-play" aria-label="Reproducir"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path class="js-play-path" d="M8 5v14l11-7z" fill="currentColor"></path></svg></button><button type="button" class="tecla tecla-s js-next" aria-label="Canción siguiente" disabled><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"></path></svg></button></div>
-      <label for="seek-d" class="sr">Posición</label>
-      <span class="mono js-time-now" style="font-size:13px;flex:none">0:00</span><input id="seek-d" type="range" class="fader js-seek" min="0" max="1000" value="0" style="flex:1;width:auto"><span class="mono js-time-total" style="font-size:13px;flex:none">0:00</span>
+      <div style="display:flex;align-items:center;gap:14px">
+        <button type="button" class="ctl js-prev" aria-label="Canción anterior"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z" fill="currentColor"></path></svg></button>
+        <button type="button" class="ctl-play js-play" aria-label="Reproducir"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path class="js-play-path" d="M8 5v14l11-7z" fill="currentColor"></path></svg></button>
+        <button type="button" class="ctl js-next" aria-label="Canción siguiente"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"></path></svg></button>
+      </div>
+      <label for="seek-d" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Posición</label>
+      <span class="mono js-time-now" style="font-size:12px;color:#e9edf9;flex:none">0:00</span><input id="seek-d" type="range" class="seek js-seek" min="0" max="1000" value="0" style="flex:1;width:auto"><span class="mono js-time-total" style="font-size:12px;color:#e9edf9;flex:none">0:00</span>
     </div>
   </div>
 </div>
