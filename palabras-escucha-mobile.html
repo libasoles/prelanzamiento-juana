@@ -55,13 +55,13 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 .carton{position:relative;isolation:isolate;box-sizing:border-box;display:flex;align-items:center;justify-content:center;text-align:center}
 .carton>.fondo{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;filter:drop-shadow(0 14px 24px rgba(0,10,40,.35))}
 .carton-btn{background-color:#e4dccb;background-image:url(assets/home/papel-cinta-a.webp);background-size:cover;background-position:50% 70%;color:#12306a;box-shadow:0 8px 16px rgba(0,10,40,.3);transform:rotate(-1deg);transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}
-.carton-btn:hover{transform:translateY(-5px) rotate(2deg) scale(1.07);box-shadow:0 18px 28px rgba(0,10,40,.5);filter:brightness(1.1) saturate(1.2)}
+.carton-btn:hover{transform:translateY(-2px) rotate(-.5deg);box-shadow:0 11px 20px rgba(0,10,40,.4);filter:brightness(1.04)}
 .carton-btn:active{transform:translateY(1px) rotate(-1deg) scale(.97);box-shadow:0 3px 6px rgba(0,10,40,.4)}
 .carton-btn:focus-visible{outline:2px solid #2154aa;outline-offset:3px}
 @media (prefers-reduced-motion:reduce){.carton-btn{transition:none}}
 .trk{all:unset;box-sizing:border-box;width:100%;min-height:60px;display:grid;grid-template-columns:44px 1fr;align-items:center;gap:8px;padding:0 14px;cursor:pointer}
 .trk-ico{display:flex;align-items:center;height:26px}
-.trk .num{font-family:'Juana Mano Suave','Covered By Your Grace',cursive;font-size:24px;letter-spacing:1px;line-height:1}
+.trk .num{font-family:'Special Elite','Courier New',monospace;font-size:18px;letter-spacing:0;line-height:1}
 .trk-title{font-family:'Special Elite','Courier New',monospace;font-size:19px;line-height:1.25}
 .trk .ico{display:none}
 .trk:hover .num,.trk:focus-visible .num{display:none}
@@ -101,7 +101,7 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 .js-tracks li{color:#12306a;border-bottom:1px dashed rgba(18,48,106,.45)}
 .js-tracks li.on{background:rgba(33,84,170,.16)}
 .trk:focus-visible{outline:2px solid #12306a;outline-offset:-4px}
-.trk .num{font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-size:28px}
+.trk .num{font-family:'Special Elite','Courier New',monospace;font-size:18px}
 .tecla{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:center;height:68px;min-width:72px;color:#12306a;background:linear-gradient(#f6efdc,#d3c6a5);border-radius:8px 8px 12px 12px;box-shadow:0 6px 0 #8f8061,0 10px 14px rgba(0,10,40,.35),inset 0 1px 0 rgba(255,255,255,.7);transition:transform .08s ease,box-shadow .08s ease;opacity:1!important}
 .tecla-s{height:48px;min-width:56px;box-shadow:0 4px 0 #8f8061,0 7px 10px rgba(0,10,40,.3),inset 0 1px 0 rgba(255,255,255,.7)}
 .tecla-m{height:60px;min-width:56px}
@@ -130,17 +130,19 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 .renglones-m{background-color:#f3eddc;background-image:linear-gradient(90deg,transparent 0,transparent 44px,rgba(184,51,43,.55) 44px,rgba(184,51,43,.55) 46px,transparent 46px),repeating-linear-gradient(to bottom,transparent 0,transparent 39px,rgba(33,84,170,.3) 39px,rgba(33,84,170,.3) 40px);background-attachment:local;font-family:'Special Elite','Courier New',monospace;font-size:19px;line-height:40px;color:#12306a;box-sizing:border-box}
 .renglones-m p{margin:0 0 40px!important;line-height:40px}
 .renglones-m p[style*="opacity: 0.6"]{opacity:.72!important}
-.rep-card{padding:76px 14px 80px;display:flex;flex-direction:column;gap:20px;clip-path:polygon(0.0% 1.9px,3.4% 2.6px,6.8% 2.8px,10.2% 1.9px,13.6% 3.7px,17.0% 3.5px,20.4% 3.4px,23.8% 4.0px,27.2% 3.0px,30.6% 3.9px,34.0% 3.4px,37.4% 3.0px,40.8% 2.3px,44.2% 1.9px,47.6% 1.2px,51.0% 2.5px,54.4% 1.7px,57.8% 1.8px,61.2% 2.0px,64.6% 2.9px,68.0% 3.0px,71.4% 2.6px,74.8% 2.7px,78.2% 3.6px,81.6% 3.5px,85.0% 3.5px,88.4% 4.0px,91.8% 3.0px,95.2% 2.7px,98.6% 2.5px,100% 2.9px,100% calc(100% - 6.0px),98.6% calc(100% - 6.3px),95.2% calc(100% - 1.9px),91.8% calc(100% - 5.9px),88.4% calc(100% - 5.7px),85.0% calc(100% - 10.7px),81.6% calc(100% - 7.3px),78.2% calc(100% - 11.4px),74.8% calc(100% - 11.0px),71.4% calc(100% - 16.0px),68.0% calc(100% - 13.8px),64.6% calc(100% - 12.2px),61.2% calc(100% - 16.4px),57.8% calc(100% - 14.4px),54.4% calc(100% - 11.7px),51.0% calc(100% - 8.5px),47.6% calc(100% - 5.7px),44.2% calc(100% - 10.1px),40.8% calc(100% - 3.0px),37.4% calc(100% - 8.0px),34.0% calc(100% - 4.3px),30.6% calc(100% - 8.0px),27.2% calc(100% - 7.1px),23.8% calc(100% - 8.7px),20.4% calc(100% - 8.7px),17.0% calc(100% - 12.6px),13.6% calc(100% - 16.4px),10.2% calc(100% - 16.1px),6.8% calc(100% - 12.6px),3.4% calc(100% - 13.8px),0.0% calc(100% - 12.0px))}
+.rep-card{padding:76px 14px 80px;display:flex;flex-direction:column;gap:20px;clip-path:polygon(0.0% 1.9px,3.4% 2.6px,6.8% 2.8px,10.2% 1.9px,13.6% 3.7px,17.0% 3.5px,20.4% 3.4px,23.8% 4.0px,27.2% 3.0px,30.6% 3.9px,34.0% 3.4px,37.4% 3.0px,40.8% 2.3px,44.2% 1.9px,47.6% 1.2px,51.0% 2.5px,54.4% 1.7px,57.8% 1.8px,61.2% 2.0px,64.6% 2.9px,68.0% 3.0px,71.4% 2.6px,74.8% 2.7px,78.2% 3.6px,81.6% 3.5px,85.0% 3.5px,88.4% 4.0px,91.8% 3.0px,95.2% 2.7px,98.6% 2.5px,100% 2.9px,100% 100%,0.0% 100%)}
 .jcard-head .ink{font-size:34px}
 .bezel{border-radius:18px}
 .screen{border-radius:30px / 24px}
 #toggleView[style*="hidden"]{display:none}
+.hoja-aneja-sombra{filter:drop-shadow(0 18px 24px rgba(0,10,40,.4))}
+.hoja-aneja{position:relative;box-sizing:border-box;color:#12306a;background-color:#e4dccb;background-image:radial-gradient(ellipse at 50% 45%,rgba(255,246,214,0) 38%,rgba(150,104,40,.34) 100%),linear-gradient(rgba(206,168,98,.30),rgba(206,168,98,.30)),url(assets/palabras/carton-liso.jpg);background-size:100% 100%,100% 100%,cover;clip-path:polygon(0.0% 6.4px,2.5% 2.2px,5.0% 5.3px,7.5% 4.2px,10.0% 6.2px,12.5% 3.8px,15.0% 6.1px,17.5% 2.7px,20.0% 6.5px,22.5% 3.9px,25.0% 2.8px,27.5% 3.6px,30.0% 4.8px,32.5% 2.2px,35.0% 3.7px,37.5% 2.0px,40.0% 2.3px,42.5% 2.8px,45.0% 3.0px,47.5% 3.2px,50.0% 5.5px,52.5% 3.9px,55.0% 5.9px,57.5% 6.0px,60.0% 6.0px,62.5% 6.3px,65.0% 4.6px,67.5% 5.0px,70.0% 6.0px,72.5% 4.4px,75.0% 2.6px,77.5% 4.3px,80.0% 4.4px,82.5% 2.8px,85.0% 2.4px,87.5% 2.8px,90.0% 5.1px,92.5% 5.7px,95.0% 5.0px,97.5% 3.9px,100.0% 2.1px,calc(100% - 2.0px) 7.1%,calc(100% - 4.9px) 14.3%,calc(100% - 4.4px) 21.4%,calc(100% - 4.1px) 28.6%,calc(100% - 2.8px) 35.7%,calc(100% - 2.6px) 42.9%,calc(100% - 2.8px) 50.0%,calc(100% - 2.6px) 57.1%,calc(100% - 4.7px) 64.3%,calc(100% - 3.4px) 71.4%,calc(100% - 4.5px) 78.6%,calc(100% - 3.9px) 85.7%,calc(100% - 4.5px) 92.9%,calc(100% - 5.3px) 100.0%,97.5% calc(100% - 5.5px),95.0% calc(100% - 2.7px),92.5% calc(100% - 6.3px),90.0% calc(100% - 5.8px),87.5% calc(100% - 5.7px),85.0% calc(100% - 4.0px),82.5% calc(100% - 6.3px),80.0% calc(100% - 5.7px),77.5% calc(100% - 3.1px),75.0% calc(100% - 5.1px),72.5% calc(100% - 5.8px),70.0% calc(100% - 5.4px),67.5% calc(100% - 6.0px),65.0% calc(100% - 4.4px),62.5% calc(100% - 5.0px),60.0% calc(100% - 2.3px),57.5% calc(100% - 5.0px),55.0% calc(100% - 2.7px),52.5% calc(100% - 5.3px),50.0% calc(100% - 6.1px),47.5% calc(100% - 3.7px),45.0% calc(100% - 2.3px),42.5% calc(100% - 2.2px),40.0% calc(100% - 4.3px),37.5% calc(100% - 2.7px),35.0% calc(100% - 5.3px),32.5% calc(100% - 4.7px),30.0% calc(100% - 4.3px),27.5% calc(100% - 5.0px),25.0% calc(100% - 2.7px),22.5% calc(100% - 4.1px),20.0% calc(100% - 2.2px),17.5% calc(100% - 4.5px),15.0% calc(100% - 5.6px),12.5% calc(100% - 2.7px),10.0% calc(100% - 5.1px),7.5% calc(100% - 6.5px),5.0% calc(100% - 3.5px),2.5% calc(100% - 2.9px),0.0% calc(100% - 3.1px),5.7px 92.9%,2.4px 85.7%,5.5px 78.6%,3.2px 71.4%,5.4px 64.3%,6.0px 57.1%,5.8px 50.0%,2.9px 42.9%,4.5px 35.7%,3.4px 28.6%,5.9px 21.4%,3.3px 14.3%,2.8px 7.1%)}
 </style>
 </head><body data-layout="mobile">
 <div style="background:#2154aa;color:#ffffff;font-family:'Instrument Sans',sans-serif;font-size:17px;line-height:1.6;overflow:hidden;position:relative">
 
   <section class="textura">
-    <div style="background:rgba(33,84,170,.8);padding:0 20px 56px">
+    <div style="background:rgba(33,84,170,.8);box-sizing:border-box;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;padding:0 20px 40px">
       <header style="position:relative;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:14px 0">
         <a href="home-mobile.html" aria-label="Volver a la home de Juana Cabrera" style="line-height:0"><img src="assets/home/logo-juana.png" alt="Juana Cabrera" style="height:40px;width:auto"></a>
         <button type="button" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu" style="width:48px;height:48px;border:2px solid #ffffff;background:transparent;color:#ffffff;border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8c5-1 11 1 16 0M4 16c5 1 11-1 16 0"></path></svg></button>
@@ -150,10 +152,11 @@ a{color:#ffffff}a:hover{color:#e9edf9}
           <a class="menu-link mano" href="#proceso">Bocetos de letras</a>
         </nav>
       </header>
-      <img src="assets/palabras/lettering-palabras.webp" alt="Palabras" style="width:300px;max-width:100%;margin:18px 0 8px">
-      <h1 class="mano" style="margin:0;font-weight:400;font-size:34px;line-height:1.15;text-transform:uppercase;letter-spacing:1px">Mi primer disco</h1>
-      <div style="position:relative;margin:12px -7px 0">
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;padding-top:calc(33.3vh - 36px);padding-top:calc(33.3svh - 36px)">
+        <h1 class="sr">Palabras, mi primer disco</h1>
+      <div style="position:relative;width:100%;max-width:360px">
         <div style="position:relative;transform:rotate(-2deg)"><img src="assets/palabras/tapa-palabras.jpg" alt="Tapa del disco Palabras" style="display:block;width:100%;aspect-ratio:1;object-fit:cover;border:8px solid #ffffff;box-sizing:border-box;box-shadow:0 18px 30px rgba(0,0,0,.35)"><img src="assets/palabras/cinta.png" alt="" aria-hidden="true" style="position:absolute;right:-2px;top:-12px;width:70px;height:34px;object-fit:cover;opacity:.9;box-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(40deg)"></div>
+      </div>
       </div>
     </div>
   </section>
@@ -181,8 +184,8 @@ a{color:#ffffff}a:hover{color:#e9edf9}
           </div>
         </div>
         <div id="trackList" class="jcard" style="padding:18px 12px 14px;transform:rotate(-.4deg)">
-          <img src="assets/palabras/cinta.png" alt="" aria-hidden="true" style="position:absolute;left:-26px;top:-8px;width:70px;height:26px;object-fit:cover;opacity:.92;box-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(-34deg);pointer-events:none">
-          <div class="jcard-head"><span class="ink">Lado A</span><span class="mono">Palabras · 8 canciones</span></div>
+          <img src="assets/palabras/cinta.png" alt="" aria-hidden="true" style="position:absolute;left:-40px;top:-14px;width:120px;height:44px;object-fit:cover;opacity:.92;box-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(-34deg);pointer-events:none">
+          <div class="jcard-head"><span class="ink">Playlist</span><span class="mono">8 canciones</span></div>
           <ol class="js-tracks"></ol>
         </div>
         <div role="region" aria-label="Reproductor" style="display:flex;flex-direction:column;gap:18px">
@@ -213,9 +216,8 @@ a{color:#ffffff}a:hover{color:#e9edf9}
         </section>
       </div>
       <img src="assets/palabras/pistas/02.webp" alt="" aria-hidden="true" class="rep-deco" style="width:150px;right:60px;top:-150px;transform:rotate(5deg)">
-      <img src="assets/palabras/pistas/03.webp" alt="" aria-hidden="true" class="rep-deco" style="width:120px;left:14px;bottom:-62px;transform:rotate(-4deg)">
-      <div class="rep-cinta" aria-hidden="true" style="margin-left:-50px;top:-13px;width:100px;height:26px;transform:rotate(-2deg)"></div>
-      <div class="rep-cinta" aria-hidden="true" style="margin-left:-50px;bottom:-13px;width:100px;height:26px;transform:rotate(1.5deg)"></div>
+      <div class="rep-cinta" aria-hidden="true" style="margin-left:-85px;top:-22px;width:170px;height:44px;transform:rotate(-2deg)"></div>
+      <div class="rep-cinta" aria-hidden="true" style="margin-left:-135px;bottom:-33px;width:270px;height:66px;transform:rotate(1.5deg)"></div>
     </div>
   </section>
 
@@ -224,11 +226,11 @@ a{color:#ffffff}a:hover{color:#e9edf9}
       <label for="msg" class="carton" style="width:310px;max-width:100%;padding:50px 20px 26px;margin-bottom:-12px;transform:rotate(-2deg);z-index:2"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><span class="mano" style="font-family:'Juana Notas','Juana Mano Suave',cursive;font-size:36px;line-height:1;color:#12306a;white-space:nowrap">Escribime algo</span></label>
       <div class="hoja-clip" style="--s:.4;width:min(340px,100%);min-height:460px;transform:rotate(-1deg)"><div class="fondo" aria-hidden="true"></div>
         <div class="contenido tinta" style="padding:150px 12% 56px 16%">
-          <textarea id="msg" class="maquina" rows="4" placeholder="Escribime algo" style="font-size:21px;line-height:30px;min-height:120px"></textarea>
+          <textarea id="msg" class="maquina" rows="4" placeholder="Click acá para escribir" style="font-size:21px;line-height:30px;min-height:120px"></textarea>
         </div>
       </div>
       <div style="display:flex;align-items:center;justify-content:center;gap:10px">
-        <button type="submit" class="carton-btn" style="min-height:56px;padding:0 18px;border:0;white-space:nowrap;font:400 22px/1 'Juana Mano Suave','Juana Mano Suave LC',cursive;cursor:pointer">Dejar mis palabras</button>
+        <button type="submit" class="carton-btn" style="min-height:56px;padding:0 18px;border:0;white-space:nowrap;font:400 17px/1 'Special Elite','Courier New',monospace;cursor:pointer">Dejar mis palabras</button>
         <svg aria-hidden="true" width="40" height="35" viewBox="0 0 64 56" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transform:rotate(-4deg)"><path d="M54 7C55 18 54 29 51 38C40 41 27 39 12 38"></path><path d="M24 26C20 31 16 35 12 38C16 42 20 46 25 50"></path></svg>
       </div>
     </form>
@@ -238,11 +240,14 @@ a{color:#ffffff}a:hover{color:#e9edf9}
   </section>
 
   <section id="letra" class="textura">
-    <div class="mano" style="background:rgba(33,84,170,.86);padding:64px 24px 72px;display:flex;flex-direction:column;gap:26px;font-weight:400;letter-spacing:.5px;line-height:1.3">
-      <p style="margin:0;font-size:36px;line-height:1.15">Descubrir el mundo es hacer preguntas.</p>
-      <p style="margin:0;font-size:26px">Las mismas preguntas son las que nos unen, nos hacen parte de algo. Nos llevan por un mismo camino.</p>
-      <p style="margin:0;font-size:26px">Un camino que descubre que la vida es un gran conjunto de misterios.</p>
-      <p style="margin:0;font-size:26px">El rol del artista es develar los misterios encontrando la forma de la pregunta como una canción, un cuadro, una foto, un poema,... como una película de la vida.</p>
+    <div style="background:rgba(33,84,170,.86);padding:64px 16px 72px">
+      <div class="hoja-aneja-sombra"><div class="hoja-aneja mano" style="padding:56px 26px 80px;display:flex;flex-direction:column;gap:26px;font-weight:400;letter-spacing:.5px;line-height:1.3">
+          <p style="margin:0;font-size:36px;line-height:1.15">Descubrir el mundo es hacer preguntas.</p>
+          <p style="margin:0;font-size:26px">Las mismas preguntas son las que nos unen, nos hacen parte de algo. Nos llevan por un mismo camino.</p>
+          <p style="margin:0;font-size:26px">Un camino que descubre que la vida es un gran conjunto de misterios.</p>
+          <p style="margin:0;font-size:26px">El rol del artista es develar los misterios encontrando la forma de la pregunta como una canción, un cuadro, una foto, un poema,... como una película de la vida.</p>
+      </div></div>
+      <img src="assets/palabras/img-052.webp" alt="Juana cantando con la cabeza hacia atrás, de camisa blanca y jeans, frente a un telón, en una foto antigua de papel doblado" style="display:block;width:70%;max-width:280px;margin:-48px auto 0;position:relative;transform:rotate(2deg);filter:drop-shadow(0 18px 26px rgba(0,10,40,.45))">
     </div>
   </section>
 
