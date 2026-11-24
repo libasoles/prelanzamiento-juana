@@ -344,8 +344,18 @@
     // Prototipo: igual que el acceso, todavía no hay backend; sólo se muestra el agradecimiento.
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      form.hidden = true;
+      if (thanks.hidden === false) return;
+      // El agradecimiento reemplaza al textarea dentro del mismo papel, con su altura fija: sin salto de layout.
+      const paper = $('msgPaper');
+      if (paper) paper.style.minHeight = paper.offsetHeight + 'px';
+      msg.hidden = true;
       thanks.hidden = false;
+      const abrazo = $('msgAbrazo');
+      if (abrazo) abrazo.hidden = false;
+      form.querySelectorAll('button[type="submit"]').forEach((b) => { b.disabled = true; b.setAttribute('aria-label', 'Enviado'); });
+      form.querySelectorAll('.js-send-label').forEach((l) => { l.textContent = 'Enviado'; });
+      form.querySelectorAll('.js-send-ico').forEach((svg) => { svg.innerHTML = '<path d="M10 30L25 45L54 11"></path>'; });
+      thanks.focus({ preventScroll: true });
     });
   }
 

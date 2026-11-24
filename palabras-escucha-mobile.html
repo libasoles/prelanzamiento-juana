@@ -42,6 +42,8 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 .cuaderno>.hoja{flex:1;min-width:0;box-sizing:border-box;padding:15% 11% 15% 16%;display:flex;flex-direction:column;gap:12px}
 .hoja-rota{position:relative;isolation:isolate;display:flex;aspect-ratio:760 / 1144;box-sizing:border-box}
 .hoja-rota>.fondo{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;filter:drop-shadow(0 14px 22px rgba(0,10,40,.4))}
+.hoja-rota>.aguada{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;overflow:hidden;pointer-events:none;-webkit-mask-image:url(assets/palabras/hoja-arrancada-lisa.webp);mask-image:url(assets/palabras/hoja-arrancada-lisa.webp);-webkit-mask-size:100% 100%;mask-size:100% 100%}
+.hoja-rota>.aguada>img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 20%;opacity:.13;filter:saturate(.8);transform:scaleX(-1)}
 .hoja-rota>.hoja{flex:1;min-width:0;box-sizing:border-box;display:flex;flex-direction:column}
 .tinta{font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-feature-settings:'calt' 1;font-variant-ligatures:common-ligatures contextual;font-weight:400;color:#12306a}
 .tinta p{margin:0}
@@ -55,6 +57,9 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 .carton{position:relative;isolation:isolate;box-sizing:border-box;display:flex;align-items:center;justify-content:center;text-align:center}
 .carton>.fondo{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;filter:drop-shadow(0 14px 24px rgba(0,10,40,.35))}
 .carton-btn{background-color:#e4dccb;background-image:url(assets/home/papel-cinta-a.webp);background-size:cover;background-position:50% 70%;color:#12306a;box-shadow:0 8px 16px rgba(0,10,40,.3);transform:rotate(-1deg);transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}
+.carton-btn:disabled{cursor:default;pointer-events:none;filter:none;transform:rotate(-1deg);opacity:.9}
+.abrazo{position:absolute;right:4%;bottom:6%;width:62%;max-height:70%;object-fit:contain;object-position:100% 100%;opacity:.3;mix-blend-mode:multiply;pointer-events:none;z-index:0}
+.hoja-clip>.contenido{position:relative;z-index:1}
 .carton-btn:hover{transform:translateY(-2px) rotate(-.5deg);box-shadow:0 11px 20px rgba(0,10,40,.4);filter:brightness(1.04)}
 .carton-btn:active{transform:translateY(1px) rotate(-1deg) scale(.97);box-shadow:0 3px 6px rgba(0,10,40,.4)}
 .carton-btn:focus-visible{outline:2px solid #2154aa;outline-offset:3px}
@@ -163,8 +168,8 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 
   <section id="escribir" style="padding:40px 8px 8px;display:flex;flex-direction:column;align-items:center;gap:6px">
     <div class="carton" style="width:310px;max-width:100%;padding:50px 22px 24px;align-self:flex-start;margin-left:12px;transform:rotate(-2deg)"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><h2 style="margin:0;font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-feature-settings:'calt' 0;font-variant-ligatures:none;font-weight:400;font-size:33px;line-height:1.05;color:#12306a;white-space:nowrap">¿Te gustaría escribir?</h2></div>
-    <div class="hoja-rota" style="width:100%;max-width:374px;transform:rotate(-1deg)"><img class="fondo" src="assets/palabras/hoja-arrancada-lisa.webp" alt="" aria-hidden="true"><div class="hoja tinta" style="gap:37px;font-size:29px;line-height:37px;padding:12% 9% 10% 13%"><p>Hola, soy Juana.</p><p>Escribí estas canciones porque había cosas que necesitaba poner en palabras.</p><p>Ahora que las canciones están acá, me dieron ganas de que también nos podamos escribir.</p></div></div>
-    <div class="cuaderno" style="width:100%;max-width:374px;aspect-ratio:1122 / 1500;transform:rotate(-1deg)"><img class="fondo" src="assets/palabras/cuaderno-sin-cinta.webp" alt="" aria-hidden="true"><img src="assets/palabras/img-052.webp" alt="" aria-hidden="true" style="position:absolute;left:11%;top:6%;width:82%;height:88%;object-fit:cover;object-position:50% 30%;z-index:-1;opacity:.28;mix-blend-mode:multiply;filter:blur(2px) saturate(.8);pointer-events:none;-webkit-mask-image:radial-gradient(ellipse 62% 62% at 50% 50%,#000 15%,transparent 100%);mask-image:radial-gradient(ellipse 62% 62% at 50% 50%,#000 15%,transparent 100%)"><div class="hoja tinta" style="gap:37px;font-size:29px;line-height:37px"><p>Si alguna canción te hizo acordar de algo, te dejó pensando o te despertó una palabra, podés escribímelo acá.</p><p>A veces una sola palabra alcanza.</p></div><img src="assets/palabras/estrellas.webp" alt="" aria-hidden="true" style="position:absolute;right:20%;bottom:15%;width:29%;transform:rotate(-6deg)"></div>
+    <div class="hoja-rota" style="width:100%;max-width:374px;transform:rotate(-1deg)"><img class="fondo" src="assets/palabras/hoja-arrancada-lisa.webp" alt="" aria-hidden="true"><div aria-hidden="true" class="aguada"><img src="assets/palabras/img-052-foto.jpg" alt=""></div><div class="hoja tinta" style="gap:37px;font-size:29px;line-height:37px;padding:12% 9% 10% 13%"><p>Hola, soy Juana.</p><p>Escribí estas canciones porque había cosas que necesitaba poner en palabras.</p><p>Ahora que las canciones están acá, me dieron ganas de que también nos podamos escribir.</p></div></div>
+    <div class="cuaderno" style="width:100%;max-width:374px;aspect-ratio:1122 / 1500;transform:rotate(-1deg)"><img class="fondo" src="assets/palabras/cuaderno-sin-cinta.webp" alt="" aria-hidden="true"><div class="hoja tinta" style="gap:37px;font-size:29px;line-height:37px"><p>Si alguna canción te hizo acordar de algo, te dejó pensando o te despertó una palabra, podés escribímelo acá.</p><p>A veces una sola palabra alcanza.</p></div><img src="assets/palabras/estrellas.webp" alt="" aria-hidden="true" style="position:absolute;right:20%;bottom:15%;width:29%;transform:rotate(-6deg)"></div>
   </section>
 
   <section id="canciones" style="padding:110px 0 110px">
@@ -223,19 +228,17 @@ a{color:#ffffff}a:hover{color:#e9edf9}
   <section id="mensaje" style="padding:40px 20px 64px;display:flex;flex-direction:column;align-items:center">
     <form id="msgForm" style="display:flex;flex-direction:column;align-items:center;gap:22px;width:100%">
       <label for="msg" class="carton" style="width:310px;max-width:100%;padding:50px 20px 26px;margin-bottom:-12px;transform:rotate(-2deg);z-index:2"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><span class="mano" style="font-family:'Juana Notas','Juana Mano Suave',cursive;font-size:36px;line-height:1;color:#12306a;white-space:nowrap">Escribime algo</span></label>
-      <div class="hoja-clip" style="--s:.4;width:min(340px,100%);min-height:460px;transform:rotate(-1deg)"><div class="fondo" aria-hidden="true"></div>
+      <div id="msgPaper" class="hoja-clip" style="--s:.4;width:min(340px,100%);min-height:460px;transform:rotate(-1deg)"><div class="fondo" aria-hidden="true"></div><img id="msgAbrazo" class="abrazo" hidden src="assets/palabras/abrazo-2.webp" alt="" aria-hidden="true">
         <div class="contenido tinta" style="padding:150px 12% 56px 16%">
+          <p id="msgThanks" hidden role="status" tabindex="-1" style="margin:0;font-size:34px;line-height:1.15;padding-top:6%;outline:0">Gracias por dejarme tus palabras.</p>
           <textarea id="msg" class="maquina" rows="4" placeholder="Click acá para escribir" style="font-size:21px;line-height:30px;min-height:120px"></textarea>
         </div>
       </div>
       <div style="display:flex;align-items:center;justify-content:center;gap:10px">
-        <button type="submit" class="carton-btn" style="min-height:56px;padding:0 18px;border:0;white-space:nowrap;font:400 17px/1 'Special Elite','Courier New',monospace;cursor:pointer">Dejar mis palabras</button>
-        <svg aria-hidden="true" width="40" height="35" viewBox="0 0 64 56" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transform:rotate(-4deg)"><path d="M54 7C55 18 54 29 51 38C40 41 27 39 12 38"></path><path d="M24 26C20 31 16 35 12 38C16 42 20 46 25 50"></path></svg>
+        <button type="submit" class="carton-btn" style="min-height:56px;padding:0 18px;border:0;white-space:nowrap;font:400 17px/1 'Special Elite','Courier New',monospace;cursor:pointer"><span class="js-send-label">Dejar mis palabras</span></button>
+        <svg aria-hidden="true" class="js-send-ico" width="40" height="35" viewBox="0 0 64 56" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transform:rotate(-4deg)"><path d="M54 7C55 18 54 29 51 38C40 41 27 39 12 38"></path><path d="M24 26C20 31 16 35 12 38C16 42 20 46 25 50"></path></svg>
       </div>
     </form>
-    <div id="msgThanks" hidden class="hoja-clip" style="--s:.4;width:min(340px,100%);min-height:330px;transform:rotate(-1deg)"><div class="fondo" aria-hidden="true"></div>
-      <div class="contenido tinta" style="padding:150px 12% 56px 16%"><p role="status" style="margin:0;font-size:34px;line-height:1.15;padding-top:6%">Gracias por dejarme tus palabras.</p></div>
-    </div>
   </section>
 
   <section id="letra" class="textura">
@@ -245,7 +248,7 @@ a{color:#ffffff}a:hover{color:#e9edf9}
           <p style="margin:0;font-size:26px">Las mismas preguntas son las que nos unen, nos hacen parte de algo. Nos llevan por un mismo camino.</p>
           <p style="margin:0;font-size:26px">Un camino que descubre que la vida es un gran conjunto de misterios.</p>
       </div></div>
-      <div class="hoja-aneja-sombra" style="position:relative;width:94%;margin:-18px 0 0 auto;transform:rotate(-1deg)"><div class="hoja-aneja mano" style="padding:46px 22px 64px;font-weight:400;letter-spacing:.5px;line-height:1.3">
+      <div class="hoja-aneja-sombra" style="position:relative;width:94%;margin:-52px 0 0 auto;transform:rotate(-1deg)"><div class="hoja-aneja mano" style="padding:46px 22px 64px;font-weight:400;letter-spacing:.5px;line-height:1.3">
           <p style="margin:0;font-size:26px">El rol del artista es develar los misterios encontrando la forma de la pregunta como una canción, un cuadro, una foto, un poema,... como una película de la vida.</p>
       </div></div>
       <img src="assets/palabras/img-052-afiche.webp" alt="Juana cantando con la cabeza hacia atrás, de camisa blanca y jeans, frente a un telón, en una foto antigua de papel doblado" style="display:block;width:70%;max-width:280px;margin:-48px auto 0;position:relative;transform:rotate(2deg);filter:drop-shadow(0 18px 26px rgba(0,10,40,.45))">
