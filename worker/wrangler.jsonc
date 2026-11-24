@@ -9,7 +9,7 @@
     // Origen del sitio: se usa para CORS y para armar el link del mail.
     "SITE_URL": "https://darling-frangollo-d47318.netlify.app",
     // Remitente: tiene que ser un dominio verificado en Resend.
-    "MAIL_FROM": "Juana Cabrera <palabras@send.juanacabrera.com.ar>",
+    "MAIL_FROM": "Juana Cabrera <palabras@juanacabrera.com.ar>",
     // Códigos de postal válidos (placeholder, igual que VALID_CODES en app.js).
     "CODES": "JUANA,PALAB"
   }
