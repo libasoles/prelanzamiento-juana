@@ -31,6 +31,8 @@ const description =
       d.dataset.auth = 'out';
       try {
         if (/[?&]token=/.test(location.search)) return;
+        // Temporal: ?preview se saltea la autenticación.
+        if (/[?&]preview(=|&|$)/.test(location.search)) { d.dataset.auth = 'in'; return; }
         var t = localStorage.getItem('juana.session');
         var p = t && JSON.parse(atob(t.split('.')[0].replace(/-/g, '+').replace(/_/g, '/')));
         if (p && typeof p.exp === 'number' && p.exp > Date.now()) d.dataset.auth = 'in';

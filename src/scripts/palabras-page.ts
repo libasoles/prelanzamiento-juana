@@ -67,6 +67,11 @@ form?.addEventListener('submit', async (e) => {
 
 async function boot() {
   const url = new URL(location.href);
+  // Temporal: ?preview se saltea la autenticación y muestra la página.
+  if (url.searchParams.has('preview')) {
+    showUnlocked();
+    return;
+  }
   const token = url.searchParams.get('token');
   if (token) {
     const ok = await verifyToken(token);
