@@ -155,11 +155,20 @@
     renderTime();
     scrollToVisual();
   }
-  // Mobile: al arrancar la reproducción con video, el video queda arriba del viewport.
+  // Mobile: al arrancar la reproducción con video, la pantalla del video queda pegada al borde
+  // superior del viewport (la placa del reproductor queda por encima, fuera de vista).
+  let scrollFix = 0;
   function scrollToVisual() {
     if (!mobile || !S.playing || S.fullscreen || S.lyricsFull) return;
     const v = $('visual');
-    if (v && !v.hidden && PALABRAS_TRACKS[S.current].video) v.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    if (!v || v.hidden || !PALABRAS_TRACKS[S.current].video) return;
+    const top = () => (v.querySelector('.screen') || v).getBoundingClientRect().top + window.scrollY;
+    requestAnimationFrame(() => window.scrollTo({ top: top(), behavior: 'smooth' }));
+    // Si el scroll suave se interrumpe (layout que cambia, navegador móvil), se corrige al final.
+    clearTimeout(scrollFix);
+    scrollFix = setTimeout(() => {
+      if (Math.abs(top() - window.scrollY) > 1) window.scrollTo({ top: top(), behavior: 'auto' });
+    }, 800);
   }
   function toggle() {
     if (S.current < 0) { select(0, true); return; }
@@ -203,6 +212,19 @@
     });
   }
 
+  // ---- Letras en papel de cuaderno: el fondo de renglones queda fijo y el texto avanza de a un
+  // renglón, para que cada línea siempre apoye sobre una raya.
+  $$('.js-lyrics.renglones, .js-lyrics.renglones-m').forEach((box) => {
+    const LH = box.classList.contains('renglones-m') ? 40 : 48;
+    let t = 0;
+    box.addEventListener('scroll', () => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        const to = Math.round(box.scrollTop / LH) * LH;
+        if (Math.abs(to - box.scrollTop) > 0.5) box.scrollTo({ top: to, behavior: 'smooth' });
+      }, 90);
+    }, { passive: true });
+  });
   // ---- Animación del reproductor: los cuadros sólo cambian mientras hay scroll ----
   // (página o caja de letras). Se pausa poco después de que el scroll se detiene.
   {

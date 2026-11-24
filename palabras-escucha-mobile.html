@@ -83,7 +83,7 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .ink{font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive}
 .cuaderno{z-index:2}
-.rep{position:relative;filter:drop-shadow(0 24px 26px rgba(0,10,40,.4))}
+.rep{position:relative;filter:drop-shadow(0 -12px 22px rgba(0,10,40,.35))}
 .rep-card{position:relative;z-index:1;background-color:#e4dccb;background-image:url(assets/palabras/carton-liso.jpg);background-size:cover}
 .rep-deco{position:absolute;z-index:0;height:auto;pointer-events:none;filter:drop-shadow(0 10px 14px rgba(0,10,40,.45))}
 .rep-cinta{position:absolute;z-index:2;left:50%;pointer-events:none;background:linear-gradient(rgba(243,235,205,.93),rgba(226,214,176,.93));box-shadow:0 1px 3px rgba(0,0,0,.3)}
@@ -125,9 +125,9 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 .times{display:flex;justify-content:space-between;font-size:13px;margin-top:4px;color:#12306a}
 .papel{position:relative;box-shadow:0 14px 24px rgba(0,10,40,.35);border-radius:3px;transform:rotate(-.6deg)}
 .papel-agujeros{position:absolute;left:14px;top:0;bottom:0;width:20px;z-index:2;pointer-events:none;background-image:radial-gradient(circle,#1a4590 0,#1a4590 6px,transparent 7px);background-size:20px 110px;background-position:0 40px}
-.renglones{background-color:#f3eddc;background-image:linear-gradient(90deg,transparent 0,transparent 64px,rgba(184,51,43,.55) 64px,rgba(184,51,43,.55) 66px,transparent 66px),repeating-linear-gradient(to bottom,transparent 0,transparent 47px,rgba(33,84,170,.3) 47px,rgba(33,84,170,.3) 48px);background-attachment:local;font-family:'Special Elite','Courier New',monospace;font-size:25px;line-height:48px;color:#12306a;box-sizing:border-box}
+.renglones{background-color:#f3eddc;background-image:linear-gradient(90deg,transparent 0,transparent 64px,rgba(184,51,43,.55) 64px,rgba(184,51,43,.55) 66px,transparent 66px),repeating-linear-gradient(to bottom,transparent 0,transparent 47px,rgba(33,84,170,.3) 47px,rgba(33,84,170,.3) 48px);background-attachment:scroll;font-family:'Special Elite','Courier New',monospace;font-size:25px;line-height:48px;color:#12306a;box-sizing:border-box}
 .renglones p{margin:0 0 48px!important;line-height:48px}
-.renglones-m{background-color:#f3eddc;background-image:linear-gradient(90deg,transparent 0,transparent 44px,rgba(184,51,43,.55) 44px,rgba(184,51,43,.55) 46px,transparent 46px),repeating-linear-gradient(to bottom,transparent 0,transparent 39px,rgba(33,84,170,.3) 39px,rgba(33,84,170,.3) 40px);background-attachment:local;font-family:'Special Elite','Courier New',monospace;font-size:19px;line-height:40px;color:#12306a;box-sizing:border-box}
+.renglones-m{background-color:#f3eddc;background-image:linear-gradient(90deg,transparent 0,transparent 44px,rgba(184,51,43,.55) 44px,rgba(184,51,43,.55) 46px,transparent 46px),repeating-linear-gradient(to bottom,transparent 0,transparent 39px,rgba(33,84,170,.3) 39px,rgba(33,84,170,.3) 40px);background-attachment:scroll;font-family:'Special Elite','Courier New',monospace;font-size:19px;line-height:40px;color:#12306a;box-sizing:border-box}
 .renglones-m p{margin:0 0 40px!important;line-height:40px}
 .renglones-m p[style*="opacity: 0.6"]{opacity:.72!important}
 .rep-card{padding:76px 14px 80px;display:flex;flex-direction:column;gap:20px;clip-path:polygon(0.0% 1.9px,3.4% 2.6px,6.8% 2.8px,10.2% 1.9px,13.6% 3.7px,17.0% 3.5px,20.4% 3.4px,23.8% 4.0px,27.2% 3.0px,30.6% 3.9px,34.0% 3.4px,37.4% 3.0px,40.8% 2.3px,44.2% 1.9px,47.6% 1.2px,51.0% 2.5px,54.4% 1.7px,57.8% 1.8px,61.2% 2.0px,64.6% 2.9px,68.0% 3.0px,71.4% 2.6px,74.8% 2.7px,78.2% 3.6px,81.6% 3.5px,85.0% 3.5px,88.4% 4.0px,91.8% 3.0px,95.2% 2.7px,98.6% 2.5px,100% 2.9px,100% 100%,0.0% 100%)}
@@ -152,7 +152,7 @@ a{color:#ffffff}a:hover{color:#e9edf9}
           <a class="menu-link mano" href="#proceso">Bocetos de letras</a>
         </nav>
       </header>
-      <div style="flex:1;display:flex;align-items:center;justify-content:center;padding-top:calc(33.3vh - 36px);padding-top:calc(33.3svh - 36px)">
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;padding-top:calc(20vh - 36px);padding-top:calc(20svh - 36px)">
         <h1 class="sr">Palabras, mi primer disco</h1>
       <div style="position:relative;width:100%;max-width:360px">
         <div style="position:relative;transform:rotate(-2deg)"><img src="assets/palabras/tapa-palabras.jpg" alt="Tapa del disco Palabras" style="display:block;width:100%;aspect-ratio:1;object-fit:cover;border:8px solid #ffffff;box-sizing:border-box;box-shadow:0 18px 30px rgba(0,0,0,.35)"><img src="assets/palabras/cinta.png" alt="" aria-hidden="true" style="position:absolute;right:-2px;top:-12px;width:70px;height:34px;object-fit:cover;opacity:.9;box-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(40deg)"></div>
@@ -162,7 +162,7 @@ a{color:#ffffff}a:hover{color:#e9edf9}
   </section>
 
   <section id="escribir" style="padding:40px 8px 8px;display:flex;flex-direction:column;align-items:center;gap:6px">
-    <div class="carton" style="width:310px;max-width:100%;padding:62px 22px 30px;align-self:flex-start;margin-left:12px;transform:rotate(-2deg)"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><h2 style="margin:0;font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-feature-settings:'calt' 0;font-variant-ligatures:none;font-weight:400;font-size:33px;line-height:1.05;color:#12306a;white-space:nowrap">¿Te gustaría escribir?</h2></div>
+    <div class="carton" style="width:310px;max-width:100%;padding:50px 22px 24px;align-self:flex-start;margin-left:12px;transform:rotate(-2deg)"><img class="fondo" src="assets/home/papel-cinta-a.webp" alt="" aria-hidden="true"><h2 style="margin:0;font-family:'Juana Mano Suave LC','Juana Mano Suave',cursive;font-feature-settings:'calt' 0;font-variant-ligatures:none;font-weight:400;font-size:33px;line-height:1.05;color:#12306a;white-space:nowrap">¿Te gustaría escribir?</h2></div>
     <div class="hoja-rota" style="width:100%;max-width:374px;transform:rotate(-1deg)"><img class="fondo" src="assets/palabras/hoja-arrancada-lisa.webp" alt="" aria-hidden="true"><div class="hoja tinta" style="gap:37px;font-size:29px;line-height:37px;padding:12% 9% 10% 13%"><p>Hola, soy Juana.</p><p>Escribí estas canciones porque había cosas que necesitaba poner en palabras.</p><p>Ahora que las canciones están acá, me dieron ganas de que también nos podamos escribir.</p></div></div>
     <div class="cuaderno" style="width:100%;max-width:374px;aspect-ratio:1122 / 1500;transform:rotate(-1deg)"><img class="fondo" src="assets/palabras/cuaderno-sin-cinta.webp" alt="" aria-hidden="true"><img src="assets/palabras/img-052.webp" alt="" aria-hidden="true" style="position:absolute;left:11%;top:6%;width:82%;height:88%;object-fit:cover;object-position:50% 30%;z-index:-1;opacity:.28;mix-blend-mode:multiply;filter:blur(2px) saturate(.8);pointer-events:none;-webkit-mask-image:radial-gradient(ellipse 62% 62% at 50% 50%,#000 15%,transparent 100%);mask-image:radial-gradient(ellipse 62% 62% at 50% 50%,#000 15%,transparent 100%)"><div class="hoja tinta" style="gap:37px;font-size:29px;line-height:37px"><p>Si alguna canción te hizo acordar de algo, te dejó pensando o te despertó una palabra, podés escribímelo acá.</p><p>A veces una sola palabra alcanza.</p></div><img src="assets/palabras/estrellas.webp" alt="" aria-hidden="true" style="position:absolute;right:20%;bottom:15%;width:29%;transform:rotate(-6deg)"></div>
   </section>
@@ -189,8 +189,8 @@ a{color:#ffffff}a:hover{color:#e9edf9}
           <ol class="js-tracks"></ol>
         </div>
         <div role="region" aria-label="Reproductor" style="display:flex;flex-direction:column;gap:18px">
-          <div data-has-player hidden style="display:flex;align-items:center;gap:10px;color:#12306a;border-bottom:1px dashed rgba(18,48,106,.45);padding-bottom:8px">
-            <span style="flex:1;min-width:0;display:flex;flex-direction:column"><span class="ink js-now-title" style="font-size:30px;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></span><span class="mono" style="font-size:12px">Juana · Palabras</span></span>
+          <div data-has-player hidden style="display:flex;align-items:center;gap:10px;color:#12306a;background:#f3eddc;border-radius:3px;padding:10px 12px;box-shadow:0 8px 14px rgba(0,10,40,.3);transform:rotate(-.4deg)">
+            <span style="flex:1;min-width:0;display:flex;flex-direction:column"><span class="mono js-now-title" style="font-size:21px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></span><span class="mono" style="font-size:12px">Juana · Palabras</span></span>
             <button type="button" class="tecla tecla-s js-open-full" aria-label="Pantalla completa" style="min-width:48px"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button>
           </div>
           <div>
@@ -206,9 +206,9 @@ a{color:#ffffff}a:hover{color:#e9edf9}
             <button type="button" class="tecla tecla-m js-next" aria-label="Canción siguiente" disabled><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"></path></svg></button>
           </div>
         </div>
-        <section data-has-player hidden aria-label="Letras" class="js-open-lyrics papel" style="cursor:pointer;background:#f3eddc;color:#12306a;padding:14px 0 8px;transform:rotate(-.5deg);overflow:hidden">
+        <section data-has-player hidden aria-label="Letra" class="js-open-lyrics papel" style="cursor:pointer;background:#f3eddc;color:#12306a;padding:14px 0 8px;transform:rotate(-.5deg);overflow:hidden">
           <div style="display:flex;align-items:center;justify-content:space-between;padding:0 12px 6px 56px">
-            <h3 class="ink" style="margin:0;font-size:32px;font-weight:400;line-height:1.1">Letras</h3>
+            <h3 class="ink" style="margin:0;font-size:46px;font-weight:400;line-height:1">Letra</h3>
             <button type="button" aria-label="Ver letra en pantalla completa" class="tecla tecla-s" style="min-width:48px"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button>
           </div>
           <div aria-hidden="true" style="position:absolute;left:10px;top:0;bottom:0;width:16px;pointer-events:none;background-image:radial-gradient(circle,#1a4590 0,#1a4590 5px,transparent 6px);background-size:16px 90px;background-position:0 30px"></div>
@@ -247,7 +247,7 @@ a{color:#ffffff}a:hover{color:#e9edf9}
           <p style="margin:0;font-size:26px">Un camino que descubre que la vida es un gran conjunto de misterios.</p>
           <p style="margin:0;font-size:26px">El rol del artista es develar los misterios encontrando la forma de la pregunta como una canción, un cuadro, una foto, un poema,... como una película de la vida.</p>
       </div></div>
-      <img src="assets/palabras/img-052.webp" alt="Juana cantando con la cabeza hacia atrás, de camisa blanca y jeans, frente a un telón, en una foto antigua de papel doblado" style="display:block;width:70%;max-width:280px;margin:-48px auto 0;position:relative;transform:rotate(2deg);filter:drop-shadow(0 18px 26px rgba(0,10,40,.45))">
+      <img src="assets/palabras/img-052-afiche.webp" alt="Juana cantando con la cabeza hacia atrás, de camisa blanca y jeans, frente a un telón, en una foto antigua de papel doblado" style="display:block;width:70%;max-width:280px;margin:-48px auto 0;position:relative;transform:rotate(2deg);filter:drop-shadow(0 18px 26px rgba(0,10,40,.45))">
     </div>
   </section>
 
@@ -306,8 +306,8 @@ a{color:#ffffff}a:hover{color:#e9edf9}
           <button type="button" class="ctl js-next" aria-label="Canción siguiente" style="width:56px;height:56px"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"></path></svg></button>
         </div>
       </div>
-      <section aria-label="Letras" style="margin-top:26px;border-radius:20px;background:linear-gradient(160deg,#1c4c9e 0%,#12306a 75%);padding:18px 20px 6px">
-        <h3 style="margin:0 0 12px;font:600 18px 'Instrument Sans',sans-serif">Letras</h3>
+      <section aria-label="Letra" style="margin-top:26px;border-radius:20px;background:linear-gradient(160deg,#1c4c9e 0%,#12306a 75%);padding:18px 20px 6px">
+        <h3 style="margin:0 0 12px;font:600 18px 'Instrument Sans',sans-serif">Letra</h3>
         <div class="js-lyrics" aria-live="polite" style="font-family:'Special Elite','Courier New',monospace;font-size:19px;line-height:1.5"></div>
       </section>
     </div>
