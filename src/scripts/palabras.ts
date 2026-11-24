@@ -168,13 +168,42 @@ export function initPalabras(): void {
     if (!document.activeElement || !document.activeElement.classList.contains('js-lyrics')) renderNowLine();
   }
 
+  // ---- Precarga de audios --------------------------------------------------
+  // Se baja completa la primera canción al abrir la pantalla y, mientras suena una, la siguiente.
+  // Se guardan como blob (sólo la actual y la próxima) para que el play y el seek sean inmediatos.
+  // Si el blob todavía no llegó se usa la URL normal. No precarga con ahorro de datos o red lenta.
+  const warm = new Map<number, string | Promise<void>>();
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  const canWarm = !(conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')));
+  function warmTrack(i: number) {
+    i = (i + N) % N;
+    const url = PALABRAS_TRACKS[i].audio;
+    if (!canWarm || !url || warm.has(i)) return;
+    const job = fetch(url)
+      .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
+      .then((b) => { warm.set(i, URL.createObjectURL(b)); })
+      .catch(() => { warm.delete(i); });
+    warm.set(i, job);
+  }
+  function keepWarm(keep: number[]) {
+    warm.forEach((v, i) => {
+      if (keep.includes(i) || typeof v !== 'string') return;
+      URL.revokeObjectURL(v);
+      warm.delete(i);
+    });
+  }
+  const idle = (fn: () => void) => (typeof window.requestIdleCallback === 'function' ? window.requestIdleCallback(fn) : setTimeout(fn, 800));
+  idle(() => warmTrack(0));
+
   // ---- Reproducción ------------------------------------------------------
   function select(i: number, play: boolean) {
     S.current = (i + N) % N;
     const t = PALABRAS_TRACKS[S.current];
     S.listView = false;
     audio.pause();
-    if (t.audio) { audio.src = t.audio; audio.load(); } else { audio.removeAttribute('src'); audio.load(); }
+    const ready = warm.get(S.current);
+    if (t.audio) { audio.src = typeof ready === 'string' ? ready : t.audio; audio.load(); } else { audio.removeAttribute('src'); audio.load(); }
+    keepWarm([S.current, (S.current + 1) % N]);
     S.playing = !!play && !!t.audio;
     if (S.playing) audio.play().catch(() => { S.playing = false; renderStatic(); });
     renderStatic();
@@ -206,6 +235,8 @@ export function initPalabras(): void {
   }
   audio.addEventListener('timeupdate', renderTime);
   audio.addEventListener('loadedmetadata', renderTime);
+  // La actual ya puede sonar de corrido: recién ahí se baja la próxima.
+  audio.addEventListener('canplaythrough', () => { if (S.current >= 0) warmTrack(S.current + 1); });
   audio.addEventListener('ended', () => select(S.current + 1, true));
 
   $$('.js-play').forEach((b) => b.addEventListener('click', toggle));
