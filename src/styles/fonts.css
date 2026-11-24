@@ -1,0 +1,28 @@
+/* Fuentes autoalojadas (sin Google Fonts: menos requests y sin bloqueo de render). */
+@import '@fontsource/covered-by-your-grace/latin-400.css';
+@import '@fontsource/courier-prime/latin-400.css';
+@import '@fontsource/courier-prime/latin-700.css';
+@import '@fontsource/special-elite/latin-400.css';
+@import '@fontsource-variable/instrument-sans/wght.css';
+
+/* Manuscrita de Juana (propias). */
+@font-face {
+  font-family: 'Juana Mano Suave';
+  src: url('../assets/fonts/JuanaManoSuaveLC-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Juana Mano Suave LC';
+  src: url('../assets/fonts/JuanaManoSuaveLC-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Juana Mano Fina Suave';
+  src: url('../assets/fonts/JuanaManoFinaSuave-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Juana Notas';
+  src: url('../assets/fonts/JuanaNotas-Regular.woff2') format('woff2');
+  font-display: swap;
+}
