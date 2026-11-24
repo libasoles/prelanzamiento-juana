@@ -108,6 +108,9 @@ a{color:#ffffff}a:hover{color:#e9edf9}
 .tecla-play{color:#ffffff;background:linear-gradient(#2d62b8,#12306a);box-shadow:0 6px 0 #081a3d,0 10px 14px rgba(0,10,40,.4),inset 0 1px 0 rgba(255,255,255,.35)}
 .tecla:active{transform:translateY(4px);box-shadow:0 1px 0 #8f8061,0 3px 6px rgba(0,10,40,.4),inset 0 1px 0 rgba(255,255,255,.4)}
 .tecla-play:active{box-shadow:0 1px 0 #081a3d,0 3px 6px rgba(0,10,40,.45),inset 0 1px 0 rgba(255,255,255,.25)}
+.tecla-play{border-radius:50%;width:92px;height:92px;min-width:92px}
+.tecla-m.tecla-play{width:76px;height:76px;min-width:76px}
+.tecla-play svg{width:36px;height:36px}
 .tecla:disabled{opacity:.8!important;cursor:default}
 .tecla:focus-visible{outline:3px solid #12306a;outline-offset:3px}
 @media (prefers-reduced-motion:reduce){.tecla{transition:none}}
@@ -191,7 +194,7 @@ a{color:#ffffff}a:hover{color:#e9edf9}
             <label for="seek-m" class="sr">Posición</label>
             <input id="seek-m" type="range" class="fader js-seek" min="0" max="1000" value="0" disabled>
             <div class="ticks" aria-hidden="true"></div>
-            <div class="mono times" aria-hidden="true"><span class="js-time-now">0:00</span><span class="js-time-total">0:00</span></div>
+            
           </div>
           <div style="display:flex;align-items:center;justify-content:center;gap:12px">
             <button type="button" id="toggleView" class="tecla tecla-m" aria-label="Ver lista de canciones" style="visibility:hidden"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path id="viewIcon" d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
