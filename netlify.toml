@@ -1,6 +1,9 @@
 [build]
   command = "npm run build"
   publish = "dist"
+  # El build y deploy los hace GitHub Actions (.github/workflows/deploy.yml).
+  # exit 0 = Netlify salta sus builds automáticos; los deploys por CLI no se ven afectados.
+  ignore = "exit 0"
 
 [build.environment]
   NODE_VERSION = "22"
