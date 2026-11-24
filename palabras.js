@@ -257,6 +257,52 @@
       const to = Math.round(box.scrollTop / LH) * LH + steps * LH;
       box.scrollTo({ top: Math.max(0, Math.min(max, to)), behavior: 'auto' });
     }, { passive: false });
+    // Touch: el dedo arrastra la letra de a renglones enteros (igual que la rueda en desktop) y un
+    // gesto rápido sigue unos renglones más. En los extremos deja que la página siga scrolleando.
+    let ty = 0, tAcc = 0, tOwn = false, tMoved = false, tLast = 0, tV = 0, tT = 0, fling = 0;
+    const stepBy = (steps) => {
+      const max = box.scrollHeight - box.clientHeight;
+      const to = Math.round(box.scrollTop / LH) * LH + steps * LH;
+      box.scrollTo({ top: Math.max(0, Math.min(max, to)), behavior: 'auto' });
+    };
+    box.addEventListener('touchstart', (e) => {
+      clearTimeout(fling);
+      if (e.touches.length !== 1) { tOwn = false; return; }
+      ty = tLast = e.touches[0].clientY; tT = e.timeStamp; tV = 0; tAcc = 0; tOwn = null; tMoved = false;
+    }, { passive: true });
+    box.addEventListener('touchmove', (e) => {
+      if (e.touches.length !== 1 || tOwn === false) return;
+      const y = e.touches[0].clientY, dy = tLast - y;
+      const max = box.scrollHeight - box.clientHeight;
+      if (tOwn === null) {
+        if (Math.abs(ty - y) < 4) return;
+        const atEdge = (dy < 0 && box.scrollTop <= 0) || (dy > 0 && box.scrollTop >= max - 1);
+        tOwn = !atEdge;
+        if (!tOwn) return;
+      }
+      e.preventDefault();
+      tMoved = true;
+      const dt = e.timeStamp - tT || 1;
+      tV = 0.7 * tV + 0.3 * (dy / dt); tT = e.timeStamp; tLast = y;
+      tAcc += dy;
+      const steps = Math.trunc(tAcc / LH);
+      if (!steps) return;
+      tAcc -= steps * LH;
+      stepBy(steps);
+    }, { passive: false });
+    box.addEventListener('touchend', (e) => {
+      if (!tOwn) return;
+      let left = Math.max(-8, Math.min(8, Math.round(tV * 220 / LH)));
+      const dir = Math.sign(left);
+      const tick = () => {
+        if (!left) return;
+        stepBy(dir); left -= dir;
+        fling = setTimeout(tick, 40 + 25 * (Math.abs(Math.round(tV * 220 / LH)) - Math.abs(left)));
+      };
+      tick();
+    }, { passive: true });
+    // El gesto de arrastre no debe contar como toque (la caja abre la letra a pantalla completa).
+    box.addEventListener('click', (e) => { if (tMoved) { e.stopPropagation(); tMoved = false; } }, true);
     // Respaldo (navegadores sin scroll-snap): al terminar el scroll, se acomoda al renglón más cercano.
     let t = 0;
     box.addEventListener('scroll', () => {
