@@ -62,6 +62,7 @@
         p.style.cssText = 'margin:0 0 ' + (mobile ? '.7em' : '.5em') + ';white-space:pre-line' + (mobile ? ';opacity:' + (i === idx ? 1 : 0.6) : '');
         box.appendChild(p);
       });
+      snapRows(box);
     });
     renderNowLine();
   }
@@ -212,17 +213,58 @@
     });
   }
 
-  // ---- Letras en papel de cuaderno: el fondo de renglones queda fijo y el texto avanza de a un
-  // renglón, para que cada línea siempre apoye sobre una raya.
+  // ---- Letras en papel de cuaderno: el fondo de renglones queda fijo y el texto avanza siempre
+  // de a renglones enteros, así cada línea de texto coincide con una raya dibujada.
+  // - Alto de renglón (px): 48 en desktop, 40 en mobile (igual al fondo de .renglones / .renglones-m).
+  const rowH = (box) => (box.classList.contains('renglones-m') ? 40 : 48);
+  // Puntos de enganche (scroll-snap) cada renglón, para touch, teclado y barra de scroll; y un
+  // relleno al final para que el último renglón también quede alineado.
+  function snapRows(box) {
+    if (!box.matches('.renglones, .renglones-m')) return;
+    const LH = rowH(box);
+    box.querySelectorAll('i[data-snap]').forEach((n) => n.remove());
+    box.style.scrollSnapType = 'y mandatory';
+    if (getComputedStyle(box).position === 'static') box.style.position = 'relative';
+    const pad = (LH - ((box.scrollHeight - box.clientHeight) % LH)) % LH;
+    if (pad) { const sp = document.createElement('i'); sp.dataset.snap = '1'; sp.setAttribute('aria-hidden', 'true'); sp.style.cssText = 'display:block;height:' + pad + 'px'; box.appendChild(sp); }
+    const max = Math.max(0, box.scrollHeight - box.clientHeight);
+    for (let k = 0; k * LH <= max; k++) {
+      const m = document.createElement('i');
+      m.dataset.snap = '1';
+      m.setAttribute('aria-hidden', 'true');
+      m.style.cssText = 'position:absolute;left:0;top:' + k * LH + 'px;width:1px;height:1px;scroll-snap-align:start;pointer-events:none';
+      box.appendChild(m);
+    }
+  }
+  // Rueda / trackpad: avanza de a renglones exactos (sin posiciones intermedias). En los extremos
+  // deja que la página siga scrolleando.
   $$('.js-lyrics.renglones, .js-lyrics.renglones-m').forEach((box) => {
-    const LH = box.classList.contains('renglones-m') ? 40 : 48;
+    const LH = rowH(box);
+    // La caja puede estar oculta al renderizar (alto 0): se recalcula cuando cambia de tamaño.
+    if (window.ResizeObserver) new ResizeObserver(() => snapRows(box)).observe(box);
+    let acc = 0, idle = 0;
+    box.addEventListener('wheel', (e) => {
+      if (e.ctrlKey || !e.deltaY) return;
+      const dy = e.deltaMode === 1 ? e.deltaY * LH : e.deltaMode === 2 ? e.deltaY * box.clientHeight : e.deltaY;
+      const max = box.scrollHeight - box.clientHeight;
+      if ((dy < 0 && box.scrollTop <= 0) || (dy > 0 && box.scrollTop >= max - 1)) { acc = 0; return; }
+      e.preventDefault();
+      acc += dy;
+      clearTimeout(idle); idle = setTimeout(() => { acc = 0; }, 200);
+      const steps = Math.trunc(acc / LH);
+      if (!steps) return;
+      acc -= steps * LH;
+      const to = Math.round(box.scrollTop / LH) * LH + steps * LH;
+      box.scrollTo({ top: Math.max(0, Math.min(max, to)), behavior: 'auto' });
+    }, { passive: false });
+    // Respaldo (navegadores sin scroll-snap): al terminar el scroll, se acomoda al renglón más cercano.
     let t = 0;
     box.addEventListener('scroll', () => {
       clearTimeout(t);
       t = setTimeout(() => {
         const to = Math.round(box.scrollTop / LH) * LH;
-        if (Math.abs(to - box.scrollTop) > 0.5) box.scrollTo({ top: to, behavior: 'smooth' });
-      }, 90);
+        if (Math.abs(to - box.scrollTop) > 0.5) box.scrollTo({ top: to, behavior: 'auto' });
+      }, 120);
     }, { passive: true });
   });
   // ---- Animación del reproductor: los cuadros sólo cambian mientras hay scroll ----
