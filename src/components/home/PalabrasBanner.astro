@@ -9,7 +9,7 @@ import estrella from '../../assets/home/estrella-blanca-a.webp';
     <div class="palabras__copy">
       <p class="palabras__pastilla borde-mano">Palabras — preguntas — canciones</p>
       <h2 class="palabras__titulo">¡Mirá cómo viene mi primer disco!</h2>
-      <p class="palabras__texto">Las letras de mi cuaderno, las melodías de mi voz, la producción con Ana Prada y el estudio con Matías Cella.</p>
+      <div class="palabras__texto" aria-hidden="true"></div>
       <a class="palabras__cta" href="/palabras">Ver el proceso</a>
       <p class="palabras__nota">
         <Image src={estrella} alt="" widths={[20, 40, 60]} sizes="20px" format="webp" loading="lazy" />
@@ -51,6 +51,7 @@ import estrella from '../../assets/home/estrella-blanca-a.webp';
     order: 5; display: flex; align-items: center; justify-content: center; min-height: 56px;
     background: #fff; color: #2154aa; text-decoration: none; font-weight: 600; font-size: 18px;
   }
+  .palabras__cta:hover, .palabras__cta:focus-visible { background: #e9edf9; color: #2154aa; text-decoration: underline; text-underline-offset: 4px; }
   .palabras__nota { order: 6; font-size: 14px; color: #e9edf9; display: flex; align-items: center; gap: 8px; }
   .palabras__nota img { width: 20px; height: 20px; object-fit: contain; flex: none; }
 
@@ -62,7 +63,8 @@ import estrella from '../../assets/home/estrella-blanca-a.webp';
     .palabras__copy { grid-column: 1 / span 6; display: flex; flex-direction: column; gap: 20px; }
     .palabras__pastilla { align-self: flex-start; margin-bottom: 0; padding: 5px 16px; font-size: 19px; letter-spacing: 1px; }
     .palabras__titulo { font-size: 50px; font-feature-settings: 'calt' 0; font-variant-ligatures: none; }
-    .palabras__texto { display: block; font-size: 17px; color: #e9edf9; }
+    /* Espacio vacío: conserva la altura de las dos líneas de texto que había. */
+    .palabras__texto { display: block; height: 3.2em; font-size: 17px; }
     .palabras__cta { align-self: flex-start; display: inline-flex; padding: 0 28px; min-height: 52px; font-size: 16px; }
     .palabras__foto { grid-column: 8 / span 4; margin: 0; }
     .palabras__foto::before { left: 40px; top: -28px; width: 62px; }
