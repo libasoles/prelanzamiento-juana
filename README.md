@@ -11,6 +11,8 @@ Sitio estático con [Astro](https://astro.build). Una URL por página, responsiv
 | `/` | `src/pages/index.astro` | Home pública, indexable (JSON-LD `Person` + `VideoObject`) |
 | `/palabras` | `src/pages/palabras.astro` | `noindex`. Sin sesión muestra la lock screen; con sesión (magic link) la pantalla de escucha |
 
+| `/mensajes` | `src/pages/mensajes.astro` | `noindex`. Panel privado con los mensajes que le dejaron a Juana (lista blanca de emails) |
+
 ## Arranque
 
 ```sh
@@ -43,6 +45,14 @@ El formulario «Escribime algo» hace `POST /messages` al mismo Worker, con `Aut
 Cada guardado es un único `DB.batch` (una transacción, un solo viaje a D1). **Región:** D1 no tiene ubicación en Sudamérica; se creó con `--location enam` (este de EE. UU.), la más cercana a Argentina. El Worker corre en el nodo más cercano a quien escribe. Todo entra en los planes gratuitos de Workers y D1.
 
 Para leer lo guardado: `npx wrangler d1 execute juana-db --remote --command "SELECT u.email, m.body, m.created_at FROM messages m JOIN users u ON u.id = m.user_id ORDER BY m.created_at DESC LIMIT 50"` (desde `worker/`). Migraciones: `npx wrangler d1 migrations apply juana-db --remote`. Tests del Worker (SQLite real en memoria): `npm run test:worker`.
+
+## Panel `/mensajes` (sólo Juana)
+
+`src/pages/mensajes.astro` es `noindex` y un cascarón **sin datos**: los mensajes los entrega el Worker en `POST /admin/messages` (hasta 200, el más nuevo primero, con el email), y sólo si la sesión del magic link es de un email de `ADMIN_EMAILS` (`worker/wrangler.jsonc`, separados por coma; vacío = nadie). Sin sesión → 401 y la página ofrece iniciar sesión en `/palabras`; con sesión no listada → 403 «no tiene acceso».
+
+- **Dar acceso:** poner el email en `ADMIN_EMAILS` y `npx wrangler deploy` (desde `worker/`).
+- **`?preview`:** muestra la página con mensajes **de ejemplo** (nunca reales) sin iniciar sesión, para ver el diseño. No es un bypass de los datos.
+- **¿Cloudflare Access?** Se podría (Zero Trust, gratis hasta 50 usuarios, política por email), pero Access protege hostnames que pasan por el proxy de Cloudflare y el sitio hoy se sirve desde Netlify. Por eso la lista blanca vive en el Worker, que ya está en Cloudflare. Si el sitio se mueve a Cloudflare, se puede sumar Access delante sin cambiar nada de esto.
 
 ## Estructura
 

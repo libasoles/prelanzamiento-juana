@@ -1,0 +1,86 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Mensajes — Juana Cabrera"
+  description="Los mensajes que le dejaron a Juana."
+  path="/mensajes"
+  ogImage="/brand/og-palabras.jpg"
+  ogImageAlt="Retrato de Juana en azul y blanco con su nombre y el título Palabras"
+  noindex
+  background="#2154aa"
+>
+  <main class="ms-page">
+    <header class="ms-top">
+      <p class="ms-kicker">Para Juana</p>
+      <h1 class="ms-title">Mensajes</h1>
+      <p id="msgCount" class="ms-count" aria-live="polite"></p>
+    </header>
+
+    <div id="msgRoot" data-state="loading">
+      <p id="msgNotice" class="ms-notice" role="status"></p>
+
+      <p class="ms-state ms-loading">Cargando…</p>
+
+      <div class="ms-state ms-login">
+        <p>Esta página es privada. Entrá con tu mail para ver los mensajes.</p>
+        <a class="ms-btn" href="/palabras">Iniciar sesión</a>
+      </div>
+      <p class="ms-state ms-denied">Este mail no tiene acceso a los mensajes.</p>
+      <p class="ms-state ms-error">No pudimos cargar los mensajes. Probá de nuevo en un rato.</p>
+      <p class="ms-state ms-empty">Todavía no hay mensajes.</p>
+
+      <ol id="msgList" class="ms-list"></ol>
+    </div>
+  </main>
+
+  <script>
+    import '../scripts/mensajes';
+  </script>
+</Base>
+
+<style is:global>
+  .ms-page {
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 40px 20px 72px;
+    background: #2154aa;
+    color: #fff;
+    font-family: 'Instrument Sans Variable', 'Instrument Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  .ms-top, #msgRoot { max-width: 720px; margin: 0 auto; }
+  .ms-kicker { margin: 0; font-family: 'Special Elite', 'Courier New', monospace; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; }
+  .ms-title { margin: 4px 0 0; font-family: 'Covered By Your Grace', cursive; font-weight: 400; font-size: 64px; line-height: 1; }
+  .ms-count { margin: 8px 0 28px; min-height: 1.6em; opacity: 0.85; }
+  .ms-notice { margin: 0 0 16px; font-size: 14px; opacity: 0.8; }
+  .ms-notice:empty { display: none; }
+
+  /* Un solo estado visible a la vez (data-state en #msgRoot). */
+  .ms-state, .ms-list { display: none; }
+  [data-state='loading'] .ms-loading,
+  [data-state='denied'] .ms-denied,
+  [data-state='error'] .ms-error,
+  [data-state='empty'] .ms-empty,
+  [data-state='login'] .ms-login { display: block; }
+  [data-state='list'] .ms-list { display: grid; }
+  .ms-state { margin: 0; padding: 20px; border: 1px dashed rgba(255, 255, 255, 0.5); border-radius: 4px; }
+  .ms-login p { margin: 0 0 16px; }
+
+  .ms-btn { display: inline-block; padding: 10px 22px; background: #fff; color: #12306a; border-radius: 999px; text-decoration: none; font-weight: 600; }
+  .ms-btn:hover { background: #e9edf9; color: #12306a; }
+
+  .ms-list { list-style: none; margin: 0; padding: 0; gap: 16px; }
+  .ms-item { padding: 18px 20px; background: #f6f1e4; color: #12306a; border-radius: 3px; box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18); }
+  .ms-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; font-size: 14px; }
+  .ms-who { font-family: 'Special Elite', 'Courier New', monospace; overflow-wrap: anywhere; }
+  .ms-head time { opacity: 0.7; }
+  .ms-body { margin: 10px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 19px; }
+
+  @media (min-width: 768px) {
+    .ms-page { padding: 72px 32px 96px; }
+    .ms-title { font-size: 88px; }
+  }
+</style>

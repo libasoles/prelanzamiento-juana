@@ -19,7 +19,9 @@
     // Remitente: tiene que ser un dominio verificado en Resend.
     "MAIL_FROM": "Juana Cabrera <palabras@juanacabrera.com.ar>",
     // Códigos de postal válidos (placeholder, igual que VALID_CODES en app.js).
-    "CODES": "JUANA,PALAB"
+    "CODES": "JUANA,PALAB",
+    // Lista blanca de emails que ven /mensajes (separados por coma). Vacía = nadie.
+    "ADMIN_EMAILS": ""
   }
   // Secrets (wrangler secret put): RESEND_API_KEY, SESSION_SECRET
 }

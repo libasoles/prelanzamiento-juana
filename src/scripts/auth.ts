@@ -91,6 +91,18 @@ export async function verifyToken(token: string): Promise<boolean> {
   return true;
 }
 
+export type AdminMessage = { id: number; email: string; body: string; created_at: string };
+export type AdminError = 'sesion_invalida' | 'no_autorizado' | 'red' | 'interno';
+
+/** Mensajes para /mensajes. Sólo responde a los emails de la lista blanca del Worker (ADMIN_EMAILS). */
+export async function fetchAdminMessages(): Promise<{ ok: true; messages: AdminMessage[] } | { ok: false; error: AdminError }> {
+  const session = getSession();
+  if (!session) return { ok: false, error: 'sesion_invalida' };
+  const { ok, data } = await post('/admin/messages', {}, { authorization: `Bearer ${session.token}` });
+  if (ok && Array.isArray(data.messages)) return { ok: true, messages: data.messages };
+  return { ok: false, error: (data.error as AdminError) ?? 'interno' };
+}
+
 export type SendError = 'sesion_invalida' | 'demasiados_mensajes' | 'mensaje_invalido' | 'red' | 'interno';
 
 /** Guarda un mensaje de la persona logueada. Si el Worker rechaza la sesión, la borra para que la próxima visita pida el link. */

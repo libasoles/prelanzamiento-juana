@@ -136,6 +136,31 @@ async function saveMessage(request, env) {
   return json(env, 200, { ok: true });
 }
 
+const ADMIN_LIMIT = 200;
+
+/** Lista blanca: ADMIN_EMAILS (separada por comas, sin distinguir mayúsculas). Vacía = nadie entra. */
+const isAdmin = (env, email) =>
+  String(env.ADMIN_EMAILS || '')
+    .split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean)
+    .includes(email.toLowerCase());
+
+/** Mensajes para el panel /mensajes: sólo emails de ADMIN_EMAILS con sesión válida. */
+async function listMessages(request, env) {
+  const email = await verifySession(env, request.headers.get('authorization'));
+  if (!email) return json(env, 401, { error: 'sesion_invalida' });
+  if (!isAdmin(env, email)) return json(env, 403, { error: 'no_autorizado' });
+  const { results } = await env.DB.prepare(
+    `SELECT m.id, u.email, m.body, m.created_at
+     FROM messages m JOIN users u ON u.id = m.user_id
+     ORDER BY m.created_at DESC, m.id DESC LIMIT ?1`,
+  )
+    .bind(ADMIN_LIMIT)
+    .all();
+  return json(env, 200, { messages: results });
+}
+
 export default {
   async fetch(request, env) {
     const { pathname } = new URL(request.url);
@@ -145,6 +170,7 @@ export default {
       if (pathname === '/auth/request') return await requestLink(request, env);
       if (pathname === '/auth/verify') return await verifyLink(request, env);
       if (pathname === '/messages') return await saveMessage(request, env);
+      if (pathname === '/admin/messages') return await listMessages(request, env);
     } catch (e) {
       console.error(e);
       return json(env, 500, { error: 'interno' });
