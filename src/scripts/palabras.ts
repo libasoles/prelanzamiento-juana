@@ -29,7 +29,17 @@ export function initPalabras(): void {
   const nn = (i: number) => String(i + 1).padStart(2, '0');
 
   const audio = new Audio();
-  audio.preload = 'none';
+  audio.preload = 'auto';
+  // Precarga: la primera canción se descarga al abrir la pantalla (en el mismo <audio>, así el
+  // primer play es inmediato) y, al sonar una, se calienta la caché con la siguiente.
+  const first = PALABRAS_TRACKS[0]?.audio;
+  if (first) audio.src = first;
+  const warm = new Audio();
+  warm.preload = 'auto';
+  const preloadNext = () => {
+    const next = PALABRAS_TRACKS.slice(S.current + 1).concat(PALABRAS_TRACKS.slice(0, S.current))[0]?.audio;
+    if (next && warm.getAttribute('src') !== next) warm.src = next;
+  };
   const S = { current: -1, playing: false, listView: false, lyricsFull: false };
   const stanzas = (i: number) => (i >= 0 ? PALABRAS_TRACKS[i].lyrics.split('\n\n') : []);
 
@@ -161,7 +171,7 @@ export function initPalabras(): void {
     $$('.js-play').forEach((b) => b.setAttribute('aria-label', S.playing ? 'Pausar' : 'Reproducir'));
   }
   function renderTime() {
-    const d = audio.duration || 0;
+    const d = S.current >= 0 ? audio.duration || 0 : 0;
     $$('.js-time-now').forEach((el) => { el.textContent = fmt(audio.currentTime); });
     $$('.js-time-total').forEach((el) => { el.textContent = fmt(d); });
     $$<HTMLInputElement>('.js-seek').forEach((el) => { el.value = String(d ? Math.round((audio.currentTime / d) * 1000) : 0); });
@@ -174,7 +184,10 @@ export function initPalabras(): void {
     const t = PALABRAS_TRACKS[S.current];
     S.listView = false;
     audio.pause();
-    if (t.audio) { audio.src = t.audio; audio.load(); } else { audio.removeAttribute('src'); audio.load(); }
+    if (!t.audio) { audio.removeAttribute('src'); audio.load(); }
+    else if (audio.getAttribute('src') !== t.audio) { audio.src = t.audio; audio.load(); }
+    else audio.currentTime = 0; // ya precargada
+    preloadNext();
     S.playing = !!play && !!t.audio;
     if (S.playing) audio.play().catch(() => { S.playing = false; renderStatic(); });
     renderStatic();
