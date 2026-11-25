@@ -33,13 +33,24 @@ Nota: `astro preview` es un único proceso por proyecto; los tests y Lighthouse 
 
 `src/scripts/auth.ts` lee la URL del Worker de `PUBLIC_AUTH_API` (variable de entorno al compilar). Es una barrera de acceso, no protección de los audios (decisión pendiente: issue #3).
 
+## Mensajes de `/palabras` (D1)
+
+El formulario «Escribime algo» hace `POST /messages` al mismo Worker, con `Authorization: Bearer <sesión>`. El Worker verifica la firma y el vencimiento de la sesión y guarda el mensaje en **D1** (`juana-db`, binding `DB`). Esquema en `worker/migrations/`:
+
+- `users`: se da de alta al canjear el magic link (`/auth/verify`, con la preferencia `novedades` y `last_login_at`) o, si la sesión es anterior, al escribir el primer mensaje.
+- `messages`: `user_id`, `body` (1–5000 caracteres), `created_at`. Límite: 10 mensajes por hora y por usuario (429 `demasiados_mensajes`).
+
+Cada guardado es un único `DB.batch` (una transacción, un solo viaje a D1). **Región:** D1 no tiene ubicación en Sudamérica; se creó con `--location enam` (este de EE. UU.), la más cercana a Argentina. El Worker corre en el nodo más cercano a quien escribe. Todo entra en los planes gratuitos de Workers y D1.
+
+Para leer lo guardado: `npx wrangler d1 execute juana-db --remote --command "SELECT u.email, m.body, m.created_at FROM messages m JOIN users u ON u.id = m.user_id ORDER BY m.created_at DESC LIMIT 50"` (desde `worker/`). Migraciones: `npx wrangler d1 migrations apply juana-db --remote`. Tests del Worker (SQLite real en memoria): `npm run test:worker`.
+
 ## Estructura
 
 - `src/layouts/Base.astro`: SEO, Open Graph, canonical, `noindex`, JSON-LD.
 - `src/components/home`, `src/components/palabras`: secciones; `src/styles`: CSS compartido y fuentes autoalojadas.
 - `src/scripts`: auth, página de Palabras y reproductor.
 - `src/assets`: imágenes optimizadas en build (avif/webp, `srcset`); `public/`: audio, `robots.txt`, imágenes OG.
-- `worker/`: Worker de Cloudflare del magic link (`wrangler`).
+- `worker/`: Worker de Cloudflare del magic link y de los mensajes, con D1 (`wrangler`).
 
 ## Animaciones manuales de Palabras
 

@@ -6,6 +6,7 @@
  * no existe en una de las dos presentaciones (mobile/desktop) se ignora. El layout
  * (mobile < 768px) se evalúa en vivo con matchMedia, sin recargar.
  */
+import { sendMessage } from './auth';
 import { PALABRAS_TRACKS } from './palabras-data';
 
 let started = false;
@@ -375,10 +376,36 @@ export function initPalabras(): void {
   const msg = $<HTMLTextAreaElement>('msg');
   if (form && thanks && msg) {
     msg.addEventListener('input', () => { msg.style.height = 'auto'; msg.style.height = msg.scrollHeight + 'px'; });
-    // Prototipo: igual que el acceso, todavía no hay backend; sólo se muestra el agradecimiento.
-    form.addEventListener('submit', (e) => {
+    const errorBox = $('msgError');
+    const ERRORS: Record<string, string> = {
+      sesion_invalida: 'Tu sesión venció. Volvé a entrar con tu link para escribirme.',
+      demasiados_mensajes: 'Escribiste muchos mensajes seguidos. Probá de nuevo en un rato.',
+      mensaje_invalido: 'Ese mensaje no se pudo guardar. Revisá que no esté vacío ni sea larguísimo.',
+      red: 'No pudimos conectarnos. Probá de nuevo.',
+    };
+    const setError = (key: string | null) => {
+      if (!errorBox) return;
+      errorBox.hidden = !key;
+      errorBox.textContent = key ? (ERRORS[key] ?? 'No pudimos guardar tu mensaje. Probá de nuevo.') : '';
+    };
+    const buttons = () => form.querySelectorAll<HTMLButtonElement>('button[type="submit"]');
+    let sending = false;
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (thanks.hidden === false) return;
+      if (thanks.hidden === false || sending) return;
+      const text = msg.value.trim();
+      if (!text) { msg.focus(); return; }
+      sending = true;
+      setError(null);
+      buttons().forEach((b) => { b.disabled = true; });
+      const result = await sendMessage(text);
+      sending = false;
+      if (!result.ok) {
+        // Se conserva el texto y se deja reintentar.
+        buttons().forEach((b) => { b.disabled = false; });
+        setError(result.error);
+        return;
+      }
       // El agradecimiento reemplaza al textarea dentro del mismo papel, con su altura fija: sin salto de layout.
       const paper = $('msgPaper');
       if (paper) paper.style.minHeight = paper.offsetHeight + 'px';

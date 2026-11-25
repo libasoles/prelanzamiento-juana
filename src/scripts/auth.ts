@@ -56,11 +56,11 @@ export function clearSession(): void {
   }
 }
 
-async function post(path: string, body: unknown) {
+async function post(path: string, body: unknown, headers: Record<string, string> = {}) {
   try {
     const res = await fetch(`${API}${path}`, {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: { 'content-type': 'application/json', ...headers },
       body: JSON.stringify(body),
     });
     const data = await res.json().catch(() => ({}));
@@ -89,4 +89,17 @@ export async function verifyToken(token: string): Promise<boolean> {
     return false;
   }
   return true;
+}
+
+export type SendError = 'sesion_invalida' | 'demasiados_mensajes' | 'mensaje_invalido' | 'red' | 'interno';
+
+/** Guarda un mensaje de la persona logueada. Si el Worker rechaza la sesión, la borra para que la próxima visita pida el link. */
+export async function sendMessage(body: string): Promise<{ ok: true } | { ok: false; error: SendError }> {
+  const session = getSession();
+  if (!session) return { ok: false, error: 'sesion_invalida' };
+  const { ok, data } = await post('/messages', { body }, { authorization: `Bearer ${session.token}` });
+  if (ok) return { ok: true };
+  const error = (data.error as SendError) ?? 'interno';
+  if (error === 'sesion_invalida') clearSession();
+  return { ok: false, error };
 }

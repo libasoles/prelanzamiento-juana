@@ -23,11 +23,28 @@ async function signSession(env, email) {
   return `${payload}.${await hmac(env.SESSION_SECRET, payload)}`;
 }
 
+const fromB64url = (text) => Uint8Array.from(atob(text.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
+
+/** Devuelve el email de la sesión si la firma y el vencimiento son válidos; si no, null. */
+async function verifySession(env, header) {
+  try {
+    const [payload, signature, ...extra] = String(header || '').replace(/^Bearer /, '').split('.');
+    if (!payload || !signature || extra.length) return null;
+    const key = await crypto.subtle.importKey('raw', enc.encode(env.SESSION_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
+    // verify compara en tiempo constante.
+    if (!(await crypto.subtle.verify('HMAC', key, fromB64url(signature), enc.encode(payload)))) return null;
+    const data = JSON.parse(new TextDecoder().decode(fromB64url(payload)));
+    return typeof data.email === 'string' && typeof data.exp === 'number' && data.exp > Date.now() ? data.email : null;
+  } catch {
+    return null;
+  }
+}
+
 function cors(env, extra = {}) {
   return {
     'access-control-allow-origin': env.SITE_URL,
     'access-control-allow-methods': 'POST, OPTIONS',
-    'access-control-allow-headers': 'content-type',
+    'access-control-allow-headers': 'content-type, authorization',
     vary: 'origin',
     ...extra,
   };
@@ -78,7 +95,45 @@ async function verifyLink(request, env) {
   if (!raw) return json(env, 401, { error: 'link_vencido_o_usado' });
   await env.MAGIC_LINKS.delete(key); // un solo uso
   const { email, novedades } = JSON.parse(raw);
+  // Alta/actualización en la lista de usuarios. Si D1 falla no se corta el login (el link ya se gastó):
+  // /messages vuelve a dar de alta al usuario cuando escriba.
+  try {
+    await env.DB.prepare(
+      `INSERT INTO users (email, novedades, last_login_at) VALUES (?1, ?2, ?3)
+       ON CONFLICT (email) DO UPDATE SET novedades = excluded.novedades, last_login_at = excluded.last_login_at`,
+    )
+      .bind(email, novedades ? 1 : 0, new Date().toISOString())
+      .run();
+  } catch (e) {
+    console.error('users upsert', e);
+  }
   return json(env, 200, { ok: true, email, novedades, session: await signSession(env, email) });
+}
+
+const MAX_BODY = 5000;
+const MAX_PER_HOUR = 10;
+
+async function saveMessage(request, env) {
+  const email = await verifySession(env, request.headers.get('authorization'));
+  if (!email) return json(env, 401, { error: 'sesion_invalida' });
+  const input = await request.json().catch(() => ({}));
+  const body = typeof input.body === 'string' ? input.body.trim() : '';
+  if (!body || body.length > MAX_BODY) return json(env, 400, { error: 'mensaje_invalido' });
+  // Un solo viaje a D1 (batch = una transacción): alta del usuario si falta + mensaje.
+  // El mensaje sólo se inserta si el usuario no llegó al límite de la última hora;
+  // changes === 0 en el segundo statement significa «límite alcanzado».
+  const since = new Date(Date.now() - 3600 * 1000).toISOString();
+  const [, saved] = await env.DB.batch([
+    env.DB.prepare('INSERT INTO users (email) VALUES (?1) ON CONFLICT (email) DO NOTHING').bind(email),
+    env.DB.prepare(
+      `INSERT INTO messages (user_id, body)
+       SELECT id, ?2 FROM users
+       WHERE email = ?1
+         AND (SELECT COUNT(*) FROM messages m WHERE m.user_id = users.id AND m.created_at > ?3) < ?4`,
+    ).bind(email, body, since, MAX_PER_HOUR),
+  ]);
+  if (saved.meta.changes === 0) return json(env, 429, { error: 'demasiados_mensajes' });
+  return json(env, 200, { ok: true });
 }
 
 export default {
@@ -89,6 +144,7 @@ export default {
     try {
       if (pathname === '/auth/request') return await requestLink(request, env);
       if (pathname === '/auth/verify') return await verifyLink(request, env);
+      if (pathname === '/messages') return await saveMessage(request, env);
     } catch (e) {
       console.error(e);
       return json(env, 500, { error: 'interno' });

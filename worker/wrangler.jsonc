@@ -8,6 +8,11 @@
   "kv_namespaces": [
     { "binding": "MAGIC_LINKS", "id": "13cb9bb8b9e84c4d995b84d703db7e40" }
   ],
+  // D1 no tiene región en Sudamérica: ENAM (este de EE. UU.) es la más cercana a Argentina.
+  // El Worker corre en el nodo más cercano al usuario y hace un solo viaje a D1 por mensaje.
+  "d1_databases": [
+    { "binding": "DB", "database_name": "juana-db", "database_id": "f58f82af-ab73-41a1-8fa1-1ef96d9e18b0", "migrations_dir": "migrations" }
+  ],
   "vars": {
     // Origen del sitio: se usa para CORS y para armar el link del mail.
     "SITE_URL": "https://juanacabrera.com.ar",
