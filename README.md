@@ -1,5 +1,9 @@
 # Juana Cabrera — sitio web
 
+**DEMO:** https://darling-frangollo-d47318.netlify.app
+
+![Captura de la web](src/assets/internal/screenshot.png)
+
 Sitio estático con [Astro](https://astro.build). Una URL por página, responsive con CSS (mobile-first, corte en 768px).
 
 | URL | Archivo | Qué es |
