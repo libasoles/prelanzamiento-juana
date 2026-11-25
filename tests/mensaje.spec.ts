@@ -46,7 +46,7 @@ test('con el mensaje vacío no envía nada ni agradece', async ({ page }) => {
 
 const failures = [
   ['falla del servidor', 500, { error: 'interno' }, /no pudimos guardar tu mensaje/i],
-  ['demasiados mensajes', 429, { error: 'demasiados_mensajes' }, /muchos mensajes/i],
+  ['demasiados mensajes', 429, { error: 'demasiados_mensajes' }, /3 mensajes hoy/i],
   ['sesión vencida', 401, { error: 'sesion_invalida' }, /sesión venció/i],
 ] as const;
 

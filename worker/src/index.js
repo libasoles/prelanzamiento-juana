@@ -1,6 +1,9 @@
 const LINK_TTL = 15 * 60; // segundos
 const SESSION_TTL = 30 * 24 * 3600;
 const RATE_TTL = 60;
+// Tope de pedidos de link por IP (protege la cuota de Resend y la reputación del dominio).
+const IP_MAX_PER_HOUR = 5;
+const IP_WINDOW = 3600;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const enc = new TextEncoder();
@@ -53,6 +56,28 @@ function cors(env, extra = {}) {
 const json = (env, status, body) =>
   new Response(JSON.stringify(body), { status, headers: cors(env, { 'content-type': 'application/json' }) });
 
+/** Valida el token de Cloudflare Turnstile. Sin secret configurado falla cerrado. */
+async function verifyTurnstile(env, token, ip) {
+  if (!env.TURNSTILE_SECRET || typeof token !== 'string' || !token || token.length > 2048) return false;
+  const form = new FormData();
+  form.append('secret', env.TURNSTILE_SECRET);
+  form.append('response', token);
+  if (ip) form.append('remoteip', ip);
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body: form });
+  const data = await res.json().catch(() => ({}));
+  return data.success === true;
+}
+
+/** Cuenta pedidos por IP en una ventana fija. KV no es atómico: es un freno aproximado, suficiente contra abuso casual. */
+async function ipLimited(env, ip) {
+  if (!ip) return false;
+  const key = `iprate:${await sha256(ip)}`;
+  const count = Number(await env.MAGIC_LINKS.get(key)) || 0;
+  if (count >= IP_MAX_PER_HOUR) return true;
+  await env.MAGIC_LINKS.put(key, String(count + 1), { expirationTtl: IP_WINDOW });
+  return false;
+}
+
 async function sendMail(env, to, link) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -73,6 +98,10 @@ async function requestLink(request, env) {
   const code = String(body.code || '').trim().toUpperCase();
   if (!EMAIL_RE.test(email)) return json(env, 400, { error: 'email_invalido' });
   if (!env.CODES.split(',').includes(code)) return json(env, 403, { error: 'codigo_invalido' });
+
+  const ip = request.headers.get('cf-connecting-ip');
+  if (await ipLimited(env, ip)) return json(env, 429, { error: 'demasiados_pedidos' });
+  if (!(await verifyTurnstile(env, body.turnstile, ip))) return json(env, 400, { error: 'captcha_invalido' });
 
   const emailKey = await sha256(email);
   if (await env.MAGIC_LINKS.get(`rate:${emailKey}`)) return json(env, 429, { error: 'espera_un_minuto' });
@@ -111,7 +140,8 @@ async function verifyLink(request, env) {
 }
 
 const MAX_BODY = 2000;
-const MAX_PER_HOUR = 10;
+const MAX_PER_DAY = 3;
+const DAY = 24 * 3600 * 1000;
 
 async function saveMessage(request, env) {
   const email = await verifySession(env, request.headers.get('authorization'));
@@ -122,7 +152,7 @@ async function saveMessage(request, env) {
   // Un solo viaje a D1 (batch = una transacción): alta del usuario si falta + mensaje.
   // El mensaje sólo se inserta si el usuario no llegó al límite de la última hora;
   // changes === 0 en el segundo statement significa «límite alcanzado».
-  const since = new Date(Date.now() - 3600 * 1000).toISOString();
+  const since = new Date(Date.now() - DAY).toISOString();
   const [, saved] = await env.DB.batch([
     env.DB.prepare('INSERT INTO users (email) VALUES (?1) ON CONFLICT (email) DO NOTHING').bind(email),
     env.DB.prepare(
@@ -130,7 +160,7 @@ async function saveMessage(request, env) {
        SELECT id, ?2 FROM users
        WHERE email = ?1
          AND (SELECT COUNT(*) FROM messages m WHERE m.user_id = users.id AND m.created_at > ?3) < ?4`,
-    ).bind(email, body, since, MAX_PER_HOUR),
+    ).bind(email, body, since, MAX_PER_DAY),
   ]);
   if (saved.meta.changes === 0) return json(env, 429, { error: 'demasiados_mensajes' });
   return json(env, 200, { ok: true });

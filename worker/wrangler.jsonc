@@ -17,7 +17,7 @@
     // Origen del sitio: se usa para CORS y para armar el link del mail.
     "SITE_URL": "https://juanacabrera.com.ar",
     // Remitente: tiene que ser un dominio verificado en Resend.
-    "MAIL_FROM": "Juana Cabrera <palabras@juanacabrera.com.ar>",
+    "MAIL_FROM": "Juana Cabrera <palabras@palabras.juanacabrera.com.ar>",
     // Códigos de postal válidos (placeholder, igual que VALID_CODES en app.js).
     "CODES": "JUANA,PALAB"
   }

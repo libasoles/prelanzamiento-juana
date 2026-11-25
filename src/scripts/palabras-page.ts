@@ -16,6 +16,8 @@ const MESSAGES: Record<string, string> = {
   codigo_invalido: 'Ese código no es válido.',
   email_invalido: 'Revisá tu email.',
   espera_un_minuto: 'Esperá un minuto y probá de nuevo.',
+  demasiados_pedidos: 'Pediste muchos links seguidos. Probá de nuevo en un rato.',
+  captcha_invalido: 'No pudimos verificar que sos una persona. Probá de nuevo.',
   red: 'No pudimos conectarnos. Probá de nuevo.',
   interno: 'Algo salió mal. Probá de nuevo.',
   token_invalido: 'Link vencido o usado.',
@@ -45,23 +47,78 @@ function showLock(error?: keyof typeof MESSAGES) {
   setStatus(error ?? null);
 }
 
+// Cloudflare Turnstile: widget 'interaction-only' (invisible salvo que Cloudflare pida un desafío).
+// Sin site key (dev y tests) no se carga y el pedido sale sin token.
+const SITEKEY = import.meta.env.PUBLIC_TURNSTILE_SITEKEY as string | undefined;
+type Turnstile = {
+  render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+  reset: (id?: string) => void;
+};
+let turnstileId: string | undefined;
+let turnstileToken: string | undefined;
+let turnstileWaiter: ((t: string | undefined) => void) | undefined;
+
+function loadTurnstile() {
+  const box = document.getElementById('lockTurnstile');
+  if (!SITEKEY || !box || document.getElementById('turnstile-api')) return;
+  const script = document.createElement('script');
+  script.id = 'turnstile-api';
+  script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+  script.async = true;
+  script.onload = () => {
+    const ts = (window as unknown as { turnstile: Turnstile }).turnstile;
+    turnstileId = ts.render(box, {
+      sitekey: SITEKEY,
+      appearance: 'interaction-only',
+      callback: (t: string) => {
+        turnstileToken = t;
+        turnstileWaiter?.(t);
+      },
+      'expired-callback': () => (turnstileToken = undefined),
+      'error-callback': () => turnstileWaiter?.(undefined),
+    });
+  };
+  document.head.appendChild(script);
+}
+
+/** Token listo, o espera hasta 10 s a que Cloudflare lo resuelva. */
+function getTurnstileToken(): Promise<string | undefined> {
+  if (!SITEKEY || turnstileToken) return Promise.resolve(turnstileToken);
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => resolve(undefined), 10_000);
+    turnstileWaiter = (t) => {
+      clearTimeout(timer);
+      resolve(t);
+    };
+  });
+}
+
+// Se carga al tocar el formulario, no en cada visita a la lock.
+form?.addEventListener('focusin', loadTurnstile, { once: true });
+
 form?.addEventListener('submit', async (e) => {
   e.preventDefault();
   const data = new FormData(form);
   const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
   if (button) button.disabled = true;
   setStatus(null);
+  loadTurnstile();
+  const turnstile = await getTurnstileToken();
   const result = await requestLink({
     code: String(data.get('codigo') ?? '').trim(),
     email: String(data.get('email') ?? '').trim(),
     novedades: data.get('novedades') === 'on',
+    turnstile,
   });
+  // El token es de un solo uso: se pide uno nuevo para el próximo intento.
+  turnstileToken = undefined;
+  if (turnstileId) (window as unknown as { turnstile: Turnstile }).turnstile.reset(turnstileId);
   if (button) button.disabled = false;
   if (result.ok) {
     setStatus('enviado');
     return;
   }
-  const known: RequestError[] = ['codigo_invalido', 'email_invalido', 'espera_un_minuto', 'red'];
+  const known: RequestError[] = ['codigo_invalido', 'email_invalido', 'espera_un_minuto', 'demasiados_pedidos', 'captcha_invalido', 'red'];
   setStatus(known.includes(result.error) ? result.error : 'interno');
 });
 

@@ -10,9 +10,17 @@ async function setSession(page: Page, token: string) {
 }
 
 async function mockAuth(page: Page, opts: { request?: { status: number; body: object }; verify?: { status: number; body: object } } = {}) {
-  await page.route('**/auth/request', (r) =>
-    r.fulfill({ status: opts.request?.status ?? 200, contentType: 'application/json', body: JSON.stringify(opts.request?.body ?? { ok: true }) }),
+  // Turnstile de mentira: el build de producción lo carga; acá entrega siempre el token 'tok-test'.
+  await page.route('https://challenges.cloudflare.com/**', (r) =>
+    r.fulfill({
+      contentType: 'text/javascript',
+      body: `window.turnstile = { render: (el, o) => { setTimeout(() => o.callback('tok-test'), 0); return 'w1'; }, reset: () => {} };`,
+    }),
   );
+  await page.route('**/auth/request', (r) => {
+    requests.push(r.request().postDataJSON());
+    return r.fulfill({ status: opts.request?.status ?? 200, contentType: 'application/json', body: JSON.stringify(opts.request?.body ?? { ok: true }) });
+  });
   await page.route('**/auth/verify', (r) =>
     r.fulfill({
       status: opts.verify?.status ?? 200,
@@ -21,6 +29,10 @@ async function mockAuth(page: Page, opts: { request?: { status: number; body: ob
     }),
   );
 }
+
+/** Cuerpos de los POST /auth/request del test en curso. */
+const requests: Array<Record<string, unknown>> = [];
+test.beforeEach(() => void (requests.length = 0));
 
 const lock = (page: Page) => page.locator('#lockForm');
 const player = (page: Page) => page.locator('#canciones');
@@ -49,6 +61,31 @@ test('envío ok muestra «te mandamos un link»', async ({ page }) => {
   await page.click('.lock-submit');
   await expect(page.locator('#lockStatus')).toHaveText(/te mandamos un link/i);
 });
+
+test('el pedido del link lleva el token de Turnstile', async ({ page }) => {
+  await mockAuth(page);
+  await page.goto('/palabras');
+  await page.fill('#codigo', 'ABC');
+  await page.fill('#email', 'a@b.c');
+  await page.click('.lock-submit');
+  await expect(page.locator('#lockStatus')).toHaveText(/te mandamos un link/i);
+  expect(requests).toHaveLength(1);
+  expect(requests[0].turnstile).toBe('tok-test');
+});
+
+for (const [error, texto] of [
+  ['captcha_invalido', /verificar que sos una persona/i],
+  ['demasiados_pedidos', /muchos links seguidos/i],
+] as const) {
+  test(`${error} muestra su mensaje`, async ({ page }) => {
+    await mockAuth(page, { request: { status: 429, body: { error } } });
+    await page.goto('/palabras');
+    await page.fill('#codigo', 'ABC');
+    await page.fill('#email', 'a@b.c');
+    await page.click('.lock-submit');
+    await expect(page.locator('#lockStatus')).toHaveText(texto);
+  });
+}
 
 test('?token=ok canjea, guarda sesión, limpia la URL y muestra el reproductor', async ({ page }) => {
   await mockAuth(page);

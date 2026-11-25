@@ -18,6 +18,8 @@ export type RequestError =
   | 'email_invalido'
   | 'codigo_invalido'
   | 'espera_un_minuto'
+  | 'demasiados_pedidos'
+  | 'captcha_invalido'
   | 'red'
   | 'interno';
 
@@ -74,6 +76,7 @@ export async function requestLink(input: {
   code: string;
   email: string;
   novedades: boolean;
+  turnstile?: string;
 }): Promise<{ ok: true } | { ok: false; error: RequestError }> {
   const { ok, data } = await post('/auth/request', input);
   return ok ? { ok: true } : { ok: false, error: (data.error as RequestError) ?? 'interno' };

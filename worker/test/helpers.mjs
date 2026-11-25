@@ -69,6 +69,7 @@ export function makeEnv(overrides = {}) {
     MAIL_FROM: 'Juana <palabras@juanacabrera.com.ar>',
     CODES: 'JUANA,PALAB',
     RESEND_API_KEY: 'x',
+    TURNSTILE_SECRET: 'secret-de-test',
     ...overrides,
   };
 }
