@@ -379,7 +379,7 @@ export function initPalabras(): void {
     const errorBox = $('msgError');
     const ERRORS: Record<string, string> = {
       sesion_invalida: 'Tu sesión venció. Volvé a entrar con tu link para escribirme.',
-      demasiados_mensajes: 'Escribiste muchos mensajes seguidos. Probá de nuevo en un rato.',
+      demasiados_mensajes: 'Ya mandaste 3 mensajes hoy. Probá de nuevo mañana.',
       mensaje_invalido: 'Ese mensaje no se pudo guardar. Revisá que no esté vacío ni sea larguísimo.',
       red: 'No pudimos conectarnos. Probá de nuevo.',
     };

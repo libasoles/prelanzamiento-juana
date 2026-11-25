@@ -67,23 +67,31 @@ test('guarda el mensaje sin espacios de más y acepta el largo máximo (2000)', 
 const send = (env, email, body = 'Hola') =>
   worker.fetch(post('/messages', { body }, { session: makeSession({ email }) }), env);
 
-test('límite: el mensaje 11 de la misma hora recibe 429 y no se guarda', async () => {
+test('límite: el mensaje 4 de las mismas 24 horas recibe 429 y no se guarda', async () => {
   const env = makeEnv();
-  for (let i = 0; i < 10; i++) assert.equal((await send(env, 'ana@example.com', `m${i}`)).status, 200);
+  for (let i = 0; i < 3; i++) assert.equal((await send(env, 'ana@example.com', `m${i}`)).status, 200);
 
   const res = await send(env, 'ana@example.com', 'de más');
 
   assert.equal(res.status, 429);
   assert.deepEqual(await res.json(), { error: 'demasiados_mensajes' });
-  assert.equal(rows(env, 'SELECT * FROM messages').length, 10);
+  assert.equal(rows(env, 'SELECT * FROM messages').length, 3);
 });
 
-test('límite: es por usuario, y los mensajes de hace más de una hora no cuentan', async () => {
+test('límite: es por usuario, y los mensajes de hace más de 24 horas no cuentan', async () => {
   const env = makeEnv();
-  for (let i = 0; i < 10; i++) await send(env, 'ana@example.com');
+  for (let i = 0; i < 3; i++) await send(env, 'ana@example.com');
   assert.equal((await send(env, 'beto@example.com')).status, 200);
 
-  env.DB.sqlite.exec("UPDATE messages SET created_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now', '-2 hours')");
+  env.DB.sqlite.exec("UPDATE messages SET created_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now', '-25 hours')");
 
   assert.equal((await send(env, 'ana@example.com')).status, 200);
+});
+
+test('límite: a las 23 horas el mensaje todavía cuenta', async () => {
+  const env = makeEnv();
+  for (let i = 0; i < 3; i++) await send(env, 'ana@example.com');
+  env.DB.sqlite.exec("UPDATE messages SET created_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now', '-23 hours')");
+
+  assert.equal((await send(env, 'ana@example.com')).status, 429);
 });
