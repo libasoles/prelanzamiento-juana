@@ -110,7 +110,7 @@ async function verifyLink(request, env) {
   return json(env, 200, { ok: true, email, novedades, session: await signSession(env, email) });
 }
 
-const MAX_BODY = 5000;
+const MAX_BODY = 2000;
 const MAX_PER_HOUR = 10;
 
 async function saveMessage(request, env) {

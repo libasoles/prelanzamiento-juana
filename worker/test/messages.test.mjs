@@ -40,7 +40,7 @@ const invalidBodies = [
   ['sólo espacios', '   \n  '],
   ['no es texto', 42],
   ['faltante', undefined],
-  ['demasiado largo (5001)', 'a'.repeat(5001)],
+  ['demasiado largo (2001)', 'a'.repeat(2001)],
 ];
 
 for (const [name, body] of invalidBodies) {
@@ -54,11 +54,11 @@ for (const [name, body] of invalidBodies) {
   });
 }
 
-test('guarda el mensaje sin espacios de más y acepta el largo máximo (5000)', async () => {
+test('guarda el mensaje sin espacios de más y acepta el largo máximo (2000)', async () => {
   const env = makeEnv();
   const session = makeSession();
   await worker.fetch(post('/messages', { body: '  Hola\n' }, { session }), env);
-  const max = await worker.fetch(post('/messages', { body: 'a'.repeat(5000) }, { session }), env);
+  const max = await worker.fetch(post('/messages', { body: 'a'.repeat(2000) }, { session }), env);
 
   assert.equal(max.status, 200);
   assert.equal(rows(env, 'SELECT body FROM messages ORDER BY id')[0].body, 'Hola');

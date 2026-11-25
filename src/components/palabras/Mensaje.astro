@@ -13,7 +13,7 @@ import abrazo from '../../assets/palabras/abrazo-2.webp';
       <Image id="msgAbrazo" class="hoja-clip-abrazo" hidden src={abrazo} alt="" aria-hidden="true" width={640} height={800} loading="lazy" />
       <div class="hoja-clip-contenido tinta">
         <p id="msgThanks" hidden role="status" tabindex="-1" class="mensaje-gracias">Gracias por de<span class="mensaje-j">j</span>arme tus palabras.</p>
-        <textarea id="msg" class="maquina" rows="1" placeholder="Click acá para escribir"></textarea>
+        <textarea id="msg" class="maquina" rows="1" maxlength="2000" placeholder="Click acá para escribir"></textarea>
       </div>
     </div>
     <p id="msgError" class="mensaje-error" role="alert" hidden></p>
