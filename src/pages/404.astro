@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/palabras.css';
+
+const title = 'Página no encontrada — Juana Cabrera';
+const description = 'Esta página no existe. Volvé al inicio del sitio de Juana Cabrera.';
+---
+
+<Base
+  title={title}
+  description={description}
+  path="/404"
+  ogImage="/brand/og-image.png"
+  ogImageAlt="Juana Cabrera frente a un marco azul sobre fondo negro"
+  noindex
+  background="#2154aa"
+>
+  <main class="pl-page pl-textura nf">
+    <div class="nf-hoja">
+      <div class="nf-hoja-fondo" aria-hidden="true"></div>
+      <div class="nf-hoja-contenido tinta">
+        <p class="nf-codigo" aria-hidden="true">404</p>
+        <h1 class="nf-titulo">Esta página no existe</h1>
+        <p>Capaz escribiste mal la dirección, o la hoja se perdió en algún cajón.</p>
+        <p>Pero la música sigue estando en el inicio.</p>
+      </div>
+    </div>
+    <a href="/" class="pl-carton-btn nf-btn">Volver al inicio</a>
+  </main>
+</Base>
+
+<style is:global>
+  .nf {
+    min-height: 100vh;
+    min-height: 100dvh;
+    box-sizing: border-box;
+    padding: 40px 20px 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    overflow: hidden;
+  }
+
+  /* Misma hoja con clip que el form de mensajes: el borde es una border-image escalada por --s. */
+  .nf-hoja {
+    --s: 0.4;
+    --t: calc(340px * var(--s));
+    --r: calc(40px * var(--s));
+    --b: calc(120px * var(--s));
+    --l: calc(330px * var(--s));
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    box-sizing: border-box;
+    width: min(340px, 100%);
+    min-height: 440px;
+    transform: rotate(-1deg);
+  }
+  .nf-hoja-fondo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    box-sizing: border-box;
+    border: solid transparent;
+    border-width: var(--t) var(--r) var(--b) var(--l);
+    border-image: url('../assets/home/clip-papel-a.webp') 340 40 120 330 fill / var(--t) var(--r) var(--b) var(--l) stretch;
+    filter: drop-shadow(0 18px 24px rgba(0, 10, 40, 0.35));
+  }
+  .nf-hoja-contenido {
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow-wrap: anywhere;
+    padding: 138px 12% 48px 16%;
+    font-size: 24px;
+    line-height: 30px;
+  }
+  .nf-hoja-contenido p { text-wrap: pretty; }
+  .nf-codigo { font-family: 'Special Elite', 'Courier New', monospace; font-size: 64px; line-height: 0.9; opacity: 0.35; transform: rotate(-3deg); transform-origin: left center; }
+  .nf-titulo {
+    margin: 0;
+    font: inherit;
+    font-size: 36px;
+    line-height: 1.05;
+    font-feature-settings: 'calt' 0;
+    font-variant-ligatures: none;
+    transform: rotate(-1.5deg);
+    transform-origin: left center;
+  }
+  .nf-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 56px;
+    padding: 0 22px;
+    text-decoration: none;
+    white-space: nowrap;
+    font: 400 17px/1 'Special Elite', 'Courier New', monospace;
+  }
+  .pl-page a.nf-btn,
+  .pl-page a.nf-btn:hover { color: #12306a; }
+
+  @media (min-width: 768px) {
+    .nf { gap: 36px; }
+    .nf-hoja { --s: 0.5; width: 560px; min-height: 560px; }
+    .nf-hoja-contenido { padding: 175px 64px 64px 84px; font-size: 30px; line-height: 38px; gap: 18px; }
+    .nf-codigo { font-size: 84px; }
+    .nf-titulo { font-size: 48px; }
+    .nf-btn { min-height: 60px; padding: 0 36px; font-size: 23px; }
+  }
+</style>
