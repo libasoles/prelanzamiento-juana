@@ -47,7 +47,7 @@ async function sendMail(env, to, link) {
       text: `Entrá a Palabras con este link (vence en 15 minutos y sirve una sola vez):\n\n${link}\n\nSi no lo pediste vos, ignorá este mail.`,
     }),
   });
-  if (!res.ok) throw new Error(`resend ${res.status}`);
+  if (!res.ok) throw new Error(`resend ${res.status} ${await res.text()}`);
 }
 
 async function requestLink(request, env) {
@@ -90,6 +90,7 @@ export default {
       if (pathname === '/auth/request') return await requestLink(request, env);
       if (pathname === '/auth/verify') return await verifyLink(request, env);
     } catch (e) {
+      console.error(e);
       return json(env, 500, { error: 'interno' });
     }
     return json(env, 404, { error: 'no_encontrado' });
