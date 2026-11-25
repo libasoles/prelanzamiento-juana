@@ -36,7 +36,6 @@ Nota: `astro preview` es un único proceso por proyecto; los tests y Lighthouse 
 - `src/scripts`: auth, página de Palabras y reproductor.
 - `src/assets`: imágenes optimizadas en build (avif/webp, `srcset`); `public/`: audio, `robots.txt`, imágenes OG.
 - `worker/`: Worker de Cloudflare del magic link (`wrangler`).
-- `legacy/`: prototipo HTML anterior (dos HTML por página), sólo de referencia; también en el tag `prototipo-demo`.
 
 ## Animaciones manuales de Palabras
 
