@@ -18,9 +18,13 @@ import abrazo from '../../assets/palabras/abrazo-2.webp';
     </div>
     <p id="msgError" class="mensaje-error" role="alert" hidden></p>
     <div class="mensaje-enviar">
-      <button type="submit" class="pl-carton-btn mensaje-btn"><span class="js-send-label">Dejar mis palabras</span></button>
+      <button type="submit" class="pl-carton-btn mensaje-btn">
+        <span class="btn-label js-send-label">Dejar mis palabras</span>
+        <span class="btn-sending"><svg aria-hidden="true" class="btn-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>Enviando</span>
+      </button>
       <button type="submit" class="enviar-ico" aria-label="Dejar mis palabras">
         <svg aria-hidden="true" class="js-send-ico" width="64" height="56" viewBox="0 0 64 56" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path d="M54 7C55 18 54 29 51 38C40 41 27 39 12 38"></path><path d="M24 26C20 31 16 35 12 38C16 42 20 46 25 50"></path></svg>
+        <span class="enviar-spin" aria-hidden="true"><svg class="btn-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg></span>
       </button>
     </div>
   </form>
@@ -119,9 +123,14 @@ import abrazo from '../../assets/palabras/abrazo-2.webp';
   /* Medidas del artifact de diseño (estado «verError»): 26 px en mobile, 34 px en desktop. */
   .mensaje-error { margin: 0; max-width: 100%; padding: 0 8px; text-align: center; color: #ffffff; font: 400 26px/1.25 'Special Elite', 'Courier New', monospace; }
   .mensaje-enviar { display: flex; align-items: center; justify-content: center; gap: 10px; }
-  .mensaje-btn { min-height: 56px; padding: 0 18px; border: 0; white-space: nowrap; font: 400 17px/1 'Special Elite', 'Courier New', monospace; cursor: pointer; }
+  .mensaje-btn { display: inline-grid; place-items: center; min-height: 56px; padding: 0 18px; border: 0; white-space: nowrap; font: 400 17px/1 'Special Elite', 'Courier New', monospace; cursor: pointer; }
   .enviar-ico { all: unset; box-sizing: border-box; display: flex; padding: 6px; cursor: pointer; color: #ffffff; transition: transform 0.18s ease, filter 0.18s ease; }
-  .enviar-ico svg { flex: none; transform: rotate(-4deg); width: 40px; height: 35px; }
+  .enviar-ico .js-send-ico { flex: none; transform: rotate(-4deg); width: 40px; height: 35px; }
+  /* Mientras envía, la flecha cede su caja a la ruedita: mismo tamaño, el botón no se mueve. */
+  .enviar-spin { display: none; width: 40px; height: 35px; align-items: center; justify-content: center; }
+  .enviar-spin .btn-spin { width: 28px; height: 28px; }
+  .enviar-ico[data-sending] .js-send-ico { display: none; }
+  .enviar-ico[data-sending] .enviar-spin { display: flex; }
   .enviar-ico:hover { transform: translateY(-4px) rotate(4deg) scale(1.12); filter: drop-shadow(0 6px 8px rgba(0, 10, 40, 0.45)); }
   .enviar-ico:active { transform: translateY(1px) scale(0.95); }
   .enviar-ico:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
@@ -146,6 +155,8 @@ import abrazo from '../../assets/palabras/abrazo-2.webp';
     .mensaje-error { max-width: 720px; padding: 0; font-size: 34px; }
     .mensaje-enviar { gap: 16px; }
     .mensaje-btn { min-height: 60px; padding: 0 36px; font-size: 23px; }
-    .enviar-ico svg { width: 64px; height: 56px; }
+    .enviar-ico .js-send-ico { width: 64px; height: 56px; }
+    .enviar-spin { width: 64px; height: 56px; }
+    .enviar-spin .btn-spin { width: 40px; height: 40px; }
   }
 </style>

@@ -402,6 +402,14 @@ export function initPalabras(): void {
       errorBox.textContent = key ? (ERRORS[key] ?? 'No pudimos guardar tu mensaje. Probá de nuevo.') : '';
     };
     const buttons = () => form.querySelectorAll<HTMLButtonElement>('button[type="submit"]');
+    // Mientras envía (incluidos los reintentos) los botones quedan deshabilitados y muestran «Enviando».
+    const setSending = (on: boolean) => buttons().forEach((b) => {
+      b.disabled = on;
+      b.toggleAttribute('data-sending', on);
+      if (on) b.setAttribute('aria-label', 'Enviando');
+      else if (b.classList.contains('enviar-ico')) b.setAttribute('aria-label', 'Dejar mis palabras');
+      else b.removeAttribute('aria-label');
+    });
     let sending = false;
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -410,12 +418,12 @@ export function initPalabras(): void {
       if (!text) { msg.focus(); return; }
       sending = true;
       setError(null);
-      buttons().forEach((b) => { b.disabled = true; });
+      setSending(true);
       const result = await sendMessage(text);
       sending = false;
+      setSending(false);
       if (!result.ok) {
         // Se conserva el texto y se deja reintentar.
-        buttons().forEach((b) => { b.disabled = false; });
         setError(result.error);
         return;
       }

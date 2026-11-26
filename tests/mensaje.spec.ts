@@ -62,3 +62,67 @@ for (const [name, status, body, text] of failures) {
     await expect(submit(page)).toBeEnabled();
   });
 }
+
+test('reintenta ante un 5xx y agradece si el reintento sale bien', async ({ page }) => {
+  let calls = 0;
+  await page.addInitScript(([k, v]) => localStorage.setItem(k, v), [KEY, SESSION]);
+  await page.route('**/messages', (route) => {
+    calls++;
+    return calls < 3
+      ? route.fulfill({ status: 500, contentType: 'application/json', body: '{"error":"internal_error"}' })
+      : route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
+  });
+  await page.goto('/palabras');
+  await page.fill('#msg', 'Hola Juana');
+  await submit(page).click();
+
+  await expect(thanks(page)).toBeVisible();
+  expect(calls).toBe(3);
+});
+
+test('si el 5xx persiste hace 1 intento + 3 reintentos y avisa', async ({ page }) => {
+  const sent = await setup(page, { status: 500, body: { error: 'internal_error' } });
+  await page.fill('#msg', 'Hola Juana');
+  await submit(page).click();
+
+  await expect(error(page)).toHaveText(/no pudimos guardar tu mensaje/i);
+  expect(sent).toHaveLength(4);
+});
+
+test('un 4xx no se reintenta', async ({ page }) => {
+  const sent = await setup(page, { status: 429, body: { error: 'too_many_messages' } });
+  await page.fill('#msg', 'Hola Juana');
+  await submit(page).click();
+
+  await expect(error(page)).toHaveText(/3 mensajes hoy/i);
+  expect(sent).toHaveLength(1);
+});
+
+test('mientras envía: botones deshabilitados, dicen «Enviando» y no cambian de tamaño', async ({ page }) => {
+  let release!: () => void;
+  const gate = new Promise<void>((r) => { release = r; });
+  await page.addInitScript(([k, v]) => localStorage.setItem(k, v), [KEY, SESSION]);
+  await page.route('**/messages', async (route) => {
+    await gate;
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
+  });
+  await page.goto('/palabras');
+  const text = page.locator('#msgForm .mensaje-btn');
+  const icon = page.locator('#msgForm .enviar-ico');
+  const size = async (l: typeof text) => { const b = await l.boundingBox(); return b && { w: Math.round(b.width), h: Math.round(b.height) }; };
+  const before = [await size(text), await size(icon)];
+
+  await page.fill('#msg', 'Hola Juana');
+  await submit(page).click();
+
+  await expect(text).toBeDisabled();
+  await expect(icon).toBeDisabled();
+  await expect(text).toHaveAccessibleName('Enviando');
+  await expect(text.locator('.btn-sending')).toBeVisible();
+  await expect(text.locator('.btn-label')).toBeHidden();
+  expect([await size(text), await size(icon)]).toEqual(before);
+
+  release();
+  await expect(thanks(page)).toBeVisible();
+  await expect(text.locator('.btn-sending')).toBeHidden();
+});

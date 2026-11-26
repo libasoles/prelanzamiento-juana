@@ -153,3 +153,29 @@ test('la misma URL sirve mobile y desktop, sin redirects', async ({ page }) => {
   await expect(page).toHaveURL(/\/palabras$/);
   await expect(lock(page)).toBeVisible();
 });
+
+test('mientras pide el link: el botón se deshabilita, dice «Enviando» y no cambia de tamaño', async ({ page }) => {
+  await mockAuth(page);
+  let release!: () => void;
+  const gate = new Promise<void>((r) => { release = r; });
+  await page.route('**/auth/request', async (r) => {
+    await gate;
+    await r.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
+  });
+  await page.goto('/palabras');
+  const button = page.locator('.lock-submit');
+  const size = async () => { const b = await button.boundingBox(); return b && { w: Math.round(b.width), h: Math.round(b.height) }; };
+  const before = await size();
+
+  await page.fill('#codigo', 'ABC');
+  await page.fill('#email', 'a@b.c');
+  await button.click();
+
+  await expect(button).toBeDisabled();
+  await expect(button).toHaveAccessibleName('Enviando');
+  expect(await size()).toEqual(before);
+
+  release();
+  await expect(button).toBeEnabled();
+  await expect(button).toHaveAccessibleName('Entrar');
+});

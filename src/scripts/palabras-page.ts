@@ -99,7 +99,12 @@ form?.addEventListener('submit', async (e) => {
   e.preventDefault();
   const data = new FormData(form);
   const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-  if (button) button.disabled = true;
+  const setSending = (on: boolean) => {
+    if (!button) return;
+    button.disabled = on;
+    button.toggleAttribute('data-sending', on);
+  };
+  setSending(true);
   setStatus(null);
   loadTurnstile();
   const turnstile = await getTurnstileToken();
@@ -112,7 +117,7 @@ form?.addEventListener('submit', async (e) => {
   // El token es de un solo uso: se pide uno nuevo para el próximo intento.
   turnstileToken = undefined;
   if (turnstileId) (window as unknown as { turnstile: Turnstile }).turnstile.reset(turnstileId);
-  if (button) button.disabled = false;
+  setSending(false);
   if (result.ok) {
     form.style.boxSizing = 'border-box';
     form.style.minHeight = `${form.offsetHeight}px`;
