@@ -103,7 +103,7 @@ import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
   .ms-btn { display: inline-block; padding: 10px 22px; background: #3a3b3f; color: #fff; border-radius: 999px; text-decoration: none; font-weight: 600; }
   .ms-btn:hover { background: #2b2c2f; color: #fff; }
 
-  .ms-list { list-style: none; margin: 0; padding: 0; columns: 1; column-gap: 36px; }
+  .ms-list { list-style: none; margin: 0; padding: 0; }
   .ms-item { position: relative; break-inside: avoid; margin: 0 0 34px; padding: 30px 24px 24px; background: #fffdf6; color: #12306a; border-radius: 2px; box-shadow: 0 1px 0 rgba(18, 48, 106, 0.12), 0 10px 22px rgba(18, 48, 106, 0.14); transform: rotate(var(--giro, 0deg)); }
   .ms-item[hidden] { display: none; }
   .ms-item::before { content: ''; position: absolute; top: -14px; left: 50%; width: 80px; height: 38px; margin-left: -40px; background: var(--cinta) center / cover; opacity: 0.9; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25); transform: rotate(var(--cinta-giro, 0deg)); }
@@ -120,7 +120,8 @@ import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
   @media (min-width: 768px) {
     .ms-page { padding: 72px 32px 72px; }
     .ms-title { font-size: 96px; }
-    .ms-list { columns: 2; }
+    /* Grilla por filas: la primera fila tiene los dos mensajes mas nuevos. */
+    [data-state='list'] .ms-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 36px; align-items: start; }
     .ms-count { margin: 0; position: absolute; right: 0; bottom: 3px; }
     .ms-top { position: relative; }
   }
@@ -133,7 +134,7 @@ import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
     .ms-page { padding: 16mm 18mm; min-height: 0; }
     .ms-pdf, .ms-more, .ms-count, .ms-notice { display: none !important; }
     .ms-top { margin-bottom: 24px; }
-    .ms-list { columns: 1; }
+    [data-state='list'] .ms-list { display: block; }
     /* Sin recuadro: solo una linea de 2px a la izquierda. */
     .ms-item, .ms-item[hidden] { display: block !important; transform: none; box-shadow: none; background: none; border: 0; border-left: 2px solid #3a3b3f; border-radius: 0; padding: 4px 0 4px 16px; margin: 0 0 22px; }
     .ms-item::before { display: none; }

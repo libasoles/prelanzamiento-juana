@@ -107,3 +107,13 @@ test('el PDF muestra la fecha dd/mm/aaaa, sin contador ni recuadros', async ({ p
   await expect(item).toHaveCSS('border-left-width', '2px');
   await expect(item).toHaveCSS('border-top-width', '0px');
 });
+
+test('desktop: se llena por filas, los dos mensajes más nuevos van en la primera fila', async ({ page }, info) => {
+  test.skip(info.project.name !== 'desktop');
+  await page.goto('/mensajes?preview');
+  const items = page.locator('.ms-item:visible');
+  const [a, b, c] = await Promise.all([0, 1, 2].map((i) => items.nth(i).boundingBox()));
+  expect(Math.abs(a!.y - b!.y)).toBeLessThan(12); // 1.º y 2.º en la misma fila
+  expect(b!.x).toBeGreaterThan(a!.x + a!.width / 2); // el 2.º a la derecha del 1.º
+  expect(c!.y).toBeGreaterThan(a!.y + a!.height / 2); // el 3.º en la fila de abajo
+});
