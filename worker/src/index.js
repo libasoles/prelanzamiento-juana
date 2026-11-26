@@ -1,5 +1,5 @@
 const LINK_TTL = 15 * 60; // segundos
-const SESSION_TTL = 30 * 24 * 3600;
+const SESSION_TTL = 48 * 3600;
 const RATE_TTL = 60;
 // Tope de pedidos de link por IP (protege la cuota de Resend y la reputación del dominio).
 const IP_MAX_PER_HOUR = 5;

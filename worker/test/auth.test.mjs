@@ -24,6 +24,18 @@ test('canjear el magic link crea al usuario con su preferencia de novedades', as
   assert.ok(user.last_login_at);
 });
 
+test('la sesión emitida vence a las 48 horas', async () => {
+  const env = makeEnv();
+  await seedLink(env, 'tok1', { email: 'ana@example.com', novedades: false });
+  const before = Date.now();
+
+  const { session } = await (await worker.fetch(post('/auth/verify', { token: 'tok1' }), env)).json();
+
+  const { exp } = JSON.parse(Buffer.from(session.split('.')[0], 'base64url').toString());
+  const hours = (exp - before) / 3_600_000;
+  assert.ok(hours >= 48 && hours < 48.01, `vence en ${hours} h`);
+});
+
 test('un segundo login no duplica al usuario: actualiza novedades y last_login_at', async () => {
   const env = makeEnv();
   await seedLink(env, 'tok1', { email: 'ana@example.com', novedades: true });
