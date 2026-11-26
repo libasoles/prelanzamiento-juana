@@ -23,8 +23,35 @@ test('?preview muestra mensajes de ejemplo sin tocar el Worker', async ({ page }
   await page.route('**/admin/messages', (route) => { asked = true; return route.abort(); });
   await page.goto('/mensajes?preview');
   await expect(state(page)).toHaveAttribute('data-state', 'list');
-  await expect(page.locator('.ms-item')).toHaveCount(3);
+  await expect(page.locator('.ms-item')).toHaveCount(14);
+  await expect(page.locator('.ms-item:visible')).toHaveCount(12);
   expect(asked).toBe(false);
+});
+
+test('carga progresiva: «Ver más» suma 12 y se oculta al llegar al final', async ({ page }) => {
+  await page.goto('/mensajes?preview');
+  await expect(page.locator('#msgShown')).toHaveText('Mostrando 12 de 14');
+  await page.getByRole('button', { name: 'Ver más' }).click();
+  await expect(page.locator('.ms-item:visible')).toHaveCount(14);
+  await expect(page.locator('#msgMore')).toBeHidden();
+});
+
+test('la fecha es relativa y sin hora', async ({ page }) => {
+  await page.goto('/mensajes?preview');
+  const times = page.locator('.ms-item time');
+  await expect(times.nth(0)).toHaveText('hoy');
+  await expect(times.nth(1)).toHaveText('ayer');
+  await expect(times.nth(5)).toHaveText('hace 4 días');
+  await expect(page.locator('#msgCount')).toHaveText('14 mensajes');
+});
+
+test('«Descargar PDF» imprime todos los mensajes', async ({ page }) => {
+  await page.addInitScript(() => { (window as any).__print = 0; window.print = () => { (window as any).__print++; }; });
+  await page.goto('/mensajes?preview');
+  await page.getByRole('button', { name: /Descargar/ }).click();
+  expect(await page.evaluate(() => (window as any).__print)).toBe(1);
+  await page.emulateMedia({ media: 'print' });
+  await expect(page.locator('.ms-item:visible')).toHaveCount(14);
 });
 
 test('con sesión autorizada lista los mensajes reales sin interpretar HTML', async ({ page }) => {

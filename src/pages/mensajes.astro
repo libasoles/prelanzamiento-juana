@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import cinta from '../assets/palabras/cinta.png';
 ---
 
 <Base
@@ -9,12 +10,17 @@ import Base from '../layouts/Base.astro';
   ogImage="/brand/og-palabras.jpg"
   ogImageAlt="Retrato de Juana en azul y blanco con su nombre y el título Palabras"
   noindex
-  background="#2154aa"
+  background="#e3e0d8"
 >
-  <main class="ms-page">
+  <main class="ms-page" style={`--cinta:url(${cinta.src})`}>
     <header class="ms-top">
+      <div class="ms-row">
+        <h1 class="ms-title">Mensajes</h1>
+        <button id="msgPdf" class="ms-pdf" type="button" aria-label="Descargar todos los mensajes en PDF" title="Descargar PDF" hidden>
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+        </button>
+      </div>
       <p class="ms-kicker">Para Juana</p>
-      <h1 class="ms-title">Mensajes</h1>
       <p id="msgCount" class="ms-count" aria-live="polite"></p>
     </header>
 
@@ -32,6 +38,11 @@ import Base from '../layouts/Base.astro';
       <p class="ms-state ms-empty">Todavía no hay mensajes.</p>
 
       <ol id="msgList" class="ms-list"></ol>
+
+      <div id="msgMore" class="ms-more" hidden>
+        <p id="msgShown" class="ms-shown"></p>
+        <button id="msgMoreBtn" class="ms-more-btn" type="button">Ver más</button>
+      </div>
     </div>
   </main>
 
@@ -45,17 +56,23 @@ import Base from '../layouts/Base.astro';
     min-height: 100vh;
     box-sizing: border-box;
     padding: 40px 20px 72px;
-    background: #2154aa;
-    color: #fff;
+    background: #e3e0d8;
+    color: #12306a;
     font-family: 'Instrument Sans Variable', 'Instrument Sans', sans-serif;
     font-size: 17px;
     line-height: 1.6;
   }
-  .ms-top, #msgRoot { max-width: 720px; margin: 0 auto; }
-  .ms-kicker { margin: 0; font-family: 'Special Elite', 'Courier New', monospace; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; }
-  .ms-title { margin: 4px 0 0; font-family: 'Covered By Your Grace', cursive; font-weight: 400; font-size: 64px; line-height: 1; }
-  .ms-count { margin: 8px 0 28px; min-height: 1.6em; opacity: 0.85; }
-  .ms-notice { margin: 0 0 16px; font-size: 14px; opacity: 0.8; }
+  .ms-top, #msgRoot { max-width: 1040px; margin: 0 auto; }
+  .ms-top { margin-bottom: 44px; }
+  .ms-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .ms-title { margin: 0; font-family: 'Covered By Your Grace', cursive; font-weight: 400; font-size: 64px; line-height: 1; color: #3a3b3f; }
+  .ms-kicker { margin: -6px 0 0; font-family: 'Special Elite', 'Courier New', monospace; font-size: 19px; color: #4a4b50; }
+  .ms-count { margin: 20px 0 0; min-height: 1.6em; font-family: 'Special Elite', 'Courier New', monospace; font-size: 16px; color: #4a4b50; }
+  .ms-pdf { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 999px; background: transparent; color: #3a3b3f; cursor: pointer; }
+  .ms-pdf[hidden], .ms-more[hidden] { display: none; }
+  .ms-pdf:hover { background: rgba(58, 59, 63, 0.1); }
+  .ms-pdf:focus-visible, .ms-more-btn:focus-visible { outline: 3px solid #2154aa; outline-offset: 2px; }
+  .ms-notice { margin: 0 0 16px; font-size: 14px; color: #4a4b50; }
   .ms-notice:empty { display: none; }
 
   /* Un solo estado visible a la vez (data-state en #msgRoot). */
@@ -65,22 +82,42 @@ import Base from '../layouts/Base.astro';
   [data-state='error'] .ms-error,
   [data-state='empty'] .ms-empty,
   [data-state='login'] .ms-login { display: block; }
-  [data-state='list'] .ms-list { display: grid; }
-  .ms-state { margin: 0; padding: 20px; border: 1px dashed rgba(255, 255, 255, 0.5); border-radius: 4px; }
+  [data-state='list'] .ms-list { display: block; }
+  .ms-state { margin: 0; padding: 20px; border: 1px dashed #3a3b3f; border-radius: 4px; color: #3a3b3f; }
   .ms-login p { margin: 0 0 16px; }
 
-  .ms-btn { display: inline-block; padding: 10px 22px; background: #fff; color: #12306a; border-radius: 999px; text-decoration: none; font-weight: 600; }
-  .ms-btn:hover { background: #e9edf9; color: #12306a; }
+  .ms-btn { display: inline-block; padding: 10px 22px; background: #3a3b3f; color: #fff; border-radius: 999px; text-decoration: none; font-weight: 600; }
+  .ms-btn:hover { background: #2b2c2f; color: #fff; }
 
-  .ms-list { list-style: none; margin: 0; padding: 0; gap: 16px; }
-  .ms-item { padding: 18px 20px; background: #f6f1e4; color: #12306a; border-radius: 3px; box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18); }
-  .ms-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; font-size: 14px; }
+  .ms-list { list-style: none; margin: 0; padding: 0; columns: 1; column-gap: 36px; }
+  .ms-item { position: relative; break-inside: avoid; margin: 0 0 34px; padding: 30px 24px 24px; background: #fffdf6; color: #12306a; border-radius: 2px; box-shadow: 0 1px 0 rgba(18, 48, 106, 0.12), 0 10px 22px rgba(18, 48, 106, 0.14); transform: rotate(var(--giro, 0deg)); }
+  .ms-item[hidden] { display: none; }
+  .ms-item::before { content: ''; position: absolute; top: -14px; left: 50%; width: 80px; height: 38px; margin-left: -40px; background: var(--cinta) center / cover; opacity: 0.9; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25); transform: rotate(var(--cinta-giro, 0deg)); }
+  .ms-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; font-size: 14px; }
   .ms-who { font-family: 'Special Elite', 'Courier New', monospace; overflow-wrap: anywhere; }
-  .ms-head time { opacity: 0.7; }
-  .ms-body { margin: 10px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 19px; }
+  .ms-head time { color: #3d5488; }
+  .ms-body { margin: 12px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 19px; line-height: 1.5; }
+
+  .ms-more { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 20px; }
+  .ms-shown { margin: 0; font-family: 'Special Elite', 'Courier New', monospace; font-size: 15px; color: #4a4b50; }
+  .ms-more-btn { min-height: 48px; padding: 0 28px; border: 2px solid #3a3b3f; border-radius: 999px; background: transparent; color: #3a3b3f; font: 600 16px 'Instrument Sans Variable', 'Instrument Sans', sans-serif; cursor: pointer; }
+  .ms-more-btn:hover { background: rgba(58, 59, 63, 0.1); }
 
   @media (min-width: 768px) {
-    .ms-page { padding: 72px 32px 96px; }
-    .ms-title { font-size: 88px; }
+    .ms-page { padding: 72px 32px 72px; }
+    .ms-title { font-size: 96px; }
+    .ms-list { columns: 2; }
+    .ms-count { margin: 0; position: absolute; right: 0; bottom: 3px; }
+    .ms-top { position: relative; }
+  }
+
+  /* «Descargar PDF»: se imprime todo, no solo lo que está desplegado. */
+  @media print {
+    html, body, .ms-page { background: #fff !important; }
+    .ms-page { padding: 0; }
+    .ms-pdf, .ms-more { display: none !important; }
+    .ms-list { columns: 1; }
+    .ms-item, .ms-item[hidden] { display: block !important; transform: none; box-shadow: none; border: 1px solid #c9c6bd; }
+    .ms-item::before { display: none; }
   }
 </style>
