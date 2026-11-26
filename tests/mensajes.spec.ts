@@ -117,3 +117,13 @@ test('desktop: se llena por filas, los dos mensajes más nuevos van en la primer
   expect(b!.x).toBeGreaterThan(a!.x + a!.width / 2); // el 2.º a la derecha del 1.º
   expect(c!.y).toBeGreaterThan(a!.y + a!.height / 2); // el 3.º en la fila de abajo
 });
+
+test('sin mensajes: «Todavía no hay mensajes.» en máquina de escribir y sin borde', async ({ page }) => {
+  await page.addInitScript(([k, v]) => localStorage.setItem(k, v), ['juana.session', SESSION]);
+  await page.route('**/admin/messages', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: '{"messages":[]}' }));
+  await page.goto('/mensajes');
+  const vacio = page.getByText('Todavía no hay mensajes.');
+  await expect(vacio).toBeVisible();
+  await expect(vacio).toHaveCSS('border-top-width', '0px');
+  await expect(vacio).toHaveCSS('font-family', /Special Elite/);
+});

@@ -14,6 +14,8 @@ import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
   background="#e3e0d8"
 >
   <main class="ms-page" style={`--cinta:url(${cinta.src});--estrellas:url(${estrellas.src})`}>
+    <!-- Tabla solo para imprimir: su thead/tfoot se repiten en cada hoja y dan el margen de arriba y abajo. En pantalla es un bloque comun. -->
+    <table class="ms-frame" role="presentation"><thead><tr><td class="ms-pad"></td></tr></thead><tbody><tr><td>
     <header class="ms-top">
       <div class="ms-row">
         <h1 class="ms-title">Mensajes</h1>
@@ -45,6 +47,7 @@ import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
         <button id="msgMoreBtn" class="ms-more-btn" type="button">Ver más</button>
       </div>
     </div>
+    </td></tr></tbody><tfoot><tr><td class="ms-pad"></td></tr></tfoot></table>
   </main>
 
   <script>
@@ -71,6 +74,8 @@ import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
   .ms-count { margin: 20px 0 0; min-height: 1.6em; font-family: 'Special Elite', 'Courier New', monospace; font-size: 16px; color: #4a4b50; text-align: right; }
   .ms-pdf { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 999px; background: transparent; color: #3a3b3f; cursor: pointer; }
   .ms-pdf[hidden], .ms-more[hidden] { display: none; }
+  .ms-frame, .ms-frame > tbody, .ms-frame > tbody > tr, .ms-frame > tbody > tr > td { display: block; padding: 0; }
+  .ms-frame > thead, .ms-frame > tfoot { display: none; }
   .ms-pdf:hover { background: rgba(58, 59, 63, 0.1); }
   .ms-pdf:focus-visible, .ms-more-btn:focus-visible { outline: 3px solid #2154aa; outline-offset: 2px; }
   .ms-notice { margin: 0 0 16px; font-size: 14px; color: #4a4b50; }
@@ -85,6 +90,7 @@ import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
   [data-state='login'] .ms-login { display: block; }
   [data-state='list'] .ms-list { display: block; }
   .ms-state { margin: 0; padding: 20px; border: 1px dashed #3a3b3f; border-radius: 4px; color: #3a3b3f; }
+  .ms-state.ms-empty { padding: 0; border: 0; font-family: 'Special Elite', 'Courier New', monospace; font-size: 19px; }
   .ms-login p { margin: 0 0 16px; }
 
   /* Carga: las estrellas bailando del video loop del player (mismo sprite, 6 cuadros por segundo). */
@@ -128,10 +134,19 @@ import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
 
   /* «Descargar PDF»: se imprime todo, no solo lo que está desplegado. */
   @media print {
-    /* margin 0 saca el encabezado y pie del navegador (titulo de la pagina, URL, fecha); el margen lo da .ms-page. */
+    /* margin 0 saca el encabezado y pie del navegador (titulo de la pagina, URL, fecha). */
     @page { margin: 0; }
     html, body, .ms-page { background: #fff !important; }
-    .ms-page { padding: 16mm 18mm; min-height: 0; }
+    .ms-page { min-height: 0; padding: 0 18mm; }
+    /* Los margenes de arriba y abajo de cada hoja salen del thead/tfoot de la tabla, que Chrome repite en todas las paginas. */
+    .ms-frame { display: table; width: 100%; border-collapse: collapse; }
+    .ms-frame > thead { display: table-header-group; }
+    .ms-frame > tbody { display: table-row-group; }
+    .ms-frame > tbody > tr { display: table-row; }
+    .ms-frame > tbody > tr > td { display: table-cell; }
+    .ms-frame > tfoot { display: table-footer-group; }
+    .ms-pad { display: table-cell; height: 16mm; }
+    .ms-top, #msgRoot { max-width: none; }
     .ms-pdf, .ms-more, .ms-count, .ms-notice { display: none !important; }
     .ms-top { margin-bottom: 24px; }
     [data-state='list'] .ms-list { display: block; }
