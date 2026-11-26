@@ -73,6 +73,7 @@ test('reintenta ante un 5xx y agradece si el reintento sale bien', async ({ page
       : route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
   });
   await page.goto('/palabras');
+  await expect(page.locator('#msgForm')).toBeAttached();
   await page.fill('#msg', 'Hola Juana');
   await submit(page).click();
 

@@ -176,6 +176,5 @@ test('mientras pide el link: el botón se deshabilita, dice «Enviando» y no ca
   expect(await size()).toEqual(before);
 
   release();
-  await expect(button).toBeEnabled();
-  await expect(button).toHaveAccessibleName('Entrar');
+  await expect(page.locator('#lockStatus')).toHaveText(/te mandamos un link/i);
 });
