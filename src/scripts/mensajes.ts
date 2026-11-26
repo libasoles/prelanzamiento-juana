@@ -55,8 +55,8 @@ async function init() {
   if (/[?&]preview(=|&|$)/.test(location.search)) return render(SAMPLE, true);
   const res = await fetchAdminMessages();
   if (res.ok) return render(res.messages, false);
-  if (res.error === 'sesion_invalida') return setState('login');
-  if (res.error === 'no_autorizado') return setState('denied');
+  if (res.error === 'invalid_session') return setState('login');
+  if (res.error === 'forbidden') return setState('denied');
   setState('error');
 }
 

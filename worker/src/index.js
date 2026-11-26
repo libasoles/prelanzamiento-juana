@@ -106,7 +106,7 @@ async function refund(env, key) {
 async function sendMail(env, to, link) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
-    headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+    headers: { authorization: `Bearer ${String(env.RESEND_API_KEY).trim()}`, 'content-type': 'application/json' },
     body: JSON.stringify({
       from: env.MAIL_FROM,
       to,
@@ -121,21 +121,21 @@ async function requestLink(request, env) {
   const body = await request.json().catch(() => ({}));
   const email = String(body.email || '').trim().toLowerCase();
   const code = String(body.code || '').trim().toUpperCase();
-  if (!EMAIL_RE.test(email)) return json(env, 400, { error: 'email_invalido' });
-  if (!env.CODES.split(',').includes(code)) return json(env, 403, { error: 'codigo_invalido' });
+  if (!EMAIL_RE.test(email)) return json(env, 400, { error: 'invalid_email' });
+  if (!env.CODES.split(',').includes(code)) return json(env, 403, { error: 'invalid_code' });
 
   const ip = request.headers.get('cf-connecting-ip');
   const ipKey = ip ? `iprate:${await sha256(ip)}` : null;
   const emailKey = `rate:${await sha256(email)}`;
-  if (ipKey && (await overLimit(env, ipKey, IP_MAX_PER_HOUR))) return json(env, 429, { error: 'demasiados_pedidos' });
+  if (ipKey && (await overLimit(env, ipKey, IP_MAX_PER_HOUR))) return json(env, 429, { error: 'too_many_requests' });
   if (await overLimit(env, emailKey, EMAIL_MAX_PER_HOUR)) {
     if (ipKey) await refund(env, ipKey);
-    return json(env, 429, { error: 'demasiados_pedidos' });
+    return json(env, 429, { error: 'too_many_requests' });
   }
   if (!(await verifyTurnstile(env, body.turnstile, ip))) {
     if (ipKey) await refund(env, ipKey);
     await refund(env, emailKey);
-    return json(env, 400, { error: 'captcha_invalido' });
+    return json(env, 400, { error: 'invalid_captcha' });
   }
 
   // Se guarda el hash: el token en claro solo existe en el mail.
@@ -156,10 +156,10 @@ async function requestLink(request, env) {
 
 async function verifyLink(request, env) {
   const { token } = await request.json().catch(() => ({}));
-  if (!token) return json(env, 400, { error: 'token_faltante' });
+  if (!token) return json(env, 400, { error: 'missing_token' });
   const key = `link:${await sha256(String(token))}`;
   const raw = await env.MAGIC_LINKS.get(key);
-  if (!raw) return json(env, 401, { error: 'link_vencido_o_usado' });
+  if (!raw) return json(env, 401, { error: 'link_expired_or_used' });
   await env.MAGIC_LINKS.delete(key); // un solo uso
   const { email, novedades } = JSON.parse(raw);
   // Alta/actualización en la lista de usuarios. Si D1 falla no se corta el login (el link ya se gastó):
@@ -183,10 +183,10 @@ const DAY = 24 * 3600 * 1000;
 
 async function saveMessage(request, env) {
   const email = await verifySession(env, request.headers.get('authorization'));
-  if (!email) return json(env, 401, { error: 'sesion_invalida' });
+  if (!email) return json(env, 401, { error: 'invalid_session' });
   const input = await request.json().catch(() => ({}));
   const body = typeof input.body === 'string' ? input.body.trim() : '';
-  if (!body || body.length > MAX_BODY) return json(env, 400, { error: 'mensaje_invalido' });
+  if (!body || body.length > MAX_BODY) return json(env, 400, { error: 'invalid_message' });
   // Un solo viaje a D1 (batch = una transacción): alta del usuario si falta + mensaje.
   // El mensaje sólo se inserta si el usuario no llegó al límite de la última hora;
   // changes === 0 en el segundo statement significa «límite alcanzado».
@@ -200,7 +200,7 @@ async function saveMessage(request, env) {
          AND (SELECT COUNT(*) FROM messages m WHERE m.user_id = users.id AND m.created_at > ?3) < ?4`,
     ).bind(email, body, since, MAX_PER_DAY),
   ]);
-  if (saved.meta.changes === 0) return json(env, 429, { error: 'demasiados_mensajes' });
+  if (saved.meta.changes === 0) return json(env, 429, { error: 'too_many_messages' });
   return json(env, 200, { ok: true });
 }
 
@@ -217,8 +217,8 @@ const isAdmin = (env, email) =>
 /** Mensajes para el panel /mensajes: sólo emails de ADMIN_EMAILS con sesión válida. */
 async function listMessages(request, env) {
   const email = await verifySession(env, request.headers.get('authorization'));
-  if (!email) return json(env, 401, { error: 'sesion_invalida' });
-  if (!isAdmin(env, email)) return json(env, 403, { error: 'no_autorizado' });
+  if (!email) return json(env, 401, { error: 'invalid_session' });
+  if (!isAdmin(env, email)) return json(env, 403, { error: 'forbidden' });
   const { results } = await env.DB.prepare(
     `SELECT m.id, u.email, m.body, m.created_at
      FROM messages m JOIN users u ON u.id = m.user_id
@@ -233,7 +233,7 @@ export default {
   async fetch(request, env) {
     const { pathname } = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(env) });
-    if (request.method !== 'POST') return json(env, 405, { error: 'metodo' });
+    if (request.method !== 'POST') return json(env, 405, { error: 'method_not_allowed' });
     try {
       if (pathname === '/auth/request') return await requestLink(request, env);
       if (pathname === '/auth/verify') return await verifyLink(request, env);
@@ -241,8 +241,8 @@ export default {
       if (pathname === '/admin/messages') return await listMessages(request, env);
     } catch (e) {
       console.error(e);
-      return json(env, 500, { error: 'interno' });
+      return json(env, 500, { error: 'internal_error' });
     }
-    return json(env, 404, { error: 'no_encontrado' });
+    return json(env, 404, { error: 'not_found' });
   },
 };

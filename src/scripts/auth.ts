@@ -15,13 +15,12 @@ const KEY = 'juana.session';
 const API = (import.meta.env.PUBLIC_AUTH_API as string | undefined) ?? '';
 
 export type RequestError =
-  | 'email_invalido'
-  | 'codigo_invalido'
-  | 'espera_un_minuto'
-  | 'demasiados_pedidos'
-  | 'captcha_invalido'
-  | 'red'
-  | 'interno';
+  | 'invalid_email'
+  | 'invalid_code'
+  | 'too_many_requests'
+  | 'invalid_captcha'
+  | 'network_error'
+  | 'internal_error';
 
 export type Session = { token: string; email: string; exp: number };
 
@@ -68,7 +67,7 @@ async function post(path: string, body: unknown, headers: Record<string, string>
     const data = await res.json().catch(() => ({}));
     return { ok: res.ok, data };
   } catch {
-    return { ok: false, data: { error: 'red' } };
+    return { ok: false, data: { error: 'network_error' } };
   }
 }
 
@@ -79,7 +78,7 @@ export async function requestLink(input: {
   turnstile?: string;
 }): Promise<{ ok: true } | { ok: false; error: RequestError }> {
   const { ok, data } = await post('/auth/request', input);
-  return ok ? { ok: true } : { ok: false, error: (data.error as RequestError) ?? 'interno' };
+  return ok ? { ok: true } : { ok: false, error: (data.error as RequestError) ?? 'internal_error' };
 }
 
 /** Canjea el token del mail. Guarda la sesión si sale bien. */
@@ -95,26 +94,26 @@ export async function verifyToken(token: string): Promise<boolean> {
 }
 
 export type AdminMessage = { id: number; email: string; body: string; created_at: string };
-export type AdminError = 'sesion_invalida' | 'no_autorizado' | 'red' | 'interno';
+export type AdminError = 'invalid_session' | 'forbidden' | 'network_error' | 'internal_error';
 
 /** Mensajes para /mensajes. Sólo responde a los emails de la lista blanca del Worker (ADMIN_EMAILS). */
 export async function fetchAdminMessages(): Promise<{ ok: true; messages: AdminMessage[] } | { ok: false; error: AdminError }> {
   const session = getSession();
-  if (!session) return { ok: false, error: 'sesion_invalida' };
+  if (!session) return { ok: false, error: 'invalid_session' };
   const { ok, data } = await post('/admin/messages', {}, { authorization: `Bearer ${session.token}` });
   if (ok && Array.isArray(data.messages)) return { ok: true, messages: data.messages };
-  return { ok: false, error: (data.error as AdminError) ?? 'interno' };
+  return { ok: false, error: (data.error as AdminError) ?? 'internal_error' };
 }
 
-export type SendError = 'sesion_invalida' | 'demasiados_mensajes' | 'mensaje_invalido' | 'red' | 'interno';
+export type SendError = 'invalid_session' | 'too_many_messages' | 'invalid_message' | 'network_error' | 'internal_error';
 
 /** Guarda un mensaje de la persona logueada. Si el Worker rechaza la sesión, la borra para que la próxima visita pida el link. */
 export async function sendMessage(body: string): Promise<{ ok: true } | { ok: false; error: SendError }> {
   const session = getSession();
-  if (!session) return { ok: false, error: 'sesion_invalida' };
+  if (!session) return { ok: false, error: 'invalid_session' };
   const { ok, data } = await post('/messages', { body }, { authorization: `Bearer ${session.token}` });
   if (ok) return { ok: true };
-  const error = (data.error as SendError) ?? 'interno';
-  if (error === 'sesion_invalida') clearSession();
+  const error = (data.error as SendError) ?? 'internal_error';
+  if (error === 'invalid_session') clearSession();
   return { ok: false, error };
 }

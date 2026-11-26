@@ -40,7 +40,7 @@ Nota: `astro preview` es un único proceso por proyecto; los tests y Lighthouse 
 El formulario «Escribime algo» hace `POST /messages` al mismo Worker, con `Authorization: Bearer <sesión>`. El Worker verifica la firma y el vencimiento de la sesión y guarda el mensaje en **D1** (`juana-db`, binding `DB`). Esquema en `worker/migrations/`:
 
 - `users`: se da de alta al canjear el magic link (`/auth/verify`, con la preferencia `novedades` y `last_login_at`) o, si la sesión es anterior, al escribir el primer mensaje.
-- `messages`: `user_id`, `body` (1–2000 caracteres; el `CHECK` de la tabla admite hasta 5000 como respaldo), `created_at`. Límite: 10 mensajes por hora y por usuario (429 `demasiados_mensajes`).
+- `messages`: `user_id`, `body` (1–2000 caracteres; el `CHECK` de la tabla admite hasta 5000 como respaldo), `created_at`. Límite: 10 mensajes por hora y por usuario (429 `too_many_messages`).
 
 Cada guardado es un único `DB.batch` (una transacción, un solo viaje a D1). **Región:** D1 no tiene ubicación en Sudamérica; se creó con `--location enam` (este de EE. UU.), la más cercana a Argentina. El Worker corre en el nodo más cercano a quien escribe. Todo entra en los planes gratuitos de Workers y D1.
 

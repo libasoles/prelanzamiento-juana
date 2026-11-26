@@ -13,14 +13,13 @@ const status = document.getElementById('lockStatus');
 
 const MESSAGES: Record<string, string> = {
   enviado: 'Te mandamos un link a tu mail.',
-  codigo_invalido: 'Ese código no es válido.',
-  email_invalido: 'Revisá tu email.',
-  espera_un_minuto: 'Esperá un minuto y probá de nuevo.',
-  demasiados_pedidos: 'Pediste muchos links seguidos. Probá de nuevo en un rato.',
-  captcha_invalido: 'No pudimos verificar que sos una persona. Probá de nuevo.',
-  red: 'No pudimos conectarnos. Probá de nuevo.',
-  interno: 'Algo salió mal. Probá de nuevo.',
-  token_invalido: 'Link vencido o usado.',
+  invalid_code: 'Ese código no es válido.',
+  invalid_email: 'Revisá tu email.',
+  too_many_requests: 'Pediste muchos links seguidos. Probá de nuevo en un rato.',
+  invalid_captcha: 'No pudimos verificar que sos una persona. Probá de nuevo.',
+  network_error: 'No pudimos conectarnos. Probá de nuevo.',
+  internal_error: 'Algo salió mal. Probá de nuevo.',
+  invalid_token: 'Link vencido o usado.',
 };
 
 function setStatus(key: keyof typeof MESSAGES | null) {
@@ -118,8 +117,8 @@ form?.addEventListener('submit', async (e) => {
     setStatus('enviado');
     return;
   }
-  const known: RequestError[] = ['codigo_invalido', 'email_invalido', 'espera_un_minuto', 'demasiados_pedidos', 'captcha_invalido', 'red'];
-  setStatus(known.includes(result.error) ? result.error : 'interno');
+  const known: RequestError[] = ['invalid_code', 'invalid_email', 'too_many_requests', 'invalid_captcha', 'network_error'];
+  setStatus(known.includes(result.error) ? result.error : 'internal_error');
 });
 
 async function boot() {
@@ -136,7 +135,7 @@ async function boot() {
     url.searchParams.delete('token');
     history.replaceState(null, '', url.pathname + url.search + url.hash);
     if (ok) showUnlocked();
-    else showLock('token_invalido');
+    else showLock('invalid_token');
     return;
   }
   if (getSession()) showUnlocked();

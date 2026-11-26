@@ -46,7 +46,7 @@ for (const [name, turnstile] of [['falso', 'malo'], ['faltante', undefined], ['n
     const res = await ask(makeEnv(), { turnstile });
 
     assert.equal(res.status, 400);
-    assert.deepEqual(await res.json(), { error: 'captcha_invalido' });
+    assert.deepEqual(await res.json(), { error: 'invalid_captcha' });
     assert.equal(calls.mails.length, 0);
   });
 }
@@ -64,7 +64,7 @@ test('límite por IP: el pedido 11 de la misma IP recibe 429; otra IP no se ve a
 
   const res = await ask(env, { email: 'u99@example.com' });
   assert.equal(res.status, 429);
-  assert.deepEqual(await res.json(), { error: 'demasiados_pedidos' });
+  assert.deepEqual(await res.json(), { error: 'too_many_requests' });
   assert.equal(calls.mails.length, 10);
 
   assert.equal((await ask(env, { email: 'u99@example.com' }, '9.9.9.9')).status, 200);
@@ -76,7 +76,7 @@ test('límite por email: se puede pedir 5 veces seguidas sin esperar; la 6.ª re
 
   const res = await ask(env);
   assert.equal(res.status, 429);
-  assert.deepEqual(await res.json(), { error: 'demasiados_pedidos' });
+  assert.deepEqual(await res.json(), { error: 'too_many_requests' });
   assert.equal(calls.mails.length, 5);
   // Otro email desde la misma IP sí puede.
   assert.equal((await ask(env, { email: 'beto@example.com' })).status, 200);
