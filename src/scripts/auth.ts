@@ -57,7 +57,12 @@ export function clearSession(): void {
   }
 }
 
-async function post(path: string, body: unknown, headers: Record<string, string> = {}) {
+const RETRY_BASE_MS = 200;
+const RETRY_MAX = 3;
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function postOnce(path: string, body: unknown, headers: Record<string, string>) {
   try {
     const res = await fetch(`${API}${path}`, {
       method: 'POST',
@@ -65,9 +70,21 @@ async function post(path: string, body: unknown, headers: Record<string, string>
       body: JSON.stringify(body),
     });
     const data = await res.json().catch(() => ({}));
-    return { ok: res.ok, data };
+    return { ok: res.ok, data, retryable: res.status >= 500 };
   } catch {
-    return { ok: false, data: { error: 'network_error' } };
+    return { ok: false, data: { error: 'network_error' }, retryable: true };
+  }
+}
+
+/**
+ * Con `retry`, reintenta hasta 3 veces (a los 200, 400 y 800 ms) ante error de
+ * red o 5xx. Los 4xx no se reintentan: son respuestas definitivas del Worker.
+ */
+async function post(path: string, body: unknown, headers: Record<string, string> = {}, retry = false) {
+  for (let intento = 0; ; intento++) {
+    const { retryable, ...result } = await postOnce(path, body, headers);
+    if (result.ok || !retry || !retryable || intento >= RETRY_MAX) return result;
+    await sleep(RETRY_BASE_MS * 2 ** intento);
   }
 }
 
@@ -77,7 +94,7 @@ export async function requestLink(input: {
   novedades: boolean;
   turnstile?: string;
 }): Promise<{ ok: true } | { ok: false; error: RequestError }> {
-  const { ok, data } = await post('/auth/request', input);
+  const { ok, data } = await post('/auth/request', input, {}, true);
   return ok ? { ok: true } : { ok: false, error: (data.error as RequestError) ?? 'internal_error' };
 }
 
@@ -111,7 +128,7 @@ export type SendError = 'invalid_session' | 'too_many_messages' | 'invalid_messa
 export async function sendMessage(body: string): Promise<{ ok: true } | { ok: false; error: SendError }> {
   const session = getSession();
   if (!session) return { ok: false, error: 'invalid_session' };
-  const { ok, data } = await post('/messages', { body }, { authorization: `Bearer ${session.token}` });
+  const { ok, data } = await post('/messages', { body }, { authorization: `Bearer ${session.token}` }, true);
   if (ok) return { ok: true };
   const error = (data.error as SendError) ?? 'internal_error';
   if (error === 'invalid_session') clearSession();
