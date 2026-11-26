@@ -66,6 +66,7 @@ function timeAgo(iso: string, now = new Date()): string {
 }
 
 const fullDate = new Intl.DateTimeFormat('es-AR', { dateStyle: 'long', timeStyle: 'short' });
+const shortDate = new Intl.DateTimeFormat('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
 function updateMore(total: number, visible: number) {
   more.hidden = visible >= total;
@@ -88,6 +89,7 @@ function render(messages: AdminMessage[], preview: boolean) {
       const when = document.createElement('time');
       when.dateTime = m.created_at;
       when.title = fullDate.format(new Date(m.created_at));
+      when.dataset.fecha = shortDate.format(new Date(m.created_at)); // la hoja de impresion muestra esta fecha en vez del hace-n-dias
       when.textContent = timeAgo(m.created_at);
       head.append(who, when);
       const body = document.createElement('p'); // textContent: el mensaje nunca se interpreta como HTML
@@ -111,6 +113,10 @@ moreBtn.addEventListener('click', () => {
 
 // «Descargar PDF»: abre el diálogo de impresión; la hoja de estilos de impresión incluye todos los mensajes.
 pdf.addEventListener('click', () => window.print());
+// Safari y otros no respetan @page { margin: 0 }: el titulo de la pestana no debe salir impreso.
+const title = document.title;
+window.addEventListener('beforeprint', () => (document.title = ' '));
+window.addEventListener('afterprint', () => (document.title = title));
 
 async function init() {
   if (/[?&]preview(=|&|$)/.test(location.search)) return render(SAMPLE, true);

@@ -127,11 +127,18 @@ import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
 
   /* «Descargar PDF»: se imprime todo, no solo lo que está desplegado. */
   @media print {
+    /* margin 0 saca el encabezado y pie del navegador (titulo de la pagina, URL, fecha); el margen lo da .ms-page. */
+    @page { margin: 0; }
     html, body, .ms-page { background: #fff !important; }
-    .ms-page { padding: 0; }
-    .ms-pdf, .ms-more { display: none !important; }
+    .ms-page { padding: 16mm 18mm; min-height: 0; }
+    .ms-pdf, .ms-more, .ms-count, .ms-notice { display: none !important; }
+    .ms-top { margin-bottom: 24px; }
     .ms-list { columns: 1; }
-    .ms-item, .ms-item[hidden] { display: block !important; transform: none; box-shadow: none; border: 1px solid #c9c6bd; }
+    /* Sin recuadro: solo una linea de 2px a la izquierda. */
+    .ms-item, .ms-item[hidden] { display: block !important; transform: none; box-shadow: none; background: none; border: 0; border-left: 2px solid #3a3b3f; border-radius: 0; padding: 4px 0 4px 16px; margin: 0 0 22px; }
     .ms-item::before { display: none; }
+    /* Fecha a la derecha, en maquina de escribir y como dd/mm/aaaa en vez de "hace n dias". */
+    .ms-head time { font-size: 0; color: #3a3b3f; }
+    .ms-head time::after { content: attr(data-fecha); font-family: 'Special Elite', 'Courier New', monospace; font-size: 14px; }
   }
 </style>

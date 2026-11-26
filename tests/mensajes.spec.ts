@@ -96,3 +96,14 @@ test('mientras carga muestra las estrellas bailando', async ({ page }) => {
   await expect(state(page)).toHaveAttribute('data-state', 'empty');
   await expect(page.locator('.ms-stars')).toBeHidden();
 });
+
+test('el PDF muestra la fecha dd/mm/aaaa, sin contador ni recuadros', async ({ page }) => {
+  await page.goto('/mensajes?preview');
+  await page.emulateMedia({ media: 'print' });
+  const fecha = await page.locator('.ms-item').first().locator('time').evaluate((el) => getComputedStyle(el, '::after').content);
+  expect(fecha).toMatch(/^"\d{2}\/\d{2}\/\d{4}"$/);
+  await expect(page.locator('#msgCount')).toBeHidden();
+  const item = page.locator('.ms-item').first();
+  await expect(item).toHaveCSS('border-left-width', '2px');
+  await expect(item).toHaveCSS('border-top-width', '0px');
+});
