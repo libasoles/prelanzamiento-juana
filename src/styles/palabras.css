@@ -13,6 +13,18 @@
 /* Lock o desbloqueada: `data-auth` lo pone un script inline en <head> antes del primer paint. */
 html[data-auth='in'] .pl-lock { display: none; }
 html:not([data-auth='in']) .pl-unlocked { display: none; }
+/* `loading`: llegó con ?token y se está confirmando el login; sólo se ve el caballito. */
+html[data-auth='loading'] .pl-lock { display: none; }
+.pl-loading { display: none; }
+html[data-auth='loading'] .pl-loading {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background: #2154aa;
+}
+.pl-loading .deco-horse { height: 160px; filter: brightness(0) invert(1); animation-play-state: running; }
 
 body { margin: 0; background: #2154aa; }
 .pl-page a { color: #ffffff; }

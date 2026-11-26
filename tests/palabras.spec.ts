@@ -97,6 +97,23 @@ test('?token=ok canjea, guarda sesión, limpia la URL y muestra el reproductor',
   await expect(page.locator('.js-tracks li')).toHaveCount(8);
 });
 
+test('?token mientras se confirma el login: sólo el caballito', async ({ page }) => {
+  await mockAuth(page);
+  let release!: () => void;
+  const gate = new Promise<void>((r) => (release = r));
+  await page.route('**/auth/verify', async (r) => {
+    await gate;
+    await r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ session: session(future()) }) });
+  });
+  await page.goto('/palabras?token=ok');
+  await expect(page.locator('.pl-loading .deco-horse')).toBeVisible();
+  await expect(lock(page)).toBeHidden();
+  await expect(player(page)).toBeHidden();
+  release();
+  await expect(player(page)).toBeVisible();
+  await expect(page.locator('.pl-loading')).toBeHidden();
+});
+
 test('recargar con sesión muestra el reproductor sin lock', async ({ page }) => {
   await setSession(page, session(future()));
   await page.goto('/palabras');

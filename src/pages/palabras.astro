@@ -30,7 +30,7 @@ const description =
       var d = document.documentElement;
       d.dataset.auth = 'out';
       try {
-        if (/[?&]token=/.test(location.search)) return;
+        if (/[?&]token=/.test(location.search)) { d.dataset.auth = 'loading'; return; }
         // Temporal: ?preview se saltea la autenticación.
         if (/[?&]preview(=|&|$)/.test(location.search)) { d.dataset.auth = 'in'; return; }
         var t = localStorage.getItem('juana.session');
@@ -41,6 +41,7 @@ const description =
   </script>
 
   <div class="pl-page">
+    <div class="pl-loading" role="status" aria-label="Cargando"><span class="deco-horse"></span></div>
     <Lock />
     <div class="pl-unlocked">
       <div class="pl-top pl-textura">
