@@ -38,7 +38,12 @@ const notice = document.getElementById('msgNotice') as HTMLElement;
 const more = document.getElementById('msgMore') as HTMLElement;
 const moreBtn = document.getElementById('msgMoreBtn') as HTMLButtonElement;
 const shown = document.getElementById('msgShown') as HTMLElement;
+const dl = document.getElementById('msgDl') as HTMLElement;
+const dlBtn = document.getElementById('msgDlBtn') as HTMLButtonElement;
+const dlMenu = document.getElementById('msgDlMenu') as HTMLElement;
 const pdf = document.getElementById('msgPdf') as HTMLButtonElement;
+const emailsBtn = document.getElementById('msgEmails') as HTMLButtonElement;
+let current: AdminMessage[] = [];
 
 const PAGE_SIZE = 12;
 const GIROS = [-0.8, 0.7, 0.5, -0.6];
@@ -100,7 +105,8 @@ function render(messages: AdminMessage[], preview: boolean) {
     }),
   );
   count.textContent = messages.length === 1 ? '1 mensaje' : `${messages.length} mensajes`;
-  pdf.hidden = messages.length === 0;
+  current = messages;
+  dl.hidden = messages.length === 0;
   updateMore(messages.length, Math.min(PAGE_SIZE, messages.length));
   setState(messages.length ? 'list' : 'empty', preview ? 'Vista previa con mensajes de ejemplo.' : '');
 }
@@ -112,7 +118,40 @@ moreBtn.addEventListener('click', () => {
 });
 
 // «Descargar PDF»: abre el diálogo de impresión; la hoja de estilos de impresión incluye todos los mensajes.
-pdf.addEventListener('click', () => window.print());
+const setMenu = (open: boolean) => {
+  dlMenu.hidden = !open;
+  dlBtn.setAttribute('aria-expanded', String(open));
+};
+dlBtn.addEventListener('click', () => setMenu(dlMenu.hidden));
+document.addEventListener('click', (e) => { if (!dl.contains(e.target as Node)) setMenu(false); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !dlMenu.hidden) { setMenu(false); dlBtn.focus(); }
+});
+
+pdf.addEventListener('click', () => { setMenu(false); window.print(); });
+
+/** Emails sin repetir (una persona con varios mensajes sale una sola vez), separados por coma. */
+function uniqueEmails(messages: AdminMessage[]): string[] {
+  const seen = new Map<string, string>();
+  for (const m of messages) {
+    const email = m.email.trim();
+    if (email && !seen.has(email.toLowerCase())) seen.set(email.toLowerCase(), email);
+  }
+  return [...seen.values()];
+}
+
+emailsBtn.addEventListener('click', () => {
+  setMenu(false);
+  const blob = new Blob([uniqueEmails(current).join(', ')], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'emails.txt';
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
 // Safari y otros no respetan @page { margin: 0 }: el titulo de la pestana no debe salir impreso.
 const title = document.title;
 window.addEventListener('beforeprint', () => (document.title = ' '));

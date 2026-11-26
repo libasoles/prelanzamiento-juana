@@ -48,10 +48,27 @@ test('la fecha es relativa y sin hora', async ({ page }) => {
 test('«Descargar PDF» imprime todos los mensajes', async ({ page }) => {
   await page.addInitScript(() => { (window as any).__print = 0; window.print = () => { (window as any).__print++; }; });
   await page.goto('/mensajes?preview');
-  await page.getByRole('button', { name: /Descargar/ }).click();
+  await page.getByRole('button', { name: 'Descargar', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'PDF' }).click();
   expect(await page.evaluate(() => (window as any).__print)).toBe(1);
   await page.emulateMedia({ media: 'print' });
   await expect(page.locator('.ms-item:visible')).toHaveCount(14);
+});
+
+test('«Emails» descarga un txt con los emails sin repetir, separados por coma', async ({ page }) => {
+  await page.addInitScript(([k, v]) => localStorage.setItem(k, v), ['juana.session', SESSION]);
+  const msg = (id: number, email: string) => ({ id, email, body: 'hola', created_at: '2026-11-03T10:00:00.000Z' });
+  await page.route('**/admin/messages', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify({ messages: [msg(3, 'ana@example.com'), msg(2, 'beto@example.com'), msg(1, 'Ana@example.com')] }),
+  }));
+  await page.goto('/mensajes');
+  await page.getByRole('button', { name: 'Descargar', exact: true }).click();
+  const [download] = await Promise.all([page.waitForEvent('download'), page.getByRole('menuitem', { name: 'Emails' }).click()]);
+  expect(download.suggestedFilename()).toBe('emails.txt');
+  const text = (await import('node:fs')).readFileSync((await download.path())!, 'utf8');
+  expect(text).toBe('ana@example.com, beto@example.com');
 });
 
 test('con sesión autorizada lista los mensajes reales sin interpretar HTML', async ({ page }) => {

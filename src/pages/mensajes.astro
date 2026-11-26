@@ -16,9 +16,15 @@ import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
     <header class="ms-top">
       <div class="ms-row">
         <h1 class="ms-title">Mensajes</h1>
-        <button id="msgPdf" class="ms-pdf" type="button" aria-label="Descargar todos los mensajes en PDF" title="Descargar PDF" hidden>
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
-        </button>
+        <div id="msgDl" class="ms-dl" hidden>
+          <button id="msgDlBtn" class="ms-pdf" type="button" aria-label="Descargar" title="Descargar" aria-haspopup="menu" aria-expanded="false" aria-controls="msgDlMenu">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+          </button>
+          <div id="msgDlMenu" class="ms-menu" role="menu" hidden>
+            <button id="msgPdf" class="ms-menu-item" type="button" role="menuitem">PDF</button>
+            <button id="msgEmails" class="ms-menu-item" type="button" role="menuitem">Emails</button>
+          </div>
+        </div>
       </div>
       <p class="ms-kicker">Para Juana</p>
       <p id="msgCount" class="ms-count" aria-live="polite"></p>
@@ -70,7 +76,12 @@ import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
   .ms-kicker { margin: -6px 0 0; font-family: 'Special Elite', 'Courier New', monospace; font-size: 19px; color: #4a4b50; }
   .ms-count { margin: 20px 0 0; min-height: 1.6em; font-family: 'Special Elite', 'Courier New', monospace; font-size: 16px; color: #4a4b50; text-align: right; }
   .ms-pdf { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 999px; background: transparent; color: #3a3b3f; cursor: pointer; }
-  .ms-pdf[hidden], .ms-more[hidden] { display: none; }
+  .ms-pdf[hidden], .ms-more[hidden], .ms-dl[hidden], .ms-menu[hidden] { display: none; }
+  .ms-dl { position: relative; }
+  .ms-menu { position: absolute; top: 100%; right: 0; z-index: 10; min-width: 140px; margin-top: 4px; padding: 6px; display: flex; flex-direction: column; background: #fffdf6; border-radius: 6px; box-shadow: 0 1px 0 rgba(18, 48, 106, 0.12), 0 10px 22px rgba(18, 48, 106, 0.18); }
+  .ms-menu-item { display: block; width: 100%; min-height: 44px; padding: 0 16px; border: 0; border-radius: 4px; background: transparent; color: #3a3b3f; font: 600 16px 'Instrument Sans Variable', 'Instrument Sans', sans-serif; text-align: left; cursor: pointer; }
+  .ms-menu-item:hover { background: rgba(58, 59, 63, 0.1); }
+  .ms-menu-item:focus-visible { outline: 3px solid #2154aa; outline-offset: -3px; }
   .ms-frame, .ms-frame > tbody, .ms-frame > tbody > tr, .ms-frame > tbody > tr > td { display: block; padding: 0; }
   .ms-frame > thead, .ms-frame > tfoot { display: none; }
   .ms-pdf:hover { background: rgba(58, 59, 63, 0.1); }
@@ -144,7 +155,7 @@ import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
     .ms-frame > tfoot { display: table-footer-group; }
     .ms-pad { display: table-cell; height: 16mm; }
     .ms-top, #msgRoot { max-width: none; }
-    .ms-pdf, .ms-more, .ms-count, .ms-notice { display: none !important; }
+    .ms-dl, .ms-more, .ms-count, .ms-notice { display: none !important; }
     .ms-top { margin-bottom: 24px; }
     [data-state='list'] .ms-list { display: block; }
     /* Sin recuadro: solo una linea de 2px a la izquierda. */
