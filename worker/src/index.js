@@ -1,9 +1,10 @@
 const LINK_TTL = 15 * 60; // segundos
-const SESSION_TTL = 30 * 24 * 3600;
-const RATE_TTL = 60;
-// Tope de pedidos de link por IP (protege la cuota de Resend y la reputación del dominio).
-const IP_MAX_PER_HOUR = 5;
-const IP_WINDOW = 3600;
+const SESSION_TTL = 48 * 3600;
+// Topes de pedidos de link (protegen la cuota de Resend y la reputación del dominio).
+// Ventana fija de una hora: arranca con el primer pedido y no se extiende con los siguientes.
+const RATE_WINDOW = 3600;
+const EMAIL_MAX_PER_HOUR = 5;
+const IP_MAX_PER_HOUR = 10; // más holgado: varias personas pueden compartir IP (wifi, datos móviles)
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const enc = new TextEncoder();
@@ -68,20 +69,44 @@ async function verifyTurnstile(env, token, ip) {
   return data.success === true;
 }
 
-/** Cuenta pedidos por IP en una ventana fija. KV no es atómico: es un freno aproximado, suficiente contra abuso casual. */
-async function ipLimited(env, ip) {
-  if (!ip) return false;
-  const key = `iprate:${await sha256(ip)}`;
-  const count = Number(await env.MAGIC_LINKS.get(key)) || 0;
-  if (count >= IP_MAX_PER_HOUR) return true;
-  await env.MAGIC_LINKS.put(key, String(count + 1), { expirationTtl: IP_WINDOW });
+/**
+ * Cuenta un pedido en una ventana fija de RATE_WINDOW segundos y dice si ya se pasó del tope.
+ * Guarda {n, exp}: el vencimiento queda fijo desde el primer pedido (no se renueva con cada uno).
+ * KV no es atómico: es un freno aproximado, suficiente contra abuso casual.
+ */
+async function overLimit(env, key, max) {
+  const now = Math.floor(Date.now() / 1000);
+  let state = null;
+  try {
+    state = JSON.parse(await env.MAGIC_LINKS.get(key));
+  } catch {
+    /* sin estado previo */
+  }
+  if (!state || state.exp <= now) state = { n: 0, exp: now + RATE_WINDOW };
+  if (state.n >= max) return true;
+  state.n += 1;
+  // KV pide un vencimiento de al menos 60 s en el futuro.
+  await env.MAGIC_LINKS.put(key, JSON.stringify(state), { expiration: Math.max(state.exp, now + 60) });
   return false;
+}
+
+/** Devuelve el cupo de un pedido que no llegó a mandar el mail (así un fallo del servidor no gasta intentos). */
+async function refund(env, key) {
+  try {
+    const state = JSON.parse(await env.MAGIC_LINKS.get(key));
+    if (state && state.n > 0) {
+      state.n -= 1;
+      await env.MAGIC_LINKS.put(key, JSON.stringify(state), { expiration: Math.max(state.exp, Math.floor(Date.now() / 1000) + 60) });
+    }
+  } catch {
+    /* nada que devolver */
+  }
 }
 
 async function sendMail(env, to, link) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
-    headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+    headers: { authorization: `Bearer ${String(env.RESEND_API_KEY).trim()}`, 'content-type': 'application/json' },
     body: JSON.stringify({
       from: env.MAIL_FROM,
       to,
@@ -96,32 +121,45 @@ async function requestLink(request, env) {
   const body = await request.json().catch(() => ({}));
   const email = String(body.email || '').trim().toLowerCase();
   const code = String(body.code || '').trim().toUpperCase();
-  if (!EMAIL_RE.test(email)) return json(env, 400, { error: 'email_invalido' });
-  if (!env.CODES.split(',').includes(code)) return json(env, 403, { error: 'codigo_invalido' });
+  if (!EMAIL_RE.test(email)) return json(env, 400, { error: 'invalid_email' });
+  if (!env.CODES.split(',').includes(code)) return json(env, 403, { error: 'invalid_code' });
 
   const ip = request.headers.get('cf-connecting-ip');
-  if (await ipLimited(env, ip)) return json(env, 429, { error: 'demasiados_pedidos' });
-  if (!(await verifyTurnstile(env, body.turnstile, ip))) return json(env, 400, { error: 'captcha_invalido' });
-
-  const emailKey = await sha256(email);
-  if (await env.MAGIC_LINKS.get(`rate:${emailKey}`)) return json(env, 429, { error: 'espera_un_minuto' });
-  await env.MAGIC_LINKS.put(`rate:${emailKey}`, '1', { expirationTtl: RATE_TTL });
+  const ipKey = ip ? `iprate:${await sha256(ip)}` : null;
+  const emailKey = `rate:${await sha256(email)}`;
+  if (ipKey && (await overLimit(env, ipKey, IP_MAX_PER_HOUR))) return json(env, 429, { error: 'too_many_requests' });
+  if (await overLimit(env, emailKey, EMAIL_MAX_PER_HOUR)) {
+    if (ipKey) await refund(env, ipKey);
+    return json(env, 429, { error: 'too_many_requests' });
+  }
+  if (!(await verifyTurnstile(env, body.turnstile, ip))) {
+    if (ipKey) await refund(env, ipKey);
+    await refund(env, emailKey);
+    return json(env, 400, { error: 'invalid_captcha' });
+  }
 
   // Se guarda el hash: el token en claro solo existe en el mail.
   const token = randomToken();
-  await env.MAGIC_LINKS.put(`link:${await sha256(token)}`, JSON.stringify({ email, novedades: !!body.novedades }), {
-    expirationTtl: LINK_TTL,
-  });
-  await sendMail(env, email, `${env.SITE_URL}/palabras?token=${token}`);
+  const linkKey = `link:${await sha256(token)}`;
+  await env.MAGIC_LINKS.put(linkKey, JSON.stringify({ email, novedades: !!body.novedades }), { expirationTtl: LINK_TTL });
+  try {
+    await sendMail(env, email, `${env.SITE_URL}/palabras?token=${token}`);
+  } catch (e) {
+    // El mail no salió: el link no sirve y los intentos no se gastan.
+    await env.MAGIC_LINKS.delete(linkKey);
+    if (ipKey) await refund(env, ipKey);
+    await refund(env, emailKey);
+    throw e;
+  }
   return json(env, 200, { ok: true });
 }
 
 async function verifyLink(request, env) {
   const { token } = await request.json().catch(() => ({}));
-  if (!token) return json(env, 400, { error: 'token_faltante' });
+  if (!token) return json(env, 400, { error: 'missing_token' });
   const key = `link:${await sha256(String(token))}`;
   const raw = await env.MAGIC_LINKS.get(key);
-  if (!raw) return json(env, 401, { error: 'link_vencido_o_usado' });
+  if (!raw) return json(env, 401, { error: 'link_expired_or_used' });
   await env.MAGIC_LINKS.delete(key); // un solo uso
   const { email, novedades } = JSON.parse(raw);
   // Alta/actualización en la lista de usuarios. Si D1 falla no se corta el login (el link ya se gastó):
@@ -145,10 +183,10 @@ const DAY = 24 * 3600 * 1000;
 
 async function saveMessage(request, env) {
   const email = await verifySession(env, request.headers.get('authorization'));
-  if (!email) return json(env, 401, { error: 'sesion_invalida' });
+  if (!email) return json(env, 401, { error: 'invalid_session' });
   const input = await request.json().catch(() => ({}));
   const body = typeof input.body === 'string' ? input.body.trim() : '';
-  if (!body || body.length > MAX_BODY) return json(env, 400, { error: 'mensaje_invalido' });
+  if (!body || body.length > MAX_BODY) return json(env, 400, { error: 'invalid_message' });
   // Un solo viaje a D1 (batch = una transacción): alta del usuario si falta + mensaje.
   // El mensaje sólo se inserta si el usuario no llegó al límite de la última hora;
   // changes === 0 en el segundo statement significa «límite alcanzado».
@@ -162,7 +200,7 @@ async function saveMessage(request, env) {
          AND (SELECT COUNT(*) FROM messages m WHERE m.user_id = users.id AND m.created_at > ?3) < ?4`,
     ).bind(email, body, since, MAX_PER_DAY),
   ]);
-  if (saved.meta.changes === 0) return json(env, 429, { error: 'demasiados_mensajes' });
+  if (saved.meta.changes === 0) return json(env, 429, { error: 'too_many_messages' });
   return json(env, 200, { ok: true });
 }
 
@@ -179,8 +217,8 @@ const isAdmin = (env, email) =>
 /** Mensajes para el panel /mensajes: sólo emails de ADMIN_EMAILS con sesión válida. */
 async function listMessages(request, env) {
   const email = await verifySession(env, request.headers.get('authorization'));
-  if (!email) return json(env, 401, { error: 'sesion_invalida' });
-  if (!isAdmin(env, email)) return json(env, 403, { error: 'no_autorizado' });
+  if (!email) return json(env, 401, { error: 'invalid_session' });
+  if (!isAdmin(env, email)) return json(env, 403, { error: 'forbidden' });
   const { results } = await env.DB.prepare(
     `SELECT m.id, u.email, m.body, m.created_at
      FROM messages m JOIN users u ON u.id = m.user_id
@@ -195,7 +233,7 @@ export default {
   async fetch(request, env) {
     const { pathname } = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(env) });
-    if (request.method !== 'POST') return json(env, 405, { error: 'metodo' });
+    if (request.method !== 'POST') return json(env, 405, { error: 'method_not_allowed' });
     try {
       if (pathname === '/auth/request') return await requestLink(request, env);
       if (pathname === '/auth/verify') return await verifyLink(request, env);
@@ -203,8 +241,8 @@ export default {
       if (pathname === '/admin/messages') return await listMessages(request, env);
     } catch (e) {
       console.error(e);
-      return json(env, 500, { error: 'interno' });
+      return json(env, 500, { error: 'internal_error' });
     }
-    return json(env, 404, { error: 'no_encontrado' });
+    return json(env, 404, { error: 'not_found' });
   },
 };

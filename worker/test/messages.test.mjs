@@ -29,7 +29,7 @@ for (const [name, session] of unauthorized) {
     const res = await worker.fetch(post('/messages', { body: 'Hola' }, { session }), env);
 
     assert.equal(res.status, 401);
-    assert.deepEqual(await res.json(), { error: 'sesion_invalida' });
+    assert.deepEqual(await res.json(), { error: 'invalid_session' });
     assert.equal(rows(env, 'SELECT * FROM users').length, 0);
     assert.equal(rows(env, 'SELECT * FROM messages').length, 0);
   });
@@ -49,7 +49,7 @@ for (const [name, body] of invalidBodies) {
     const res = await worker.fetch(post('/messages', { body }, { session: makeSession() }), env);
 
     assert.equal(res.status, 400);
-    assert.deepEqual(await res.json(), { error: 'mensaje_invalido' });
+    assert.deepEqual(await res.json(), { error: 'invalid_message' });
     assert.equal(rows(env, 'SELECT * FROM messages').length, 0);
   });
 }
@@ -74,7 +74,7 @@ test('límite: el mensaje 4 de las mismas 24 horas recibe 429 y no se guarda', a
   const res = await send(env, 'ana@example.com', 'de más');
 
   assert.equal(res.status, 429);
-  assert.deepEqual(await res.json(), { error: 'demasiados_mensajes' });
+  assert.deepEqual(await res.json(), { error: 'too_many_messages' });
   assert.equal(rows(env, 'SELECT * FROM messages').length, 3);
 });
 

@@ -37,7 +37,7 @@ test('un usuario logueado que no está en la lista recibe 403 y ningún dato', a
   const res = await worker.fetch(post('/admin/messages', {}, { session: makeSession({ email: 'ana@example.com' }) }), env);
 
   assert.equal(res.status, 403);
-  assert.deepEqual(await res.json(), { error: 'no_autorizado' });
+  assert.deepEqual(await res.json(), { error: 'forbidden' });
 });
 
 test('sin ADMIN_EMAILS configurado nadie entra', async () => {

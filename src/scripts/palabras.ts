@@ -391,10 +391,10 @@ export function initPalabras(): void {
     msg.addEventListener('input', () => { msg.style.height = 'auto'; msg.style.height = msg.scrollHeight + 'px'; });
     const errorBox = $('msgError');
     const ERRORS: Record<string, string> = {
-      sesion_invalida: 'Tu sesión venció. Volvé a entrar con tu link para escribirme.',
-      demasiados_mensajes: 'Ya mandaste 3 mensajes hoy. Probá de nuevo mañana.',
-      mensaje_invalido: 'Ese mensaje no se pudo guardar. Revisá que no esté vacío ni sea larguísimo.',
-      red: 'No pudimos conectarnos. Probá de nuevo.',
+      invalid_session: 'Tu sesión venció. Volvé a entrar con tu link para escribirme.',
+      too_many_messages: 'Ya mandaste 3 mensajes hoy. Probá de nuevo mañana.',
+      invalid_message: 'Ese mensaje no se pudo guardar. Revisá que no esté vacío ni sea larguísimo.',
+      network_error: 'No pudimos conectarnos. Probá de nuevo.',
     };
     const setError = (key: string | null) => {
       if (!errorBox) return;

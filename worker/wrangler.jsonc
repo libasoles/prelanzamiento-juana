@@ -2,6 +2,8 @@
   "name": "juana-auth",
   "main": "src/index.js",
   "compatibility_date": "2026-11-01",
+  // Guarda los logs del Worker (console.error de los 500, etc.) para poder diagnosticar después.
+  "observability": { "enabled": true },
   "routes": [
     { "pattern": "api.juanacabrera.com.ar", "custom_domain": true }
   ],

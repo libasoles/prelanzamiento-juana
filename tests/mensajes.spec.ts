@@ -47,7 +47,7 @@ test('con sesión autorizada lista los mensajes reales sin interpretar HTML', as
 
 test('con sesión no autorizada (403) muestra que no tiene acceso', async ({ page }) => {
   await page.addInitScript(([k, v]) => localStorage.setItem(k, v), ['juana.session', SESSION]);
-  await page.route('**/admin/messages', (route) => route.fulfill({ status: 403, contentType: 'application/json', body: '{"error":"no_autorizado"}' }));
+  await page.route('**/admin/messages', (route) => route.fulfill({ status: 403, contentType: 'application/json', body: '{"error":"forbidden"}' }));
   await page.goto('/mensajes');
   await expect(state(page)).toHaveAttribute('data-state', 'denied');
   await expect(page.locator('.ms-item')).toHaveCount(0);

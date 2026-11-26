@@ -45,7 +45,7 @@ test('sin sesión: se ve la lock y no el reproductor', async ({ page }) => {
 });
 
 test('código inválido muestra error', async ({ page }) => {
-  await mockAuth(page, { request: { status: 403, body: { error: 'codigo_invalido' } } });
+  await mockAuth(page, { request: { status: 403, body: { error: 'invalid_code' } } });
   await page.goto('/palabras');
   await page.fill('#codigo', 'XXXX');
   await page.fill('#email', 'a@b.c');
@@ -74,8 +74,8 @@ test('el pedido del link lleva el token de Turnstile', async ({ page }) => {
 });
 
 for (const [error, texto] of [
-  ['captcha_invalido', /verificar que sos una persona/i],
-  ['demasiados_pedidos', /muchos links seguidos/i],
+  ['invalid_captcha', /verificar que sos una persona/i],
+  ['too_many_requests', /muchos links seguidos/i],
 ] as const) {
   test(`${error} muestra su mensaje`, async ({ page }) => {
     await mockAuth(page, { request: { status: 429, body: { error } } });
@@ -109,7 +109,7 @@ test('recargar con sesión muestra el reproductor sin lock', async ({ page }) =>
 });
 
 test('token inválido vuelve a la lock con error', async ({ page }) => {
-  await mockAuth(page, { verify: { status: 401, body: { error: 'link_vencido_o_usado' } } });
+  await mockAuth(page, { verify: { status: 401, body: { error: 'link_expired_or_used' } } });
   await page.goto('/palabras?token=malo');
   await expect(lock(page)).toBeVisible();
   await expect(page.locator('#lockStatus')).toHaveText(/link vencido o usado/i);
