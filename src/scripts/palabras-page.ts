@@ -12,7 +12,7 @@ const form = document.getElementById('lockForm') as HTMLFormElement | null;
 const status = document.getElementById('lockStatus');
 
 const MESSAGES: Record<string, string> = {
-  enviado: 'Te mandamos un link a tu mail.',
+  enviado: 'Te mandamos un link a tu mail. Ya podés cerrar esta ventana.',
   invalid_code: 'Ese código no es válido.',
   invalid_email: 'Revisá tu email.',
   too_many_requests: 'Pediste muchos links seguidos. Probá de nuevo en un rato.',
@@ -114,6 +114,9 @@ form?.addEventListener('submit', async (e) => {
   if (turnstileId) (window as unknown as { turnstile: Turnstile }).turnstile.reset(turnstileId);
   if (button) button.disabled = false;
   if (result.ok) {
+    form.style.boxSizing = 'border-box';
+    form.style.minHeight = `${form.offsetHeight}px`;
+    form.classList.add('is-sent');
     setStatus('enviado');
     return;
   }

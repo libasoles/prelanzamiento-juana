@@ -59,7 +59,9 @@ test('envío ok muestra «te mandamos un link»', async ({ page }) => {
   await page.fill('#codigo', 'ABC');
   await page.fill('#email', 'a@b.c');
   await page.click('.lock-submit');
-  await expect(page.locator('#lockStatus')).toHaveText(/te mandamos un link/i);
+  await expect(page.locator('#lockStatus')).toHaveText(/te mandamos un link.*cerrar esta ventana/i);
+  await expect(page.locator('.lock-horse .deco-horse')).toBeVisible();
+  await expect(page.locator('#codigo')).toBeHidden();
 });
 
 test('el pedido del link lleva el token de Turnstile', async ({ page }) => {
