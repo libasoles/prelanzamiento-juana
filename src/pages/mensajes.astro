@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import cinta from '../assets/palabras/cinta.png';
+import estrellas from '../assets/palabras/estrellas-danza-6fps.png';
 ---
 
 <Base
@@ -12,7 +13,7 @@ import cinta from '../assets/palabras/cinta.png';
   noindex
   background="#e3e0d8"
 >
-  <main class="ms-page" style={`--cinta:url(${cinta.src})`}>
+  <main class="ms-page" style={`--cinta:url(${cinta.src});--estrellas:url(${estrellas.src})`}>
     <header class="ms-top">
       <div class="ms-row">
         <h1 class="ms-title">Mensajes</h1>
@@ -27,7 +28,7 @@ import cinta from '../assets/palabras/cinta.png';
     <div id="msgRoot" data-state="loading">
       <p id="msgNotice" class="ms-notice" role="status"></p>
 
-      <p class="ms-state ms-loading">Cargando…</p>
+      <div class="ms-state ms-loading" role="status" aria-label="Cargando mensajes"><span class="ms-stars" aria-hidden="true"></span></div>
 
       <div class="ms-state ms-login">
         <p>Esta página es privada. Entrá con tu mail para ver los mensajes.</p>
@@ -67,7 +68,7 @@ import cinta from '../assets/palabras/cinta.png';
   .ms-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
   .ms-title { margin: 0; font-family: 'Covered By Your Grace', cursive; font-weight: 400; font-size: 64px; line-height: 1; color: #3a3b3f; }
   .ms-kicker { margin: -6px 0 0; font-family: 'Special Elite', 'Courier New', monospace; font-size: 19px; color: #4a4b50; }
-  .ms-count { margin: 20px 0 0; min-height: 1.6em; font-family: 'Special Elite', 'Courier New', monospace; font-size: 16px; color: #4a4b50; }
+  .ms-count { margin: 20px 0 0; min-height: 1.6em; font-family: 'Special Elite', 'Courier New', monospace; font-size: 16px; color: #4a4b50; text-align: right; }
   .ms-pdf { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 999px; background: transparent; color: #3a3b3f; cursor: pointer; }
   .ms-pdf[hidden], .ms-more[hidden] { display: none; }
   .ms-pdf:hover { background: rgba(58, 59, 63, 0.1); }
@@ -85,6 +86,19 @@ import cinta from '../assets/palabras/cinta.png';
   [data-state='list'] .ms-list { display: block; }
   .ms-state { margin: 0; padding: 20px; border: 1px dashed #3a3b3f; border-radius: 4px; color: #3a3b3f; }
   .ms-login p { margin: 0 0 16px; }
+
+  /* Carga: las estrellas bailando del video loop del player (mismo sprite, 6 cuadros por segundo). */
+  .ms-state.ms-loading { padding: 0; border: 0; }
+  .ms-stars { display: block; width: 140px; aspect-ratio: 1; margin: 24px auto; background: var(--estrellas) 0 0 / 300% 200% no-repeat; opacity: 0.75; animation: ms-frames 1s steps(1, end) infinite; }
+  @keyframes ms-frames {
+    0% { background-position: 0 0; }
+    16.666667% { background-position: 50% 0; }
+    33.333333% { background-position: 100% 0; }
+    50% { background-position: 0 100%; }
+    66.666667% { background-position: 50% 100%; }
+    83.333333% { background-position: 100% 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .ms-stars { animation: none; } }
 
   .ms-btn { display: inline-block; padding: 10px 22px; background: #3a3b3f; color: #fff; border-radius: 999px; text-decoration: none; font-weight: 600; }
   .ms-btn:hover { background: #2b2c2f; color: #fff; }

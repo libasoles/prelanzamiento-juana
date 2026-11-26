@@ -79,3 +79,20 @@ test('con sesión no autorizada (403) muestra que no tiene acceso', async ({ pag
   await expect(state(page)).toHaveAttribute('data-state', 'denied');
   await expect(page.locator('.ms-item')).toHaveCount(0);
 });
+
+test('mientras carga muestra las estrellas bailando', async ({ page }) => {
+  await page.addInitScript(([k, v]) => localStorage.setItem(k, v), ['juana.session', SESSION]);
+  let release!: () => void;
+  const gate = new Promise<void>((r) => (release = r));
+  await page.route('**/admin/messages', async (route) => {
+    await gate;
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '{"messages":[]}' });
+  });
+  await page.goto('/mensajes');
+  await expect(state(page)).toHaveAttribute('data-state', 'loading');
+  await expect(page.locator('.ms-loading .ms-stars')).toBeVisible();
+  await expect(page.getByRole('status', { name: 'Cargando mensajes' })).toBeVisible();
+  release();
+  await expect(state(page)).toHaveAttribute('data-state', 'empty');
+  await expect(page.locator('.ms-stars')).toBeHidden();
+});
