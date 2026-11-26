@@ -25,4 +25,5 @@
   }
   // Secrets (wrangler secret put): RESEND_API_KEY, SESSION_SECRET,
   // ADMIN_EMAILS (lista blanca de /mensajes, emails separados por coma; sin definir = nadie entra).
+  // Esa misma lista recibe el aviso por mail cuando alguien deja un mensaje.
 }

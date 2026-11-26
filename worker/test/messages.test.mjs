@@ -95,3 +95,52 @@ test('límite: a las 23 horas el mensaje todavía cuenta', async () => {
 
   assert.equal((await send(env, 'ana@example.com')).status, 429);
 });
+
+/** POST /messages con fetch (Resend) y waitUntil simulados; devuelve la respuesta y los mails enviados. */
+async function sendCapturing(env, resendStatus) {
+  const sent = [];
+  const pending = [];
+  const realFetch = globalThis.fetch;
+  const realError = console.error;
+  globalThis.fetch = async (url, init) => (sent.push({ url, body: JSON.parse(init.body) }), new Response('{}', { status: resendStatus }));
+  console.error = () => {};
+  try {
+    const res = await worker.fetch(
+      post('/messages', { body: 'Hola Juana' }, { session: makeSession({ email: 'ana@example.com' }) }),
+      env,
+      { waitUntil: (p) => pending.push(p) },
+    );
+    await Promise.all(pending);
+    return { res, sent };
+  } finally {
+    globalThis.fetch = realFetch;
+    console.error = realError;
+  }
+}
+
+test('avisa por mail a ADMIN_EMAILS con el mensaje y termina con el link a /mensajes', async () => {
+  const env = makeEnv({ ADMIN_EMAILS: 'Admin@example.com, otra@example.com' });
+  const { res, sent } = await sendCapturing(env, 200);
+
+  assert.equal(res.status, 200);
+  assert.equal(sent.length, 1);
+  assert.deepEqual(sent[0].body.to, ['admin@example.com', 'otra@example.com']);
+  assert.match(sent[0].body.text, /ana@example\.com/);
+  assert.match(sent[0].body.text, /Hola Juana/);
+  assert.ok(sent[0].body.text.endsWith('https://juanacabrera.com.ar/mensajes'));
+});
+
+test('sin ADMIN_EMAILS no se manda ningún aviso', async () => {
+  const { res, sent } = await sendCapturing(makeEnv(), 200);
+
+  assert.equal(res.status, 200);
+  assert.equal(sent.length, 0);
+});
+
+test('si falla el aviso, el mensaje igual se guarda y responde 200', async () => {
+  const env = makeEnv({ ADMIN_EMAILS: 'admin@example.com' });
+  const { res } = await sendCapturing(env, 500);
+
+  assert.equal(res.status, 200);
+  assert.equal(rows(env, 'SELECT * FROM messages').length, 1);
+});

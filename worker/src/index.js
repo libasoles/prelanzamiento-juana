@@ -181,7 +181,7 @@ const MAX_BODY = 2000;
 const MAX_PER_DAY = 3;
 const DAY = 24 * 3600 * 1000;
 
-async function saveMessage(request, env) {
+async function saveMessage(request, env, ctx) {
   const email = await verifySession(env, request.headers.get('authorization'));
   if (!email) return json(env, 401, { error: 'invalid_session' });
   const input = await request.json().catch(() => ({}));
@@ -201,18 +201,39 @@ async function saveMessage(request, env) {
     ).bind(email, body, since, MAX_PER_DAY),
   ]);
   if (saved.meta.changes === 0) return json(env, 429, { error: 'too_many_messages' });
+  // El aviso no demora ni rompe la respuesta: si falla, el mensaje ya está guardado.
+  const notice = notifyAdmins(env, email, body).catch((e) => console.error('notify', e));
+  ctx?.waitUntil?.(notice);
   return json(env, 200, { ok: true });
 }
 
 const ADMIN_LIMIT = 200;
 
 /** Lista blanca: ADMIN_EMAILS (separada por comas, sin distinguir mayúsculas). Vacía = nadie entra. */
-const isAdmin = (env, email) =>
+const adminEmails = (env) =>
   String(env.ADMIN_EMAILS || '')
     .split(',')
     .map((e) => e.trim().toLowerCase())
-    .filter(Boolean)
-    .includes(email.toLowerCase());
+    .filter(Boolean);
+
+const isAdmin = (env, email) => adminEmails(env).includes(email.toLowerCase());
+
+/** Avisa por mail a la lista blanca (ADMIN_EMAILS) que llegó un mensaje nuevo. */
+async function notifyAdmins(env, from, body) {
+  const to = adminEmails(env);
+  if (!to.length) return;
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { authorization: `Bearer ${String(env.RESEND_API_KEY).trim()}`, 'content-type': 'application/json' },
+    body: JSON.stringify({
+      from: env.MAIL_FROM,
+      to,
+      subject: 'Nuevo mensaje para Juana',
+      text: `${from} dejó un mensaje:\n\n${body}\n\nVerlos todos: ${env.SITE_URL}/mensajes`,
+    }),
+  });
+  if (!res.ok) throw new Error(`resend ${res.status} ${await res.text()}`);
+}
 
 /** Mensajes para el panel /mensajes: sólo emails de ADMIN_EMAILS con sesión válida. */
 async function listMessages(request, env) {
@@ -230,14 +251,14 @@ async function listMessages(request, env) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const { pathname } = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(env) });
     if (request.method !== 'POST') return json(env, 405, { error: 'method_not_allowed' });
     try {
       if (pathname === '/auth/request') return await requestLink(request, env);
       if (pathname === '/auth/verify') return await verifyLink(request, env);
-      if (pathname === '/messages') return await saveMessage(request, env);
+      if (pathname === '/messages') return await saveMessage(request, env, ctx);
       if (pathname === '/admin/messages') return await listMessages(request, env);
     } catch (e) {
       console.error(e);
