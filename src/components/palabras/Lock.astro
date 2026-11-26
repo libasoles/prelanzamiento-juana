@@ -59,6 +59,7 @@ import estrella from '../../assets/home/estrella-blanca-a.webp';
       </label>
       <div id="lockTurnstile"></div>
       <button type="submit" class="lock-submit">Entrar</button>
+      <div class="lock-horse" aria-hidden="true"><span class="deco-horse"></span></div>
       <p id="lockStatus" class="lock-status" role="status" aria-live="polite"></p>
     </form>
     </div>
@@ -202,6 +203,12 @@ import estrella from '../../assets/home/estrella-blanca-a.webp';
     color: #12306a;
   }
   .lock-status:empty { display: none; }
+  /* Link enviado: el card se vacía (mantiene su altura) y queda el caballito con el mensaje. */
+  .lock-horse { display: none; }
+  .lock-form.is-sent { justify-content: center; align-items: center; text-align: center; }
+  .lock-form.is-sent > :not(.lock-cinta, .lock-cinta-svg, .lock-horse, .lock-status) { display: none; }
+  .lock-form.is-sent .lock-horse { display: flex; justify-content: center; }
+  .lock-horse .deco-horse { height: 110px; filter: brightness(0); opacity: 0.85; animation-play-state: running; }
   .lock-status[data-state='error'] { color: #b8332b; }
 
   /* En mobile main y side no generan caja: todo se apila en .lock-in. */
