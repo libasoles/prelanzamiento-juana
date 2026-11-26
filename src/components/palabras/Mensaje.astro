@@ -116,7 +116,8 @@ import abrazo from '../../assets/palabras/abrazo-2.webp';
   .mensaje-gracias { margin: -28px 0 0; font-size: 42px; line-height: 1.12; padding-top: 0; outline: 0; position: relative; top: -8px; }
   .mensaje-j { display: inline-block; position: relative; top: 0.14em; }
 
-  .mensaje-error { margin: 0; max-width: 34ch; text-align: center; color: #ffffff; font: 400 17px/1.3 'Special Elite', 'Courier New', monospace; }
+  /* Medidas del artifact de diseño (estado «verError»): 26 px en mobile, 34 px en desktop. */
+  .mensaje-error { margin: 0; max-width: 100%; padding: 0 8px; text-align: center; color: #ffffff; font: 400 26px/1.25 'Special Elite', 'Courier New', monospace; }
   .mensaje-enviar { display: flex; align-items: center; justify-content: center; gap: 10px; }
   .mensaje-btn { min-height: 56px; padding: 0 18px; border: 0; white-space: nowrap; font: 400 17px/1 'Special Elite', 'Courier New', monospace; cursor: pointer; }
   .enviar-ico { all: unset; box-sizing: border-box; display: flex; padding: 6px; cursor: pointer; color: #ffffff; transition: transform 0.18s ease, filter 0.18s ease; }
@@ -140,6 +141,7 @@ import abrazo from '../../assets/palabras/abrazo-2.webp';
     .hoja-clip-contenido { padding: 150px 64px 64px 80px; }
     .hoja-clip textarea { font-size: 26px; line-height: 38px; min-height: 0; }
     .mensaje-gracias { margin: 0; font-size: 38px; line-height: 1.15; padding-top: 6%; }
+    .mensaje-error { max-width: 720px; padding: 0; font-size: 34px; }
     .mensaje-enviar { gap: 16px; }
     .mensaje-btn { min-height: 60px; padding: 0 36px; font-size: 23px; }
     .enviar-ico svg { width: 64px; height: 56px; }
